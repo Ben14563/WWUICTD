@@ -4,6 +4,14 @@
 
 /* CUSTOM CSS***********************************************************/
 
+#content			{	margin-left: 14%; float:left;padding:0 0 0 20px; text-align: justify; width:70%; top:10%;  position:relative;}
+#content	h2		{	margin: 0 0 20px 0;}
+#content	ul		{	padding:0 0 0 0px; }
+#content ol li 		{	padding:0px 15px 0 0px;}
+#content ol li ul   {	padding:0px 0px 0px 30px;}
+
+.nav.navbar-nav li { font-size: 1.5em;}
+
 #teacher{
   margin-bottom: 50px;
 }
