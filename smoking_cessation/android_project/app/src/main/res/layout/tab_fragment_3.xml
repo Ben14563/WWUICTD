@@ -22,4 +22,17 @@
         android:layout_marginBottom="69dp"
         android:onClick="goToDashboard"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="pizza boooooooy"
+        android:id="@+id/textView6"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="76dp"
+        android:layout_alignRight="@+id/finishButton"
+        android:layout_alignEnd="@+id/finishButton"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView" />
+
 </RelativeLayout>
