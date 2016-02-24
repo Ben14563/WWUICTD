@@ -35,7 +35,8 @@
             android:id="@+id/friendsButton"
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/dashButton"
-            android:layout_toEndOf="@+id/dashButton" />
+            android:layout_toEndOf="@+id/dashButton"
+            android:onClick="goToFriends" />
 
         <Button
             android:layout_width="190dp"
@@ -44,7 +45,8 @@
             android:id="@+id/statsButton"
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/friendsButton"
-            android:layout_toEndOf="@+id/friendsButton" />
+            android:layout_toEndOf="@+id/friendsButton"
+            android:onClick="goToStatistics"/>
 
         <ScrollView
             android:layout_width="fill_parent"

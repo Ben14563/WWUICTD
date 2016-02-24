@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -52,6 +51,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToDashboard (View view) {
         Intent intent = new Intent (this, Dashboard.class);
+        startActivity(intent);
+    }
+
+    public void goToFriends (View view) {
+        Intent intent = new Intent(this, Friends.class);
+        startActivity(intent);
+    }
+
+    public void goToStatistics (View view) {
+        Intent intent = new Intent (this, Statistics.class);
         startActivity(intent);
     }
 

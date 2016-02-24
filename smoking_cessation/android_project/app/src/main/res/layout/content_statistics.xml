@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.kasingj.smokecessation2.Statistics"
+    tools:showIn="@layout/activity_statistics">
+
+    <!-- bottom navigation buttons -->
+    <Button
+        android:layout_width="190dp"
+        android:layout_height="70dp"
+        android:text="Dashboard"
+        android:id="@+id/dashButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:onClick="goToDashboard" />
+
+    <Button
+        android:layout_width="190dp"
+        android:layout_height="70dp"
+        android:text="Friends"
+        android:id="@+id/friendsButton"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/dashButton"
+        android:layout_toEndOf="@+id/dashButton"
+        android:onClick="goToFriends" />
+
+    <Button
+        android:layout_width="190dp"
+        android:layout_height="70dp"
+        android:text="Stats"
+        android:id="@+id/statsButton"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/friendsButton"
+        android:layout_toEndOf="@+id/friendsButton"
+        android:onClick="goToStatistics" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Your Stats"
+        android:id="@+id/userStatText"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textSize="60sp" />
+
+    <!-- graph view -->
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/graph"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/userStatText"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/dashButton"
+        android:layout_below="@+id/graph"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/scrollView3"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:scrollbars="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/scrollView3">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Total days free: "
+                    android:id="@+id/stat1"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="56 Days"
+                    android:id="@+id/data1"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="91dp"
+                    android:layout_marginStart="91dp"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="250dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Current Streak: "
+                    android:id="@+id/stat2"
+                    android:textSize="30sp"
+                    android:layout_below="@+id/stat1"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="5 Days"
+                    android:id="@+id/data2"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="91dp"
+                    android:layout_marginStart="91dp"
+                    android:layout_below="@+id/data1"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="250dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Longest Streak: "
+                    android:id="@+id/stat3"
+                    android:textSize="30sp"
+                    android:layout_below="@+id/stat2"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="18 Days"
+                    android:id="@+id/data3"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="91dp"
+                    android:layout_marginStart="91dp"
+                    android:layout_below="@+id/data2"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="250dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Cravings Resisted: "
+                    android:id="@+id/stat4"
+                    android:textSize="30sp"
+                    android:layout_below="@+id/stat3"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="25"
+                    android:id="@+id/data4"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="91dp"
+                    android:layout_marginStart="91dp"
+                    android:layout_below="@+id/data3"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="250dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Cigarettes Smoked: "
+                    android:id="@+id/stat5"
+                    android:textSize="30sp"
+                    android:layout_below="@+id/stat4"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="48"
+                    android:id="@+id/data5"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="91dp"
+                    android:layout_marginStart="91dp"
+                    android:layout_below="@+id/data4"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="250dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Longest Streak: "
+                    android:id="@+id/stat6"
+                    android:textSize="30sp"
+                    android:layout_below="@+id/stat5"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="8 Days"
+                    android:id="@+id/data6"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="91dp"
+                    android:layout_marginStart="91dp"
+                    android:layout_below="@+id/data5"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="250dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Longest Streak: "
+                    android:id="@+id/stat7"
+                    android:textSize="30sp"
+                    android:layout_below="@+id/stat6"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="8 Days"
+                    android:id="@+id/data7"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="91dp"
+                    android:layout_marginStart="91dp"
+                    android:layout_below="@+id/data6"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="250dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Longest Streak: "
+                    android:id="@+id/stat8"
+                    android:textSize="30sp"
+                    android:layout_below="@+id/stat7"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="8 Days"
+                    android:id="@+id/data8"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="91dp"
+                    android:layout_marginStart="91dp"
+                    android:layout_below="@+id/data7"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="250dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Longest Streak: "
+                    android:id="@+id/stat9"
+                    android:textSize="30sp"
+                    android:layout_below="@+id/stat8"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="8 Days"
+                    android:id="@+id/data9"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="91dp"
+                    android:layout_marginStart="91dp"
+                    android:layout_below="@+id/data8"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="250dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Longest Streak: "
+                    android:id="@+id/stat10"
+                    android:textSize="30sp"
+                    android:layout_below="@+id/stat9"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="8 Days"
+                    android:id="@+id/data10"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="91dp"
+                    android:layout_marginStart="91dp"
+                    android:layout_below="@+id/data9"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="250dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Longest Streak: "
+                    android:id="@+id/stat11"
+                    android:textSize="30sp"
+                    android:layout_below="@+id/stat10"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="8 Days"
+                    android:id="@+id/data11"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="91dp"
+                    android:layout_marginStart="91dp"
+                    android:layout_below="@+id/data10"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="250dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Longest Streak: "
+                    android:id="@+id/stat12"
+                    android:textSize="30sp"
+                    android:layout_below="@+id/stat11"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="8 Days"
+                    android:id="@+id/data12"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="91dp"
+                    android:layout_marginStart="91dp"
+                    android:layout_below="@+id/data11"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="250dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Longest Streak: "
+                    android:id="@+id/stat13"
+                    android:textSize="30sp"
+                    android:layout_below="@+id/stat12"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="8 Days"
+                    android:id="@+id/data13"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="91dp"
+                    android:layout_marginStart="91dp"
+                    android:layout_below="@+id/data12"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="250dp" />
+
+            </RelativeLayout>
+        </ScrollView>
+    </RelativeLayout>
+</RelativeLayout>

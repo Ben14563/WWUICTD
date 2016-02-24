@@ -30,6 +30,14 @@
         <activity
             android:name=".Dashboard"
             android:label="@string/title_activity_dashboard"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Statistics"
+            android:label="@string/title_activity_statistics"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Friends"
+            android:label="@string/title_activity_friends"
             android:theme="@style/AppTheme"></activity>
     </application>
 
