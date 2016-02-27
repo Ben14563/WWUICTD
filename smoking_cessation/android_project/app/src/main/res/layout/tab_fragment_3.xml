@@ -4,13 +4,78 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="New Tab 2"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginTop="80dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText5"
+            android:hint="First Name"
+            android:backgroundTint="#e7d4d4"
+            android:gravity="center"
+            android:singleLine="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="44dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText6"
+            android:hint="Last Name"
+            android:backgroundTint="#e7d4d4"
+            android:gravity="center"
+            android:singleLine="true"
+            android:layout_marginTop="102dp"
+            android:layout_below="@+id/editText5"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText7"
+            android:hint="Age"
+            android:backgroundTint="#e7d4d4"
+            android:gravity="center"
+            android:singleLine="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="0dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="100dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText8"
+            android:hint="Gender"
+            android:backgroundTint="#e7d4d4"
+            android:gravity="center"
+            android:singleLine="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="0dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="100dp"
+            android:layout_gravity="center_horizontal" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText9"
+            android:hint="Ethnicity"
+            android:backgroundTint="#e7d4d4"
+            android:gravity="center"
+            android:singleLine="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="0dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="100dp"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
 
     <Button
         android:layout_width="wrap_content"
@@ -21,18 +86,5 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="69dp"
         android:onClick="goToDashboard"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="pizza boooooooy"
-        android:id="@+id/textView6"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="76dp"
-        android:layout_alignRight="@+id/finishButton"
-        android:layout_alignEnd="@+id/finishButton"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView" />
 
 </RelativeLayout>

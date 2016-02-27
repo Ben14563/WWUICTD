@@ -23,11 +23,12 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="410dp"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="0.72"
             android:id="@+id/textFieldHolder"
-            android:weightSum="1">
+            android:weightSum="1"
+            android:layout_margin="100dp"
+            android:layout_weight="0.10">
 
             <EditText
                 android:layout_width="match_parent"
@@ -38,7 +39,9 @@
                 android:gravity="center"
                 android:layout_marginLeft="100dp"
                 android:layout_marginRight="100dp"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:layout_marginTop="100dp"
+                android:layout_margin="50dp" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -46,13 +49,35 @@
                 android:id="@+id/editText2"
                 android:hint="Cost Per Pack"
                 android:backgroundTint="#65de4f"
-                android:layout_margin="100dp"
+                android:layout_margin="50dp"
                 android:gravity="center"
                 android:layout_marginLeft="100dp"
                 android:layout_marginRight="100dp"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:layout_marginTop="100dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText4"
+                android:hint="Number of years smoking"
+                android:backgroundTint="#65de4f"
+                android:layout_margin="50dp"
+                android:gravity="center"
+                android:layout_marginLeft="100dp"
+                android:layout_marginRight="100dp"
+                android:singleLine="true"
+                android:layout_marginTop="100dp" />
 
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="swipe right"
+            android:id="@+id/textView"
+            android:layout_gravity="center_horizontal" />
 
     </LinearLayout>
 </RelativeLayout>
