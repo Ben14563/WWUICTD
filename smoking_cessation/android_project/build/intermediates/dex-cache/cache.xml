@@ -1,2 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="C:\Users\Alvin\Documents\Programming\Git Repo\WWUICTD\smoking_cessation\android_project\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="4477ea44f5ec5ad064022a22691732d7638ff197">
+        <dex dex="C:\Users\Alvin\Documents\Programming\Git Repo\WWUICTD\smoking_cessation\android_project\app\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-appindexing-8.1.0_cd487bd841f732c5b9ac6a64e8fe5abf938f3a38.jar" />
+    </item>
+    <item
+        jar="C:\Users\Alvin\Documents\Programming\Git Repo\WWUICTD\smoking_cessation\android_project\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="C:\Users\Alvin\Documents\Programming\Git Repo\WWUICTD\smoking_cessation\android_project\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.1.1_d86debfec1222b52f0fb9a6ca7bd32d18bc34224.jar" />
+    </item>
+    <item
+        jar="C:\Users\Alvin\Documents\Programming\Git Repo\WWUICTD\smoking_cessation\android_project\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="C:\Users\Alvin\Documents\Programming\Git Repo\WWUICTD\smoking_cessation\android_project\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.1.1_7f433c40cabf500e039c0271648692e7e8e78697.jar" />
+    </item>
+    <item
+        jar="C:\Users\Alvin\Documents\Programming\Git Repo\WWUICTD\smoking_cessation\android_project\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="d0dda274b703dd9c5bb056867649d22b4171ae7d">
+        <dex dex="C:\Users\Alvin\Documents\Programming\Git Repo\WWUICTD\smoking_cessation\android_project\app\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-basement-8.1.0_121f94e0e6859f57906fd237bff827233ab558ac.jar" />
+    </item>
+    <item
+        jar="C:\Users\Alvin\Documents\Programming\Git Repo\WWUICTD\smoking_cessation\android_project\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\libs\internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="C:\Users\Alvin\Documents\Programming\Git Repo\WWUICTD\smoking_cessation\android_project\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.1_4d10dfab09d65ce4c2dfd2ad4fff1c0dd1d5abdc.jar" />
+    </item>
+    <item
+        jar="C:\Users\Alvin\Documents\Programming\Git Repo\WWUICTD\smoking_cessation\android_project\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="09c5e804bc67fc0580360043dff067df574a60d4">
+        <dex dex="C:\Users\Alvin\Documents\Programming\Git Repo\WWUICTD\smoking_cessation\android_project\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.1.1_e57367b8fddc55f36dd155e70cd1968108372e1c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Alvin\Documents\Programming\Git Repo\WWUICTD\smoking_cessation\android_project\app\build\intermediates\exploded-aar\com.android.support\design\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="379471b2bd17d9737c050345c08e8c7d16589784">
+        <dex dex="C:\Users\Alvin\Documents\Programming\Git Repo\WWUICTD\smoking_cessation\android_project\app\build\intermediates\pre-dexed\debug\com.android.support-design-23.1.1_8859c6b2a43106595871c233426c806bf9d6bb9a.jar" />
+    </item>
+    <item
+        jar="C:\Users\Alvin\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.1\support-annotations-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="C:\Users\Alvin\Documents\Programming\Git Repo\WWUICTD\smoking_cessation\android_project\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.1_2860988ed24ff7d0c5e0947cb0a4c1d91a72206d.jar" />
+    </item>
+    <item
+        jar="C:\Users\Alvin\Documents\Programming\Git Repo\WWUICTD\smoking_cessation\android_project\app\build\intermediates\exploded-aar\com.jjoe64\graphview\4.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="37bf8de5b4f9e7e93006db783b9b3168e32e38e9">
+        <dex dex="C:\Users\Alvin\Documents\Programming\Git Repo\WWUICTD\smoking_cessation\android_project\app\build\intermediates\pre-dexed\debug\com.jjoe64-graphview-4.0.1_9f4d6a52e3480b419d2d9e500630298cb1f22532.jar" />
+    </item>
+
+</items>
