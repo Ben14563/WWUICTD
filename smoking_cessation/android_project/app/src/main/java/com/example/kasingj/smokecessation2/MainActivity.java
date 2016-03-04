@@ -59,13 +59,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-    /*Button signUpButton = (Button)findViewById(R.id.signUpButton); // example button
+    Button signUpButton = (Button)findViewById(R.id.signUpButton); // example button
     signUpButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            new JSONTask().execute("URL");
+            new talkToServerTask().execute("URL");
         }
-    });*/
+    });
     }
 
 
@@ -106,57 +106,3 @@ public class MainActivity extends AppCompatActivity {
 
 }
 
- class JSONTask extends AsyncTask<String, String, String>{
-
-    @Override
-    protected String doInBackground(String... params){
-        HttpURLConnection connection =null;
-        BufferedReader reader=null;
-        try{
-            URL url = new URL(params[0]);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.connect();
-            InputStream stream = connection.getInputStream();
-            reader = new BufferedReader(new InputStreamReader(stream));
-            String line ="";
-            StringBuffer buffer = new StringBuffer();
-
-            while((line = reader.readLine()) != null){
-                buffer.append(line);
-            }
-
-                String FinalJSON = buffer.toString();
-                JSONObject parentJSON = new JSONObject(FinalJSON);
-                JSONArray parentArray = parentJSON.getJSONArray("temporary"); //provide the key for the array
-                JSONObject finalObject = parentArray.getJSONObject(0); //use final object and pass it keys associated with values
-                String key1 = finalObject.getString("name_of_key1");
-                String key2 = finalObject.getString("name_of_key2");
-
-            return key1+" "+key2; // return the json as a string
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }catch (IOException e) {
-            e.printStackTrace();
-        } catch(JSONException e){
-            e.printStackTrace();
-        }finally {
-            if(connection!=null){
-                connection.disconnect();
-            }
-            try{
-                if(reader != null){
-                    reader.close();
-                }
-            }catch(IOException e){
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-
-    }
-}
