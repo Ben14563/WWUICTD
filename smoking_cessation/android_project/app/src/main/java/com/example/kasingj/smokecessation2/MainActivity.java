@@ -59,13 +59,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-    Button signUpButton = (Button)findViewById(R.id.signUpButton); // example button
-    signUpButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            new talkToServerTask().execute("URL");
-        }
-    });
+//    Button signUpButton = (Button)findViewById(R.id.signUpButton); // example button
+//    signUpButton.setOnClickListener(new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            new talkToServerTask().execute("URL");
+//        }
+//    });
     }
 
 

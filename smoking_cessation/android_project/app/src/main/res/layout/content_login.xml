@@ -38,15 +38,16 @@
         android:id="@+id/passwordText"
         android:layout_below="@+id/userNameInput"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="43dp" />
+        android:layout_marginTop="94dp" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/passwordInput"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="50dp" />
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/passwordText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -54,10 +55,10 @@
         android:id="@+id/loginButton"
         android:text="Login"
         android:onClick="goToDashboard"
-        android:layout_marginBottom="132dp"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/passwordInput"
         android:layout_alignLeft="@+id/signUpButton"
-        android:layout_alignStart="@+id/signUpButton" />
+        android:layout_alignStart="@+id/signUpButton"
+        android:layout_marginTop="67dp" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -65,8 +66,8 @@
         android:layout_height="wrap_content"
         android:text="Sign up"
         android:id="@+id/signUpButton"
-        android:layout_below="@+id/passwordInput"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="69dp"
-        android:onClick="goToSignUp" />
+        android:onClick="goToSignUp"
+        android:layout_marginBottom="157dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
