@@ -14,15 +14,16 @@ import java.util.Date;
 
 public class Dashboard extends AppCompatActivity {
 
-    static String username, time;
-    static int totDaysFree;
-    static int longStreak;
-    static int currStreak;
-    static int cravs;
-    static int cravsRes;
-    static int numSmokes;
-    static int lifeReg;
-    static double moneySaved;
+    String username;
+    String time;
+    int totDaysFree;
+    int longStreak;
+    int currStreak;
+    int cravs;
+    int cravsRes;
+    int numSmokes;
+    int lifeReg;
+    double moneySaved;
 
     Button CRAVE_BUTTON;
     Button CRAVE_RES_BUTTON;
@@ -44,9 +45,12 @@ public class Dashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                // pull from central database first
 
-                // update current stats and push
+                // pull from central database first
+                // implement changes to data
+                // update user object
+
+                // push updated stats to local database
                 cravs += 1;
                 Date date = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");

@@ -1,5 +1,6 @@
 package com.example.kasingj.smokecessation2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +18,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.widget.Button;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +28,10 @@ import org.json.JSONObject;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    String time;
+    Button FINISH_BUTTON;
+    Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +67,22 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        FINISH_BUTTON = (Button) findViewById(R.id.finishButton);
+        FINISH_BUTTON.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Date date = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+                time = sdf.format(date);
+
+                User.getInstance().setFields(User.getInstance().getUsername(), time, "0", "0", "0", "0", "0", "0", "0.00", "0");
+                DatabaseOperations db = new DatabaseOperations(ctx);
+                db.addUserData(db, User.getInstance().getUsername(), time, 0, 0, 0, 0, 0, 0, 0.00, 0);
+            }
+        });
+
 /*
         Button signUpButton = (Button)findViewById(R.id.signUpButton); // example button
         signUpButton.setOnClickListener(new View.OnClickListener() {

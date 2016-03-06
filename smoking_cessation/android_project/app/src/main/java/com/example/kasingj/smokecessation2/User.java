@@ -44,7 +44,15 @@ public class User {
         NUM_CIGS_SMOKED=num_cigs_smoked; MONEY_SAVED=money_saved; LIFE_REGAINED=life_regained;
     }
 
+    protected void setUsername(String name) {
+        USER_NAME = name;
+    }
+
     protected String[] getFields(){
         return new String[]{USER_NAME, TIME,TOTAL_DAYS_FREE,LONGEST_STREAK,CURRENT_STREAK,NUM_CRAVINGS,CRAVINGS_RESISTED,NUM_CIGS_SMOKED,MONEY_SAVED,LIFE_REGAINED};
+    }
+
+    protected String getUsername() {
+        return USER_NAME;
     }
 }
