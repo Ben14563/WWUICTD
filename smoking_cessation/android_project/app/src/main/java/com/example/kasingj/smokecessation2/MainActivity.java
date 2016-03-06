@@ -59,15 +59,27 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-//    Button signUpButton = (Button)findViewById(R.id.signUpButton); // example button
-//    signUpButton.setOnClickListener(new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            new talkToServerTask().execute("URL");
-//        }
-//    });
-    }
+/*
+        Button signUpButton = (Button)findViewById(R.id.signUpButton); // example button
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
 
+            AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
+                @Override
+                protected String doInBackground(String... params) {
+                    //result is the json string of the request. might be null
+                    String result = new HttpRunner().getFriendInformation("which friend?");
+                    return result;
+                }
+
+                @Override
+                protected void onPostExecute(String result) {
+
+                }
+            };
+        }}); // end of async task for clicking a button the httpRunner is abstract but requires a unique url and functions to parse/connect to main thread.*/
+    }
 
 
 

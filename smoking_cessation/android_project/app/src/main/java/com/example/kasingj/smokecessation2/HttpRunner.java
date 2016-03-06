@@ -13,21 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class talkToServerTask extends AsyncTask<String, String, String> {
-
-   @Override
-   protected String doInBackground(String... params){
-       String result = new talkToServer().getFriendInformation("which friend?");
-       return result;
-   }
-
-   @Override
-   protected void onPostExecute(String result) {
-
-   }
-
-
-public class talkToServer{
+public class HttpRunner{
     private static final String ENDPOINT = "http://app.Cessation.com/services/";
 
     String getUrlString(String urlSpec) {
@@ -47,25 +33,21 @@ public class talkToServer{
             String line = "";
             StringBuffer buffer = new StringBuffer();
 
+            //read from the connection
             while ((line = reader.readLine()) != null) {
                 buffer.append(line);
             }
 
             String FinalJSON = buffer.toString();
-            JSONObject parentJSON = new JSONObject(FinalJSON);
-            JSONArray parentArray = parentJSON.getJSONArray("temporary"); //provide the key for the array
-            JSONObject finalObject = parentArray.getJSONObject(0); //use final object and pass it keys associated with values
-            String key1 = finalObject.getString("name_of_key1");
-            String key2 = finalObject.getString("name_of_key2");
+            //return string-JSON
 
-            return key1 + " " + key2; // return the json as a string
+
+            return FinalJSON ; /*key1 + " " + key2; // return the json as a string*/
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } finally {
+        }  finally {
             if (connection != null) {
                 connection.disconnect();
             }
@@ -79,7 +61,10 @@ public class talkToServer{
         }
         return null;
     }
-   public String getUrl(String urlSpec) throws IOException {
+
+
+
+    public String getUrl(String urlSpec) throws IOException {
        return new String(getUrlString( urlSpec));
    }
     public String getFriendInformation(String friend){
@@ -101,4 +86,36 @@ public class talkToServer{
 }
 
 
-}
+
+
+/*           **********************************8*** CODE DUMP ********************************************************
+
+            /*JSONObject parentJSON = new JSONObject(FinalJSON);
+            JSONArray parentArray = parentJSON.getJSONArray("temporary"); //provide the key for the array
+            JSONObject finalObject = parentArray.getJSONObject(0); //use final object and pass it keys associated with values
+            String key1 = finalObject.getString("name_of_key1");
+            String key2 = finalObject.getString("name_of_key2");
+
+            catch (JSONException e) {
+            e.printStackTrace();
+        }
+            */
+
+
+
+
+
+/* public class talkToServerTask extends AsyncTask<String, String, String> {
+
+    @Override
+    protected String doInBackground(String... params) {
+        //result is the json string of the request. might be null
+        String result = new HttpRunner().getFriendInformation("which friend?");
+        return result;
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+
+    }
+} */

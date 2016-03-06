@@ -34,7 +34,7 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         // Create UserStats Table
         sdb.execSQL(CREATE_USER_QUERY);
         Log.d("Database Operations", "UserStats table created");
-
+t
     }
 
     @Override
