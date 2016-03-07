@@ -48,11 +48,83 @@ public class User {
         USER_NAME = name;
     }
 
+    protected void setTime(String time) {
+        TIME = time;
+    }
+
+    protected void setTotalDaysFree(int daysFree) {
+        TOTAL_DAYS_FREE = Integer.toString(daysFree);
+    }
+
+    protected void setLongestStreak(int longestStreak) {
+        LONGEST_STREAK = Integer.toString(longestStreak);
+    }
+
+    protected void setCurrentStreak(int currStreak) {
+        CURRENT_STREAK = Integer.toString(currStreak);
+    }
+
+    protected void setNumCravings(int numCravs) {
+        NUM_CRAVINGS = Integer.toString(numCravs);
+    }
+
+    protected void setCravsRes(int numCravs) {
+        CRAVINGS_RESISTED = Integer.toString(numCravs);
+    }
+
+    protected void setNumCigsSmoked(int cigs) {
+        NUM_CIGS_SMOKED = Integer.toString(cigs);
+    }
+
+    protected void setMoneySaved(double money) {
+        MONEY_SAVED = Double.toString(money);
+    }
+
+    protected void setLifeRegained(int life) {
+        LIFE_REGAINED = Integer.toString(life);
+    }
+
     protected String[] getFields(){
         return new String[]{USER_NAME, TIME,TOTAL_DAYS_FREE,LONGEST_STREAK,CURRENT_STREAK,NUM_CRAVINGS,CRAVINGS_RESISTED,NUM_CIGS_SMOKED,MONEY_SAVED,LIFE_REGAINED};
     }
 
     protected String getUsername() {
         return USER_NAME;
+    }
+
+    protected String getTime() {
+        return TIME;
+    }
+
+    protected String getTotalDaysFree() {
+        return TOTAL_DAYS_FREE;
+    }
+
+    protected String getLongestStreak() {
+        return LONGEST_STREAK;
+    }
+
+    protected String getCurrentStreak() {
+        return CURRENT_STREAK;
+    }
+
+    protected String getNumCravings() {
+        return NUM_CRAVINGS;
+    }
+
+    protected String getCravingsResisted() {
+        return CRAVINGS_RESISTED;
+    }
+
+    protected String getNumCigsSmoked() {
+        return NUM_CIGS_SMOKED;
+    }
+
+    protected String getMoneySaved() {
+        return MONEY_SAVED;
+    }
+
+    protected String getLifeRegained() {
+        return LIFE_REGAINED;
     }
 }
