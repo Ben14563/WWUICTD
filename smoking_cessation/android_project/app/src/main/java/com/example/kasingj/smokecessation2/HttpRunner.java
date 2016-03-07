@@ -16,7 +16,7 @@ import java.net.URL;
 public class HttpRunner{
     private static final String ENDPOINT = "http://app.Cessation.com/services/";
 
-    String getUrlString(String urlSpec) {
+    String makeRequest(String urlSpec) {
         HttpURLConnection connection = null;
         BufferedReader reader = null;
         try {
@@ -65,7 +65,7 @@ public class HttpRunner{
 
 
     public String getUrl(String urlSpec) throws IOException {
-       return new String(getUrlString( urlSpec));
+       return new String(makeRequest( urlSpec));
    }
     public String getFriendInformation(String friend){
         //this will retrieve friend information
@@ -84,7 +84,11 @@ public class HttpRunner{
         return JSONString;
     }
 }
-
+/*
+* post execute methods
+*
+* Given http result needs to update views or update database.
+* */
 
 
 
@@ -104,18 +108,3 @@ public class HttpRunner{
 
 
 
-
-/* public class talkToServerTask extends AsyncTask<String, String, String> {
-
-    @Override
-    protected String doInBackground(String... params) {
-        //result is the json string of the request. might be null
-        String result = new HttpRunner().getFriendInformation("which friend?");
-        return result;
-    }
-
-    @Override
-    protected void onPostExecute(String result) {
-
-    }
-} */
