@@ -14,21 +14,21 @@ import java.util.Date;
 
 public class Dashboard extends AppCompatActivity {
 
-    String username;
-    String time;
-    int totDaysFree;
-    int longStreak;
-    int currStreak;
-    int cravs;
-    int cravsRes;
-    int numSmokes;
-    int lifeReg;
-    double moneySaved;
-
-    Button CRAVE_BUTTON;
-    Button CRAVE_RES_BUTTON;
-    Button SMOKED_BUTTON;
-    Context ctx = this;
+//    String username = User.getInstance().getUsername();
+//    String time;
+//    int totDaysFree = Integer.parseInt(User.getInstance().getTotalDaysFree());
+//    int longStreak = Integer.parseInt(User.getInstance().getLongestStreak());
+//    int currStreak = Integer.parseInt(User.getInstance().getCurrentStreak());
+//    int cravs = Integer.parseInt(User.getInstance().getNumCravings());
+//    int cravsRes = Integer.parseInt(User.getInstance().getCravingsResisted());
+//    int numSmokes = Integer.parseInt(User.getInstance().getNumCigsSmoked());
+//    int lifeReg = Integer.parseInt(User.getInstance().getLifeRegained());
+//    double moneySaved = Double.parseDouble(User.getInstance().getMoneySaved());
+//
+//    Button CRAVE_BUTTON;
+//    Button CRAVE_RES_BUTTON;
+//    Button SMOKED_BUTTON;
+//    Context ctx = this;
 
 
     @Override
@@ -39,32 +39,36 @@ public class Dashboard extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // When "I'm Craving" button is pressed
-        CRAVE_BUTTON = (Button) findViewById(R.id.craveButton);
-        CRAVE_BUTTON.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-
-                // pull from central database first
-                // implement changes to data
-                // update user object
-
-                // push updated stats to local database
-                cravs += 1;
-                Date date = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
-                time = sdf.format(date);
-
-                DatabaseOperations db = new DatabaseOperations(ctx);
-                db.addUserData(db, username, time, totDaysFree, longStreak, currStreak, cravs, cravsRes, numSmokes, moneySaved, lifeReg);
-                Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
-            }
-        });
+//        CRAVE_BUTTON = (Button) findViewById(R.id.craveButton);
+//        CRAVE_BUTTON.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//
+//
+//                // pull from central database first
+//                // implement changes to data
+//                // update user object
+//
+//                // push updated stats to local database
+//                cravs += 1;
+//                Date date = new Date();
+//                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+//                time = sdf.format(date);
+//
+//                DatabaseOperations db = new DatabaseOperations(ctx);
+//                db.addUserData(db, username, time, totDaysFree, longStreak, currStreak, cravs, cravsRes, numSmokes, moneySaved, lifeReg);
+//                Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
+//            }
+//        });
 
     }
 
 
+    public void imCraving() {
+
+
+    }
 
     // Navigation Buttons
     public void goToDashboard (View view) {

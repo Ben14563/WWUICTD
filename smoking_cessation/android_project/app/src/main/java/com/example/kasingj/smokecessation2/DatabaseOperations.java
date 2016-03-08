@@ -17,6 +17,7 @@ public class DatabaseOperations extends SQLiteOpenHelper{
 
     // UserStats Query String
     public String CREATE_USER_QUERY = "CREATE TABLE " + TableData.TableInfo.USER_TABLE_NAME + "(" +
+            TableData.TableInfo.USER_NAME + " TEXT," + TableData.TableInfo.TIME +
             " TEXT," + TableData.TableInfo.TOTAL_DAYS_FREE + " TEXT," + TableData.TableInfo.LONGEST_STREAK +
             " TEXT," + TableData.TableInfo.CURRENT_STREAK + " TEXT," + TableData.TableInfo.NUM_CRAVINGS +
             " TEXT," + TableData.TableInfo.CRAVINGS_RESISTED + " TEXT," + TableData.TableInfo.NUM_CIGS_SMOKED +
@@ -32,6 +33,8 @@ public class DatabaseOperations extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase sdb) {
 
         // Create UserStats Table
+        //sdb.execSQL("DROP TABLE IF EXISTS " + TableData.TableInfo.USER_TABLE_NAME);
+        Log.d("Database Operations", "creating user table");
         sdb.execSQL(CREATE_USER_QUERY);
         Log.d("Database Operations", "UserStats table created");
 
@@ -39,12 +42,12 @@ public class DatabaseOperations extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
-
+        Log.d("Database Operations", "database exists");
     }
 
     // adding to UserStats Table
-    public void addUserData(DatabaseOperations dbop, String username, String time, int totsDayFree, int longStreak, int currStreak,
-                            int cravs, int cravsRes, int numSmokes, double moneySaved, int lifeReg) {
+    public void addUserData(DatabaseOperations dbop, String username, String time, String totsDayFree, String longStreak, String currStreak,
+                            String cravs, String cravsRes, String numSmokes, String moneySaved, String lifeReg) {
 
         SQLiteDatabase sq = dbop.getWritableDatabase();
         ContentValues cv = new ContentValues();

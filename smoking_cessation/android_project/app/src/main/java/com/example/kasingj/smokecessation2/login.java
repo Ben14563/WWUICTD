@@ -19,16 +19,16 @@ public class login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Button LOGIN_BUTTON = (Button) findViewById(R.id.loginButton);
-        LOGIN_BUTTON.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context ctx =null;
-                DatabaseOperations db = new DatabaseOperations(ctx);
-                //need to verify user exists.
-
-            }
-        });
+//        Button LOGIN_BUTTON = (Button) findViewById(R.id.loginButton);
+//        LOGIN_BUTTON.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Context ctx =null;
+//                DatabaseOperations db = new DatabaseOperations(ctx);
+//                //need to verify user exists.
+//
+//            }
+//        });
     }
 
 

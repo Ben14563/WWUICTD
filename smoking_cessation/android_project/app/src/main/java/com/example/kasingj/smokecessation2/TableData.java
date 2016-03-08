@@ -24,7 +24,7 @@ public class TableData {
         public static final String NUM_CIGS_SMOKED = "num_cigs_smoked";
         public static final String MONEY_SAVED = "money_saved";
         public static final String LIFE_REGAINED = "life_regained";
-        public static final String DATABASE_NAME = "user_data";
+        public static final String DATABASE_NAME = "user_info";
         public static final String USER_TABLE_NAME = "user_stats";
         public static final String USER_FRIENDS_TABLE_NAME = "user_friends";
         public static final String FRIENDS_TABLE_NAME = "friends_stats";
