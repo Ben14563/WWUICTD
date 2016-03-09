@@ -38,6 +38,8 @@ public class Dashboard extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
         // When "I'm Craving" button is pressed
 //        CRAVE_BUTTON = (Button) findViewById(R.id.craveButton);
 //        CRAVE_BUTTON.setOnClickListener(new View.OnClickListener() {
