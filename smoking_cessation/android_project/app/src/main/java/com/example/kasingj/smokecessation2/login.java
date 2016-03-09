@@ -35,6 +35,7 @@ public class login extends AppCompatActivity {
     public void goToDashboard (View view) {
         Intent intent = new Intent (this, Dashboard.class);
         startActivity(intent);
+        finish();
     }
 
     public void goToSignUp (View view) {

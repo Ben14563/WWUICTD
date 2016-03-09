@@ -14,7 +14,9 @@ public class TableData {
     public static abstract class TableInfo implements BaseColumns {
 
         public static final String USER_NAME = "user_name";
+        public static final String PASSWORD = "password";
         public static final String FRIEND = "friend";
+        public static final String EMAIL = "email";
         public static final String TIME = "time";
         public static final String TOTAL_DAYS_FREE = "total_days_free";
         public static final String LONGEST_STREAK = "longest_streak";
@@ -25,6 +27,7 @@ public class TableData {
         public static final String MONEY_SAVED = "money_saved";
         public static final String LIFE_REGAINED = "life_regained";
         public static final String DATABASE_NAME = "user_info";
+        public static final String USER_AUTH_NAME = "user_auth";
         public static final String USER_TABLE_NAME = "user_stats";
         public static final String USER_FRIENDS_TABLE_NAME = "user_friends";
         public static final String FRIENDS_TABLE_NAME = "friends_stats";

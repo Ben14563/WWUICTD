@@ -13,7 +13,7 @@ import java.sql.Timestamp;
  */
 public class DatabaseOperations extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     // UserStats Query String
     public String CREATE_USER_QUERY = "CREATE TABLE " + TableData.TableInfo.USER_TABLE_NAME + "(" +
@@ -22,6 +22,11 @@ public class DatabaseOperations extends SQLiteOpenHelper{
             " TEXT," + TableData.TableInfo.CURRENT_STREAK + " TEXT," + TableData.TableInfo.NUM_CRAVINGS +
             " TEXT," + TableData.TableInfo.CRAVINGS_RESISTED + " TEXT," + TableData.TableInfo.NUM_CIGS_SMOKED +
             " TEXT," + TableData.TableInfo.MONEY_SAVED + " TEXT," + TableData.TableInfo.LIFE_REGAINED + " TEXT);";
+
+    // UserAuthentication Query String
+    public String CREATE_USER_AUTH_QUERY = "CREATE TABLE " + TableData.TableInfo.USER_AUTH_NAME + "(" +
+            TableData.TableInfo.USER_NAME + " TEXT," + TableData.TableInfo.PASSWORD +
+            " TEXT," + TableData.TableInfo.EMAIL + " TEXT);";
 
     // Create Database
     public DatabaseOperations(Context context) {
@@ -32,20 +37,43 @@ public class DatabaseOperations extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase sdb) {
 
-        // Create UserStats Table
-        //sdb.execSQL("DROP TABLE IF EXISTS " + TableData.TableInfo.USER_TABLE_NAME);
-        Log.d("Database Operations", "creating user table");
+        // Create user_auth Table
+        Log.d("Database Operations", "creating user_auth table");
+        sdb.execSQL(CREATE_USER_AUTH_QUERY);
+        Log.d("Database Operations", "user_stats auth created");
+
+        // Create user_stats Table
+        Log.d("Database Operations", "creating user_stats table");
         sdb.execSQL(CREATE_USER_QUERY);
-        Log.d("Database Operations", "UserStats table created");
+        Log.d("Database Operations", "user_stats table created");
 
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
-        Log.d("Database Operations", "database exists");
+    public void onUpgrade(SQLiteDatabase sdb, int oldVersion, int newVersion) {
+
+        // Create user_auth Table
+        Log.d("Database Operations", "creating user_auth table");
+        sdb.execSQL(CREATE_USER_AUTH_QUERY);
+        Log.d("Database Operations", "user_auth created");
+
     }
 
-    // adding to UserStats Table
+    // adding to user_auth Table
+    public void addUserAuth(DatabaseOperations dbop, String username, String password, String email) {
+
+        SQLiteDatabase sq = dbop.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(TableData.TableInfo.USER_NAME, username);
+        cv.put(TableData.TableInfo.PASSWORD, password);
+        cv.put(TableData.TableInfo.EMAIL, email);
+
+        sq.insert(TableData.TableInfo.USER_AUTH_NAME, null, cv);
+        Log.d("Database Operations", "One row inserted into user_auth table");
+    }
+
+    // adding to user_stats Table
     public void addUserData(DatabaseOperations dbop, String username, String time, String totsDayFree, String longStreak, String currStreak,
                             String cravs, String cravsRes, String numSmokes, String moneySaved, String lifeReg) {
 
@@ -64,7 +92,7 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         cv.put(TableData.TableInfo.LIFE_REGAINED, lifeReg);
 
         sq.insert(TableData.TableInfo.USER_TABLE_NAME, null, cv);
-        Log.d("Database Operations", "One row inserted into UserStats Table");
+        Log.d("Database Operations", "One row inserted into user_stats Table");
     }
 
 }

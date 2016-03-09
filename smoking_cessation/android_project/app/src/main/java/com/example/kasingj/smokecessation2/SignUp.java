@@ -1,5 +1,6 @@
 package com.example.kasingj.smokecessation2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,11 +9,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class SignUp extends AppCompatActivity {
 
-    EditText user_name;
-    String username;
+    EditText USERNAME, PASSWORD, EMAIL, CON_PASS;
+    String username, password, email, con_pass;
+    Context ctx = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +39,36 @@ public class SignUp extends AppCompatActivity {
 
     public void goToMain (View view) {
 
-        user_name = (EditText) findViewById(R.id.signUpUserInput);
-        username = user_name.getText().toString();
+        USERNAME = (EditText) findViewById(R.id.signUpUserInput);
+        PASSWORD = (EditText) findViewById(R.id.signUpPassInput);
+        CON_PASS = (EditText) findViewById(R.id.signUpPassConfirm);
+        EMAIL = (EditText) findViewById(R.id.signUpEmailInput);
+        username = USERNAME.getText().toString();
+        password = PASSWORD.getText().toString();
+        con_pass = CON_PASS.getText().toString();
+        email = EMAIL.getText().toString();
 
-        User.getInstance().setUsername(username);
-        Log.d("Next Button", "initialized username");
+        if (!password.equals(con_pass)) {
+            USERNAME.setText("");
+            PASSWORD.setText("");
+            CON_PASS.setText("");
+            EMAIL.setText("");
+            Toast.makeText(getBaseContext(), "Password does not match", Toast.LENGTH_LONG).show();
+        }
+        else {
+            User.getInstance().setUsername(username);
+            User.getInstance().setPassword(password);
+            User.getInstance().setEmail(email);
+            Log.d("Next Button", "initialized username, password, email");
 
-        Intent intent = new Intent (this, MainActivity.class);
-        startActivity(intent);
+            DatabaseOperations db = new DatabaseOperations(ctx);
+            db.addUserAuth(db, username, password, email);
+
+            Intent intent = new Intent (this, MainActivity.class);
+            startActivity(intent);
+        }
+
+
     }
 
 }

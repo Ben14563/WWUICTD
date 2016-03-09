@@ -10,6 +10,8 @@ public class User {
 
 
     private static String USER_NAME="";
+    private static String PASSWORD="";
+    private static String EMAIL="";
     private static String TIME="";
     private static String TOTAL_DAYS_FREE="";
     private static String LONGEST_STREAK="";
@@ -47,6 +49,10 @@ public class User {
     protected void setUsername(String name) {
         USER_NAME = name;
     }
+
+    protected void setPassword(String pass) { PASSWORD = pass; }
+
+    protected void setEmail(String email) { EMAIL = email; }
 
     protected void setTime(String time) {
         TIME = time;
@@ -91,6 +97,10 @@ public class User {
     protected String getUsername() {
         return USER_NAME;
     }
+
+    protected String getPassword() { return PASSWORD; }
+
+    protected String getEmail() { return EMAIL; }
 
     protected String getTime() {
         return TIME;
