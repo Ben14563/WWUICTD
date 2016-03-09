@@ -2,6 +2,7 @@ package com.example.kasingj.smokecessation2;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -57,6 +58,15 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         sdb.execSQL(CREATE_USER_AUTH_QUERY);
         Log.d("Database Operations", "user_auth created");
 
+    }
+
+    // pulling user authentication data
+    public Cursor getUserAuth(DatabaseOperations dbop) {
+
+        SQLiteDatabase sq = dbop.getReadableDatabase();
+        String[] columns = {TableData.TableInfo.USER_NAME, TableData.TableInfo.PASSWORD};
+        Cursor cr = sq.query(TableData.TableInfo.USER_AUTH_NAME, columns, null, null, null, null, null);
+        return cr;
     }
 
     // adding to user_auth Table

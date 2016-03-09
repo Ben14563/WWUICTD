@@ -139,10 +139,11 @@ public class MainActivity extends AppCompatActivity {
 
         DatabaseOperations db = new DatabaseOperations(ctx);
         db.addUserData(db, User.getInstance().getUsername(), time, "0", "0", "0", "0", "0", "0", "0.00", "0");
-        Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Profile creation successful!", Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent (this, Dashboard.class);
         startActivity(intent);
+        finish();
     }
 
     public void goToFriends (View view) {
