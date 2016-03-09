@@ -32,7 +32,8 @@
         android:layout_centerHorizontal="true"
         android:hint="Enter Email"
         android:textAlignment="center"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:layout_width="match_parent"
@@ -42,7 +43,8 @@
         android:textAlignment="center"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:inputType="textPassword" />
 
     <EditText
         android:layout_width="match_parent"
@@ -53,7 +55,8 @@
         android:textAlignment="center"
         android:layout_below="@+id/signUpPassInput"
         android:layout_centerHorizontal="true"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:inputType="textPassword" />
 
     <Button
         android:layout_width="wrap_content"

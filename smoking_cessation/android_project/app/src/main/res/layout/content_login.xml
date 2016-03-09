@@ -19,7 +19,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="200dp"
-        android:hint="username"
+        android:hint="Enter Username"
         android:textAlignment="center"
         android:singleLine="true" />
 
@@ -31,8 +31,9 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:textAlignment="center"
-        android:hint="password"
-        android:singleLine="true" />
+        android:hint="Enter Password"
+        android:singleLine="true"
+        android:inputType="textPassword" />
 
     <Button
         android:layout_width="wrap_content"

@@ -28,7 +28,7 @@ public class login extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
-
+    // authenticates users: if successful, go to dashboard
     public void goToDashboard (View view) {
 
         USERNAME = (EditText) findViewById(R.id.userNameInput);
@@ -63,6 +63,7 @@ public class login extends AppCompatActivity {
 
     }
 
+    // go to sign up page
     public void goToSignUp (View view) {
         Intent intent = new Intent (this, SignUp.class);
         startActivity(intent);
