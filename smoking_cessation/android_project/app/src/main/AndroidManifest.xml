@@ -49,6 +49,20 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <provider
+                android:name="com.example.kasingj.smokecessation2.StubContentProvider"
+                android:authorities="com.example.kasingj.smokecessation2"
+                android:exported="false"
+                android:syncable="true"/>
+            <service
+                android:name="com.example.kasingj.smokecessation2.AuthenticatorService">
+                <intent-filter>
+                    <action android:name="android.accounts.AccountAuthenticator"/>
+                </intent-filter>
+                <meta-data
+                    android:name="android.accounts.AccountAuthenticator"
+                    android:resource="@xml/authenticator" />
+            </service>
         </activity>
         <activity
             android:name=".SignUp"
