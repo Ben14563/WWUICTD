@@ -2,6 +2,7 @@ package com.example.kasingj.smokecessation2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Dashboard extends AppCompatActivity {
+
+    Context ctx = this;
 
 //    String username = User.getInstance().getUsername();
 //    String time;
@@ -66,6 +69,16 @@ public class Dashboard extends AppCompatActivity {
 
     }
 
+    public void updateUser() {
+
+        DatabaseOperations db = new DatabaseOperations(ctx);
+        Cursor cr = db.getUserStats(db, User.getInstance().getUsername());
+
+        if (cr != null && cr.moveToFirst()) {
+
+        }
+
+    }
 
     public void imCraving() {
 

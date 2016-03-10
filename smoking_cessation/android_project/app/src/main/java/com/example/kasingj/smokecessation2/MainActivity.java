@@ -70,31 +70,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        FINISH_BUTTON = (Button) findViewById(R.id.finishButton);
-//        FINISH_BUTTON.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Date date = new Date();
-//                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
-//                time = sdf.format(date);
-//
-//                User.getInstance().setTime(time);
-//                User.getInstance().setTotalDaysFree(0);
-//                User.getInstance().setLongestStreak(0);
-//                User.getInstance().setCurrentStreak(0);
-//                User.getInstance().setNumCravings(0);
-//                User.getInstance().setCravsRes(0);
-//                User.getInstance().setNumCigsSmoked(0);
-//                User.getInstance().setMoneySaved(0.00);
-//                User.getInstance().setLifeRegained(0);
-//
-////                User.getInstance().setFields(User.getInstance().getUsername(), time, "0", "0", "0", "0", "0", "0", "0.00", "0");
-////                DatabaseOperations db = new DatabaseOperations(ctx);
-////                db.addUserData(db, User.getInstance().getUsername(), time, 0, 0, 0, 0, 0, 0, 0.00, 0);
-//            }
-//        });
-
 /*
         Button signUpButton = (Button)findViewById(R.id.signUpButton); // example button
         signUpButton.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Finish Button", "initialized user stats");
 
         DatabaseOperations db = new DatabaseOperations(ctx);
-        db.addUserData(db, User.getInstance().getUsername(), time, "0", "0", "0", "0", "0", "0", "0.00", "0");
+        db.addUserStats(db, User.getInstance().getUsername(), time, "0", "0", "0", "0", "0", "0", "0.00", "0");
         Toast.makeText(getBaseContext(), "Profile creation successful!", Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent (this, Dashboard.class);

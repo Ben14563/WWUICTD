@@ -69,6 +69,21 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         return cr;
     }
 
+    // pulling from user_stats table
+//    public Cursor getUserStats(DatabaseOperations dbop, String username) {
+//
+//        SQLiteDatabase sq = dbop.getReadableDatabase();
+//        String[] columns = {TableData.TableInfo.USER_NAME, TableData.TableInfo.TIME, TableData.TableInfo.TOTAL_DAYS_FREE,
+//                TableData.TableInfo.LONGEST_STREAK, TableData.TableInfo.CURRENT_STREAK, TableData.TableInfo.NUM_CRAVINGS,
+//                TableData.TableInfo.CRAVINGS_RESISTED, TableData.TableInfo.NUM_CIGS_SMOKED, TableData.TableInfo.MONEY_SAVED,
+//                TableData.TableInfo.LIFE_REGAINED};
+////        String where = TableData.TableInfo.TIME + " = (SELECT max(" + TableData.TableInfo.TIME + ") FROM " + TableData.TableInfo.USER_TABLE_NAME + ") AS lastTime";
+////        String whereArgs = "(SELECT man(" + TableData.TableInfo.TIME + ") FROM " + TableData.TableInfo.USER_TABLE_NAME + ") AS time";
+//        String where = TableData.TableInfo.TIME + " = ? And " +
+//        Cursor cr = sq.query(TableData.TableInfo.USER_TABLE_NAME, columns, where, null, null, null, null);
+//        return cr;
+//    }
+
     // adding to user_auth Table
     public void addUserAuth(DatabaseOperations dbop, String username, String password, String email) {
 
@@ -84,7 +99,7 @@ public class DatabaseOperations extends SQLiteOpenHelper{
     }
 
     // adding to user_stats Table
-    public void addUserData(DatabaseOperations dbop, String username, String time, String totsDayFree, String longStreak, String currStreak,
+    public void addUserStats(DatabaseOperations dbop, String username, String time, String totsDayFree, String longStreak, String currStreak,
                             String cravs, String cravsRes, String numSmokes, String moneySaved, String lifeReg) {
 
         SQLiteDatabase sq = dbop.getWritableDatabase();

@@ -23,18 +23,6 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-//        NEXT_BUTTON = (Button) findViewById(R.id.signUpNextButton);
-//        NEXT_BUTTON.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                user_name = (EditText) findViewById(R.id.signUpUserInput);
-//                username = user_name.toString();
-//
-//                User.getInstance().setUsername(username);
-//
-//            }
-//        });
     }
 
     public void goToMain (View view) {
