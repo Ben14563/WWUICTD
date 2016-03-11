@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
     public void goToDashboard (View view) {
 
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
         time = sdf.format(date).toString();
 
         User.getInstance().setTime(time);

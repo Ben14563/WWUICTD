@@ -37,32 +37,6 @@ public class Dashboard extends AppCompatActivity {
 
         updateUser();
 
-
-
-        // When "I'm Craving" button is pressed
-//        CRAVE_BUTTON = (Button) findViewById(R.id.craveButton);
-//        CRAVE_BUTTON.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//                // pull from central database first
-//                // implement changes to data
-//                // update user object
-//
-//                // push updated stats to local database
-//                cravs += 1;
-//                Date date = new Date();
-//                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
-//                time = sdf.format(date);
-//
-//                DatabaseOperations db = new DatabaseOperations(ctx);
-//                db.addUserData(db, username, time, totDaysFree, longStreak, currStreak, cravs, cravsRes, numSmokes, moneySaved, lifeReg);
-//                Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
-//            }
-//        });
-
     }
 
     public void updateUser() {
@@ -102,7 +76,7 @@ public class Dashboard extends AppCompatActivity {
         cravs += 1;
 
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
         time = sdf.format(date).toString();
 
         User.getInstance().setNumCravings(cravs);
@@ -113,7 +87,8 @@ public class Dashboard extends AppCompatActivity {
                 Integer.toString(lifeReg));
         Log.d("Crave Button", "Logged 1 craving");
         Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
-        Log.d("********TEST: ", User.getInstance().getNumCravings() + " ************");
+        Log.d("********TEST: ", User.getInstance().getUsername() + "'s Crave count: " + User.getInstance().getNumCravings() + " ************");
+        db.close();
     }
 
     // Navigation Buttons
