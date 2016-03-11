@@ -70,19 +70,26 @@ public class DatabaseOperations extends SQLiteOpenHelper{
     }
 
     // pulling from user_stats table
-//    public Cursor getUserStats(DatabaseOperations dbop, String username) {
-//
-//        SQLiteDatabase sq = dbop.getReadableDatabase();
-//        String[] columns = {TableData.TableInfo.USER_NAME, TableData.TableInfo.TIME, TableData.TableInfo.TOTAL_DAYS_FREE,
-//                TableData.TableInfo.LONGEST_STREAK, TableData.TableInfo.CURRENT_STREAK, TableData.TableInfo.NUM_CRAVINGS,
-//                TableData.TableInfo.CRAVINGS_RESISTED, TableData.TableInfo.NUM_CIGS_SMOKED, TableData.TableInfo.MONEY_SAVED,
-//                TableData.TableInfo.LIFE_REGAINED};
+    public Cursor getUserStats(DatabaseOperations dbop, String username) {
+
+        SQLiteDatabase sq = dbop.getReadableDatabase();
+        String[] columns = {TableData.TableInfo.USER_NAME, TableData.TableInfo.TIME, TableData.TableInfo.TOTAL_DAYS_FREE,
+                TableData.TableInfo.LONGEST_STREAK, TableData.TableInfo.CURRENT_STREAK, TableData.TableInfo.NUM_CRAVINGS,
+                TableData.TableInfo.CRAVINGS_RESISTED, TableData.TableInfo.NUM_CIGS_SMOKED, TableData.TableInfo.MONEY_SAVED,
+                TableData.TableInfo.LIFE_REGAINED};
+        String where = TableData.TableInfo.USER_NAME + " = ?";
+        String[] whereArgs = new String[] {username};
+        String orderBy = TableData.TableInfo.TIME + " DESC LIMIT 1";
+        Cursor cr = sq.query(TableData.TableInfo.USER_TABLE_NAME, columns, where, whereArgs, null, null, orderBy);
+        return cr;
+
+
 ////        String where = TableData.TableInfo.TIME + " = (SELECT max(" + TableData.TableInfo.TIME + ") FROM " + TableData.TableInfo.USER_TABLE_NAME + ") AS lastTime";
 ////        String whereArgs = "(SELECT man(" + TableData.TableInfo.TIME + ") FROM " + TableData.TableInfo.USER_TABLE_NAME + ") AS time";
 //        String where = TableData.TableInfo.TIME + " = ? And " +
 //        Cursor cr = sq.query(TableData.TableInfo.USER_TABLE_NAME, columns, where, null, null, null, null);
 //        return cr;
-//    }
+    }
 
     // adding to user_auth Table
     public void addUserAuth(DatabaseOperations dbop, String username, String password, String email) {

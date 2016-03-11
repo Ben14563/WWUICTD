@@ -51,6 +51,8 @@ public class login extends AppCompatActivity {
             User.getInstance().setUsername(username);
             Toast.makeText(getBaseContext(), "Login Successful!", Toast.LENGTH_LONG).show();
 
+            cr.close();
+            db.close();
             Intent intent = new Intent (this, Dashboard.class);
             startActivity(intent);
             finish();
