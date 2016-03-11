@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -36,6 +37,8 @@ public class Dashboard extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         updateUser();
+        TextView resCraveText = (TextView) findViewById(R.id.resCraveCount);
+        resCraveText.setText(User.getInstance().getCravingsResisted());
 
     }
 
@@ -69,15 +72,12 @@ public class Dashboard extends AppCompatActivity {
         cr.close();
     }
 
-    // Action Buttons
+    // Crave Button
     public void imCraving(View view) {
 
         updateUser();
+        time = DatabaseOperations.getCurrTime();
         cravs += 1;
-
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
-        time = sdf.format(date).toString();
 
         User.getInstance().setNumCravings(cravs);
 
@@ -88,6 +88,29 @@ public class Dashboard extends AppCompatActivity {
         Log.d("Crave Button", "Logged 1 craving");
         Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
         Log.d("********TEST: ", User.getInstance().getUsername() + "'s Crave count: " + User.getInstance().getNumCravings() + " ************");
+        db.close();
+    }
+
+    // Resist Craving Button
+    public void resistCraving(View view) {
+
+        updateUser();
+        time = DatabaseOperations.getCurrTime();
+        cravsRes += 1;
+
+        User.getInstance().setCravsRes(cravsRes);
+
+        DatabaseOperations db = new DatabaseOperations(ctx);
+        db.addUserStats(db, username, time, Integer.toString(totDaysFree), Integer.toString(longStreak), Integer.toString(currStreak),
+                Integer.toString(cravs), Integer.toString(cravsRes), Integer.toString(numSmokes), Double.toString(moneySaved),
+                Integer.toString(lifeReg));
+        Log.d("Resist Craving Button", "Logged 1 craving resisted");
+        Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
+        Log.d("********TEST: ", User.getInstance().getUsername() + "'s Crave Resist count: " + User.getInstance().getCravingsResisted() + " ************");
+
+        TextView resCraveText = (TextView) findViewById(R.id.resCraveCount);
+        resCraveText.setText(User.getInstance().getCravingsResisted());
+
         db.close();
     }
 

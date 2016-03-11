@@ -147,7 +147,8 @@
             android:id="@+id/resistButton"
             android:layout_alignBottom="@+id/craveButton"
             android:layout_toRightOf="@+id/craveButton"
-            android:layout_toEndOf="@+id/craveButton" />
+            android:layout_toEndOf="@+id/craveButton"
+            android:onClick="resistCraving" />
 
         <Button
             android:layout_width="190dp"
@@ -220,8 +221,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="0"
-            android:id="@+id/textView3"
+            android:id="@+id/resCraveCount"
             android:textSize="25sp"
             android:paddingBottom="20dp"
             android:layout_alignBottom="@+id/notSmokedText"

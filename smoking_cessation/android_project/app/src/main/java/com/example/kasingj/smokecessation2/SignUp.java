@@ -83,8 +83,8 @@ public class SignUp extends AppCompatActivity {
             Intent intent = new Intent (this, MainActivity.class);
             startActivity(intent);
         }
-
-
+        cr.close();
+        dbAuth.close();
     }
 
 }

@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Alvin on 3/3/2016.
@@ -58,6 +60,13 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         sdb.execSQL(CREATE_USER_AUTH_QUERY);
         Log.d("Database Operations", "user_auth created");
 
+    }
+
+    public static String getCurrTime() {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+        String time = sdf.format(date).toString();
+        return time;
     }
 
     // pulling user authentication data

@@ -92,14 +92,9 @@ public class MainActivity extends AppCompatActivity {
         }}); // end of async task for clicking a button the httpRunner is abstract but requires a unique url and functions to parse/connect to main thread.*/
     }
 
-
-
-
     public void goToDashboard (View view) {
 
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
-        time = sdf.format(date).toString();
+        time = DatabaseOperations.getCurrTime();
 
         User.getInstance().setTime(time);
         User.getInstance().setTotalDaysFree(0);
@@ -116,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         db.addUserStats(db, User.getInstance().getUsername(), time, "0", "0", "0", "0", "0", "0", "0.00", "0");
         Toast.makeText(getBaseContext(), "Profile creation successful!", Toast.LENGTH_LONG).show();
 
+        db.close();
         Intent intent = new Intent (this, Dashboard.class);
         startActivity(intent);
         finish();
