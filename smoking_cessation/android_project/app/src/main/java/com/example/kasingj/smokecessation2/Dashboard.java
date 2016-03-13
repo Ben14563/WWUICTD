@@ -114,6 +114,26 @@ public class Dashboard extends AppCompatActivity {
         db.close();
     }
 
+    // Smoked Button
+    public void smoked(View view) {
+
+        updateUser();
+        time = DatabaseOperations.getCurrTime();
+        numSmokes += 1;
+
+        User.getInstance().setNumCigsSmoked(numSmokes);
+
+        DatabaseOperations db = new DatabaseOperations(ctx);
+        db.addUserStats(db, username, time, Integer.toString(totDaysFree),Integer.toString(longStreak), Integer.toString(currStreak),
+                Integer.toString(cravs), Integer.toString(cravsRes), Integer.toString(numSmokes), Double.toString(moneySaved),
+                Integer.toString(lifeReg));
+        Log.d("Smoked Button", "Logged 1 smoked cigarette");
+        Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
+        Log.d("********TEST: ", User.getInstance().getUsername() + "'s Smoke count: " + User.getInstance().getNumCigsSmoked() + " ************");
+        db.close();
+
+    }
+
     // Navigation Buttons
     public void goToDashboard (View view) {
         Intent intent = new Intent (this, Dashboard.class);

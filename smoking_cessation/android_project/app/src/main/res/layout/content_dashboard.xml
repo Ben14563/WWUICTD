@@ -157,7 +157,8 @@
             android:id="@+id/smokedButton"
             android:layout_alignBottom="@+id/resistButton"
             android:layout_alignRight="@+id/statsButton"
-            android:layout_alignEnd="@+id/statsButton" />
+            android:layout_alignEnd="@+id/statsButton"
+            android:onClick="smoked" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -222,6 +223,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/resCraveCount"
+            android:text="0"
             android:textSize="25sp"
             android:paddingBottom="20dp"
             android:layout_alignBottom="@+id/notSmokedText"
