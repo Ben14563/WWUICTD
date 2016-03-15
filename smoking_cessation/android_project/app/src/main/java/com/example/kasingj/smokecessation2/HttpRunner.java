@@ -14,7 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class HttpRunner{
-    private static final String ENDPOINT = "http://app.Cessation.com/services/";
+    private static final String ENDPOINT = "https://198.199.67.166";
 
     String makeRequest(String urlSpec) {
         HttpURLConnection connection = null;
@@ -67,14 +67,15 @@ public class HttpRunner{
     public String getUrl(String urlSpec) throws IOException {
        return new String(makeRequest( urlSpec));
    }
-    public String getFriendInformation(String friend){
+    public String getFriendInformation(String friendId){
         //this will retrieve friend information
         String JSONString = null;
-        String url = Uri.parse(ENDPOINT).buildUpon().appendQueryParameter("", "")
-                .appendQueryParameter("", "")
-                .appendQueryParameter("","")
-                .appendQueryParameter("","")
-                .appendQueryParameter("","").build().toString();
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+                .authority(ENDPOINT)
+                .appendPath("user")
+                .appendQueryParameter("id", friendId);
+        String url = builder.build().toString();
 
         try {
              JSONString = getUrl(url);
@@ -83,6 +84,27 @@ public class HttpRunner{
         }
         return JSONString;
     }
+
+public String addUser(String userName, String userEmail, String cigs_per_day, String price_per_pack){
+    //this will retrieve friend information
+    String JSONString = null;
+    Uri.Builder builder = new Uri.Builder();
+    builder.scheme("https")
+            .authority(ENDPOINT)
+            .appendPath("user")
+            .appendQueryParameter("name", userName)
+            .appendQueryParameter("email", userEmail)
+            .appendQueryParameter("cigs_per_day", cigs_per_day)
+            .appendQueryParameter("price_per_pack", price_per_pack);
+    String url = builder.build().toString();
+
+    try {
+        JSONString = getUrl(url);
+    } catch(IOException e){
+        e.printStackTrace();
+    }
+    return JSONString;
+}
 }
 /*
 * post execute methods
@@ -103,6 +125,13 @@ public class HttpRunner{
             catch (JSONException e) {
             e.printStackTrace();
         }
+
+         String url = Uri.parse(ENDPOINT+"/user/").buildUpon().appendQueryParameter("", "")
+                .appendQueryParameter("", "")
+                .appendQueryParameter("","")
+                .appendQueryParameter("","")
+                .appendQueryParameter("","").build().toString();
+
             */
 
 

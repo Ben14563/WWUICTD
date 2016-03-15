@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
+import java.util.HashSet;
 /**
  * Created by kasingj on 3/9/16.
  */
@@ -52,5 +53,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         //http and other sync code
+        HttpRunner makeRequest = new HttpRunner();
+        HashSet<String> friends = User.getInstance().getFriends();
+        String result="";
+        for (String friend : friends){
+            if((result=makeRequest.getFriendInformation(friend))!="") {
+                //there is data
+
+            }
+
+        }
+        //only make
     }
 }
