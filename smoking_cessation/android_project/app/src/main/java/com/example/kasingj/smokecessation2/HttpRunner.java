@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -67,7 +68,7 @@ public class HttpRunner{
     public String getUrl(String urlSpec) throws IOException {
        return new String(makeRequest( urlSpec));
    }
-    public String getFriendInformation(String friendId){
+    public String getUserInformation(String friendId){
         //this will retrieve friend information
         String JSONString = null;
         Uri.Builder builder = new Uri.Builder();
@@ -84,6 +85,8 @@ public class HttpRunner{
         }
         return JSONString;
     }
+
+
 
 public String addUser(String userName, String userEmail, String cigs_per_day, String price_per_pack){
     //this will retrieve friend information
@@ -105,7 +108,100 @@ public String addUser(String userName, String userEmail, String cigs_per_day, St
     }
     return JSONString;
 }
+
+
+
+
+
+    public String incrementField(String userId, String day, String Field){
+        String JSONString = null;
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+                .authority(ENDPOINT)
+                .appendPath("user")
+                .appendQueryParameter("id", userId)
+                .appendQueryParameter("day", day)
+                .appendQueryParameter("field", Field);
+        String url = builder.build().toString();
+
+        try {
+            JSONString = getUrl(url);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        return JSONString; //need to parse, is there anything to return
+    }
+
+
+    public String getFeedForUser(String userId){
+        String JSONString = null;
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+                .authority(ENDPOINT)
+                .appendPath("user")
+                .appendQueryParameter("id", userId);
+        String url = builder.build().toString();
+        try {
+            JSONString = getUrl(url);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        return JSONString; //need to parse, is there anything to return
+    }
+//return info for given day (mm-dd-YYYY) and user
+    public String getDataForDay(String userId,String day){
+        String JSONString = null;
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+                .authority(ENDPOINT)
+                .appendPath("user")
+                .appendQueryParameter("id", userId)
+                .appendQueryParameter("day", day);
+        String url = builder.build().toString();
+        try {
+            JSONString = getUrl(url);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        return JSONString; //need to parse, is there anything to return
+    }
+
+    //add a new day for the given user all fields set to 0
+    public String addNewCurrentDay(String userId){
+        String JSONString = null;
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+                .authority(ENDPOINT)
+                .appendPath("user")
+                .appendQueryParameter("id", userId);
+        String url = builder.build().toString();
+        try {
+            JSONString = getUrl(url);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        return JSONString; //need to parse, is there anything to return
+    }
+
+//add buddy to user, user email must exist.
+    public String addBuddyToUser(String userId, String email){
+        String JSONString = null;
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+                .authority(ENDPOINT)
+                .appendPath("user")
+                .appendQueryParameter("id", userId)
+                .appendQueryParameter("email", email);
+        String url = builder.build().toString();
+        try {
+            JSONString = getUrl(url);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        return JSONString; //need to parse, is there anything to return
+    }
 }
+
 /*
 * post execute methods
 *

@@ -57,7 +57,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         HashSet<String> friends = User.getInstance().getFriends();
         String result="";
         for (String friend : friends){
-            if((result=makeRequest.getFriendInformation(friend))!="") {
+            if((result=makeRequest.getUserInformation(friend))!="") {
                 //there is data
 
             }
@@ -65,4 +65,5 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
         //only make
     }
+
 }
