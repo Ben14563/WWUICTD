@@ -16,7 +16,8 @@ public class TableData {
         public static final String USER_NAME = "user_name";
         public static final String PASSWORD = "password";
         public static final String ID = "id";
-        public static final String FRIEND = "friend";
+        public static final String FRIEND_ID = "friend_id";
+        public static final String FRIEND_NAME = "friend";
         public static final String EMAIL = "email";
         public static final String TIME = "time";
         public static final String TOTAL_DAYS_FREE = "total_days_free";

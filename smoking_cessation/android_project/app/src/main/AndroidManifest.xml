@@ -19,7 +19,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -49,16 +49,18 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <provider
-                android:name="com.example.kasingj.smokecessation2.StubContentProvider"
+                android:name=".StubContentProvider"
                 android:authorities="com.example.kasingj.smokecessation2"
                 android:exported="false"
-                android:syncable="true"/>
-            <service
-                android:name="com.example.kasingj.smokecessation2.AuthenticatorService">
+                android:syncable="true" />
+
+            <service android:name=".AuthenticatorService">
                 <intent-filter>
-                    <action android:name="android.accounts.AccountAuthenticator"/>
+                    <action android:name="android.accounts.AccountAuthenticator" />
                 </intent-filter>
+
                 <meta-data
                     android:name="android.accounts.AccountAuthenticator"
                     android:resource="@xml/authenticator" />
@@ -67,6 +69,10 @@
         <activity
             android:name=".SignUp"
             android:label="@string/title_activity_sign_up"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Invite"
+            android:label="@string/title_activity_invite"
             android:theme="@style/AppTheme"></activity>
     </application>
 

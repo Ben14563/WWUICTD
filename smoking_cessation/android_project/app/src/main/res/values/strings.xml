@@ -20,4 +20,5 @@
         completions."
     </string>
     <string name="title_activity_sign_up">SignUp</string>
+    <string name="title_activity_invite">Invite</string>
 </resources>

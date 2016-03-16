@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.ContactsContract;
+import android.support.design.widget.TabLayout;
 import android.util.Log;
 
 import java.sql.Timestamp;
@@ -17,7 +18,7 @@ import java.util.Date;
  */
 public class DatabaseOperations extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
 
     // UserDemo Query String
     public String CREATE_USER_DEMO_QUERY = "CREATE TABLE " + TableData.TableInfo.USER_DEMO_TABLE_NAME + "(" +
@@ -26,6 +27,15 @@ public class DatabaseOperations extends SQLiteOpenHelper{
             " TEXT," + TableData.TableInfo.GENDER + " TEXT," + TableData.TableInfo.ETHNICITY +
             " TEXT," + TableData.TableInfo.CIGS_PER_DAY + " TEXT," + TableData.TableInfo.PRICE_PER_PACK +
             " TEXT," + TableData.TableInfo.NUM_YEARS_SMOKED + " TEXT);";
+
+    // FriendStats Query String
+    public String CREATE_FRIENDS_STATS_QUERY = "CREATE TABLE " + TableData.TableInfo.FRIENDS_TABLE_NAME + "(" +
+            TableData.TableInfo.USER_NAME + " TEXT," + TableData.TableInfo.FRIEND_NAME +
+            " TEXT," + TableData.TableInfo.FRIEND_ID + " TEXT," + TableData.TableInfo.EMAIL + " TEXT," + TableData.TableInfo.TIME + " TEXT," +
+            " TEXT," + TableData.TableInfo.TOTAL_DAYS_FREE + " TEXT," + TableData.TableInfo.LONGEST_STREAK +
+            " TEXT," + TableData.TableInfo.CURRENT_STREAK + " TEXT," + TableData.TableInfo.NUM_CRAVINGS +
+            " TEXT," + TableData.TableInfo.CRAVINGS_RESISTED + " TEXT," + TableData.TableInfo.NUM_CIGS_SMOKED +
+            " TEXT," + TableData.TableInfo.MONEY_SAVED + " TEXT," + TableData.TableInfo.LIFE_REGAINED + " TEXT);";
 
     // UserStats Query String
     public String CREATE_USER_QUERY = "CREATE TABLE " + TableData.TableInfo.USER_TABLE_NAME + "(" +
@@ -64,16 +74,20 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         sdb.execSQL(CREATE_USER_QUERY);
         Log.d("Database Operations", "user_stats table created");
 
+        // Create friends_stats Table
+        Log.d("Database Operations", "creating friends_stats table");
+        sdb.execSQL(CREATE_FRIENDS_STATS_QUERY);
+        Log.d("Database Operations", "friends_stats table created");
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sdb, int oldVersion, int newVersion) {
 
-        // Create user_demo Table
-        Log.d("Database Operations", "creating user_demo table");
-        sdb.execSQL(CREATE_USER_DEMO_QUERY);
-        Log.d("Database Operations", "user_demo table created");
-
+        // Create friends_stats Table
+        Log.d("Database Operations", "creating friends_stats table");
+        sdb.execSQL(CREATE_FRIENDS_STATS_QUERY);
+        Log.d("Database Operations", "friends_stats table created");
     }
 
     // get current time
@@ -103,6 +117,21 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         String where = TableData.TableInfo.USER_NAME + " = ?";
         String[] whereArgs = new String[] {username};
         Cursor cr = sq.query(TableData.TableInfo.USER_DEMO_TABLE_NAME, columns, where, whereArgs, null, null, null);
+        return cr;
+    }
+
+    // pulling from friend_stats table
+    public Cursor getFriendStats(DatabaseOperations dbop, String username, String friendID) {
+
+        SQLiteDatabase sq = dbop.getReadableDatabase();
+        String[] columns = {TableData.TableInfo.USER_NAME, TableData.TableInfo.FRIEND_NAME, TableData.TableInfo.FRIEND_ID,
+                TableData.TableInfo.EMAIL, TableData.TableInfo.TIME, TableData.TableInfo.TOTAL_DAYS_FREE, TableData.TableInfo.LONGEST_STREAK,
+                TableData.TableInfo.CURRENT_STREAK, TableData.TableInfo.NUM_CRAVINGS, TableData.TableInfo.CRAVINGS_RESISTED,
+                TableData.TableInfo.NUM_CIGS_SMOKED, TableData.TableInfo.MONEY_SAVED, TableData.TableInfo.LIFE_REGAINED};
+        String where = TableData.TableInfo.USER_NAME + " = ? AND " + TableData.TableInfo.FRIEND_ID + " = ?";
+        String[] whereArgs = new String[] {username, friendID};
+        String orderBy = TableData.TableInfo.TIME;
+        Cursor cr = sq.query(TableData.TableInfo.FRIENDS_TABLE_NAME, columns, where, whereArgs, null, null, orderBy);
         return cr;
     }
 
@@ -180,4 +209,28 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         Log.d("Database Operations", "One row inserted into user_stats Table");
     }
 
+    // adding to friends_stats Table
+    public void addFriendStats(DatabaseOperations dbop, String username, String friendName, String friendID, String email, String time, String totDaysFree,
+                               String longStreak, String currStreak, String numCraves, String cravesRes, String numCigsSmoked, String moneySaved, String lifeReg) {
+
+        SQLiteDatabase sq = dbop.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(TableData.TableInfo.USER_NAME, username);
+        cv.put(TableData.TableInfo.FRIEND_NAME, friendName);
+        cv.put(TableData.TableInfo.FRIEND_ID, friendID);
+        cv.put(TableData.TableInfo.EMAIL, email);
+        cv.put(TableData.TableInfo.TIME, time);
+        cv.put(TableData.TableInfo.TOTAL_DAYS_FREE, totDaysFree);
+        cv.put(TableData.TableInfo.LONGEST_STREAK, longStreak);
+        cv.put(TableData.TableInfo.CURRENT_STREAK, currStreak);
+        cv.put(TableData.TableInfo.NUM_CRAVINGS, numCraves);
+        cv.put(TableData.TableInfo.CRAVINGS_RESISTED, cravesRes);
+        cv.put(TableData.TableInfo.NUM_CIGS_SMOKED, numCigsSmoked);
+        cv.put(TableData.TableInfo.MONEY_SAVED, moneySaved);
+        cv.put(TableData.TableInfo.LIFE_REGAINED, lifeReg);
+
+        sq.insert(TableData.TableInfo.FRIENDS_TABLE_NAME, null, cv);
+        Log.d("Database Operations", "One row inserted into friends_stats Table");
+    }
 }
