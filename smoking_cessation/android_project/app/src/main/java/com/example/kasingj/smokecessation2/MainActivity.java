@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -23,16 +24,21 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.microedition.khronos.egl.EGLDisplay;
+
 
 public class MainActivity extends AppCompatActivity {
 
-    String time;
+    String time, id;
+    String username, firstName, lastName, age, gender, ethn, cigsPerDay, pricePerPack, yearSmoked;
+    EditText USERNAME, FIRST_NAME, LAST_NAME, AGE, GENDER, ETHNICITY, CIGS_PER_DAY, PRICE_PER_PACK, YEARS_SMOKED;
     Context ctx = this;
 
     @Override
@@ -95,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
     public void goToDashboard (View view) {
 
         time = DatabaseOperations.getCurrTime();
+        username = User.getInstance().getUsername();
 
         User.getInstance().setTime(time);
         User.getInstance().setTotalDaysFree(0);
@@ -108,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Finish Button", "initialized user stats");
 
         DatabaseOperations db = new DatabaseOperations(ctx);
-        db.addUserStats(db, User.getInstance().getUsername(), id, time, "0", "0", "0", "0", "0", "0", "0.00", "0");
+        db.addUserStats(db, username, id, time, "0", "0", "0", "0", "0", "0", "0.00", "0");
+        saveUserDemo();
         Toast.makeText(getBaseContext(), "Profile creation successful!", Toast.LENGTH_LONG).show();
 
         db.close();
@@ -127,6 +135,34 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // save user demographics
+    public void saveUserDemo() {
+
+        FIRST_NAME = (EditText) findViewById(R.id.firstNameInput);
+        LAST_NAME = (EditText) findViewById(R.id.lastNameInput);
+        AGE = (EditText) findViewById(R.id.ageInput);
+        GENDER = (EditText) findViewById(R.id.genderInput);
+        ETHNICITY = (EditText) findViewById(R.id.ethnicInput);
+        CIGS_PER_DAY = (EditText) findViewById(R.id.cigsPerDayInput);
+        PRICE_PER_PACK = (EditText) findViewById(R.id.costInput);
+        YEARS_SMOKED = (EditText) findViewById(R.id.yearsInput);
+
+        firstName = FIRST_NAME.getText().toString();
+        lastName = LAST_NAME.getText().toString();
+        age = AGE.getText().toString();
+        gender = GENDER.getText().toString();
+        ethn = ETHNICITY.getText().toString();
+        cigsPerDay = CIGS_PER_DAY.getText().toString();
+        pricePerPack = PRICE_PER_PACK.getText().toString();
+        yearSmoked = YEARS_SMOKED.getText().toString();
+
+        DatabaseOperations dbDemo = new DatabaseOperations(ctx);
+        dbDemo.addUserDemo(dbDemo, username, id, firstName, lastName, age, gender, ethn, cigsPerDay, pricePerPack, yearSmoked);
+
+        dbDemo.close();
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -142,7 +178,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
 }
 

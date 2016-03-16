@@ -15,7 +15,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText5"
+            android:id="@+id/firstNameInput"
             android:hint="First Name"
             android:backgroundTint="#e7d4d4"
             android:gravity="center"
@@ -26,7 +26,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText6"
+            android:id="@+id/lastNameInput"
             android:hint="Last Name"
             android:backgroundTint="#e7d4d4"
             android:gravity="center"
@@ -38,7 +38,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText7"
+            android:id="@+id/ageInput"
             android:hint="Age"
             android:backgroundTint="#e7d4d4"
             android:gravity="center"
@@ -51,7 +51,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText8"
+            android:id="@+id/genderInput"
             android:hint="Gender"
             android:backgroundTint="#e7d4d4"
             android:gravity="center"
@@ -65,7 +65,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText9"
+            android:id="@+id/ethnicInput"
             android:hint="Ethnicity"
             android:backgroundTint="#e7d4d4"
             android:gravity="center"

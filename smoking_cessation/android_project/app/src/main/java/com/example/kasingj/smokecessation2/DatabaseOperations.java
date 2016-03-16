@@ -20,13 +20,12 @@ public class DatabaseOperations extends SQLiteOpenHelper{
     public static final int DATABASE_VERSION = 2;
 
     // UserDemo Query String
-    public String CREATE_USER_DEMO_QUERY = "CREATE TABLE " + TableData.TableInfo.USER_DEMO_TABLE_NAME + " TEXT," +
+    public String CREATE_USER_DEMO_QUERY = "CREATE TABLE " + TableData.TableInfo.USER_DEMO_TABLE_NAME + "(" +
             TableData.TableInfo.USER_NAME + " TEXT," + TableData.TableInfo.ID + " TEXT," + TableData.TableInfo.FIRST_NAME +
             " TEXT," + TableData.TableInfo.LAST_NAME + " TEXT," + TableData.TableInfo.AGE +
             " TEXT," + TableData.TableInfo.GENDER + " TEXT," + TableData.TableInfo.ETHNICITY +
             " TEXT," + TableData.TableInfo.CIGS_PER_DAY + " TEXT," + TableData.TableInfo.PRICE_PER_PACK +
             " TEXT," + TableData.TableInfo.NUM_YEARS_SMOKED + " TEXT);";
-
 
     // UserStats Query String
     public String CREATE_USER_QUERY = "CREATE TABLE " + TableData.TableInfo.USER_TABLE_NAME + "(" +

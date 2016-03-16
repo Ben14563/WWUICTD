@@ -33,7 +33,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText"
+                android:id="@+id/cigsPerDayInput"
                 android:hint="Cigs Per Day"
                 android:backgroundTint="#e7d4d4"
                 android:gravity="center"
@@ -46,7 +46,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText2"
+                android:id="@+id/costInput"
                 android:hint="Cost Per Pack"
                 android:backgroundTint="#65de4f"
                 android:layout_margin="50dp"
@@ -59,7 +59,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText4"
+                android:id="@+id/yearsInput"
                 android:hint="Number of years smoking"
                 android:backgroundTint="#65de4f"
                 android:layout_margin="50dp"

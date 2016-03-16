@@ -47,8 +47,6 @@ public class SignUp extends AppCompatActivity {
                 }
             } while (cr.moveToNext());
         }
-        cr.close();
-
 
         if (exist == true) {
             Toast.makeText(getBaseContext(), "Username already exists", Toast.LENGTH_LONG).show();
