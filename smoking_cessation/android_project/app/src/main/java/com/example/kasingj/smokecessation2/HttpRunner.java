@@ -2,6 +2,8 @@ package com.example.kasingj.smokecessation2;
 
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,11 +15,16 @@ import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import android.net.ConnectivityManager;
+import android.content.Context;
+import android.net.NetworkInfo;
+
+
 
 public class HttpRunner{
-    private static final String ENDPOINT = "https://198.199.67.166";
-
+    private static final String ENDPOINT = "198.199.67.166";
     String makeRequest(String urlSpec) {
+
         HttpURLConnection connection = null;
         BufferedReader reader = null;
         try {
@@ -27,6 +34,7 @@ public class HttpRunner{
             InputStream stream = connection.getInputStream();
 
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                Log.d("***makeRequest***", "Not making a connection with the server" );
                 return null;
             }
 
@@ -66,8 +74,8 @@ public class HttpRunner{
 
 
     public String getUrl(String urlSpec) throws IOException {
-       return new String(makeRequest( urlSpec));
-   }
+        return new String(makeRequest( urlSpec));
+    }
     public String getUserInformation(String friendId){
         //this will retrieve friend information
         String JSONString = null;
@@ -79,7 +87,7 @@ public class HttpRunner{
         String url = builder.build().toString();
 
         try {
-             JSONString = getUrl(url);
+            JSONString = getUrl(url);
         } catch(IOException e){
             e.printStackTrace();
         }
@@ -88,26 +96,26 @@ public class HttpRunner{
 
 
 
-public String addUser(String userName, String userEmail, String cigs_per_day, String price_per_pack){
-    //this will retrieve friend information
-    String JSONString = null;
-    Uri.Builder builder = new Uri.Builder();
-    builder.scheme("https")
-            .authority(ENDPOINT)
-            .appendPath("user")
-            .appendQueryParameter("name", userName)
-            .appendQueryParameter("email", userEmail)
-            .appendQueryParameter("cigs_per_day", cigs_per_day)
-            .appendQueryParameter("price_per_pack", price_per_pack);
-    String url = builder.build().toString();
+    public String addUser(String userName, String userEmail, String cigs_per_day, String price_per_pack){
+        //this will retrieve friend information
+        String JSONString = null;
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+                .authority(ENDPOINT)
+                .appendPath("user")
+                .appendQueryParameter("name", userName)
+                .appendQueryParameter("email", userEmail)
+                .appendQueryParameter("cigs_per_day", cigs_per_day)
+                .appendQueryParameter("price_per_pack", price_per_pack);
+        String url = builder.build().toString();
 
-    try {
-        JSONString = getUrl(url);
-    } catch(IOException e){
-        e.printStackTrace();
+        try {
+            JSONString = getUrl(url);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        return JSONString;
     }
-    return JSONString;
-}
 
 
 
@@ -148,7 +156,7 @@ public String addUser(String userName, String userEmail, String cigs_per_day, St
         }
         return JSONString; //need to parse, is there anything to return
     }
-//return info for given day (mm-dd-YYYY) and user
+    //return info for given day (mm-dd-YYYY) and user
     public String getDataForDay(String userId,String day){
         String JSONString = null;
         Uri.Builder builder = new Uri.Builder();
@@ -183,7 +191,7 @@ public String addUser(String userName, String userEmail, String cigs_per_day, St
         return JSONString; //need to parse, is there anything to return
     }
 
-//add buddy to user, user email must exist.
+    //add buddy to user, user email must exist.
     public String addBuddyToUser(String userId, String email){
         String JSONString = null;
         Uri.Builder builder = new Uri.Builder();
@@ -229,7 +237,4 @@ public String addUser(String userName, String userEmail, String cigs_per_day, St
                 .appendQueryParameter("","").build().toString();
 
             */
-
-
-
 

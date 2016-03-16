@@ -32,7 +32,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.microedition.khronos.egl.EGLDisplay;
-
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -98,7 +99,46 @@ public class MainActivity extends AppCompatActivity {
         }}); // end of async task for clicking a button the httpRunner is abstract but requires a unique url and functions to parse/connect to main thread.*/
     }
 
+    public String addUserToServer(){
+        //HttpRunner runner = new HttpRunner();
+        //User user = User.getInstance();
+
+
+        AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+                //result is the json string of the request. might be null
+                HttpRunner runner = new HttpRunner();
+                String result = runner.addUser(User.getInstance().getUsername(),User.getInstance().getEmail(), "20" , "10.00"  );
+                return result;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                //expecting the user id
+                Log.d("httprunner:AddUser","************************* newUser id: "+result );
+                User.getInstance().setID(result); //result may be json so need to parse.
+            }
+        };
+        task.execute();
+        return "";
+    }
+
+
+
     public void goToDashboard (View view) {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            // fetch data
+        } else {
+            Log.d("goToDashBoard", "*********No_Connectivity***********");
+        }
+
+        String id = "";
+        //add user to database
+        String newId = addUserToServer();
 
         time = DatabaseOperations.getCurrTime();
         username = User.getInstance().getUsername();
