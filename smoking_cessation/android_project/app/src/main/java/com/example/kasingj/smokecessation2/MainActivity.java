@@ -100,27 +100,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String addUserToServer(){
-        //HttpRunner runner = new HttpRunner();
-        //User user = User.getInstance();
-
-
-        AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
-            @Override
-            protected String doInBackground(String... params) {
-                //result is the json string of the request. might be null
-                HttpRunner runner = new HttpRunner();
-                String result = runner.addUser(User.getInstance().getUsername(),User.getInstance().getEmail(), "20" , "10.00"  );
-                return result;
-            }
-
-            @Override
-            protected void onPostExecute(String result) {
-                //expecting the user id
-                Log.d("httprunner:AddUser","************************* newUser id: "+result );
-                User.getInstance().setID(result); //result may be json so need to parse.
-            }
-        };
-        task.execute();
+        asyncAddFriends task = new asyncAddFriends();
+        task.execute("param");
         return "";
     }
 
@@ -218,5 +199,30 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    private class asyncAddFriends extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            //result is the json string of the request. might be null
+            HttpRunner runner = new HttpRunner();
+            String result = runner.addUser(User.getInstance().getUsername(),User.getInstance().getEmail(), "20" , "10.00"  );
+            Log.d("http:doInBackground","***** newUser id: "+result );
+            if (result == null){
+                return "NULL";
+            }
+            return result;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            //expecting the user id
+            Log.d("htt:add:postExecute","********** newUser id: "+result );
+            User.getInstance().setID(result); //result may be json so need to parse.
+        }
+    }
+
+
+
+
+
+
 }
 

@@ -24,7 +24,7 @@ import android.net.NetworkInfo;
 public class HttpRunner{
     private static final String ENDPOINT = "198.199.67.166";
     String makeRequest(String urlSpec) {
-
+        Log.d("HTTP:MAKE REQUEST** ", "made it into makeRequest");
         HttpURLConnection connection = null;
         BufferedReader reader = null;
         try {
@@ -100,7 +100,7 @@ public class HttpRunner{
         //this will retrieve friend information
         String JSONString = null;
         Uri.Builder builder = new Uri.Builder();
-        builder.scheme("https")
+        builder.scheme("http")
                 .authority(ENDPOINT)
                 .appendPath("user")
                 .appendQueryParameter("name", userName)
