@@ -178,37 +178,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-<<<<<<< HEAD
-=======
 
-        id = "";
-        //add user to database
-        String newId = addUserToServer();
-
-        time = DatabaseOperations.getCurrTime();
-        username = User.getInstance().getUsername();
-
-        User.getInstance().setTime(time);
-        User.getInstance().setTotalDaysFree(0);
-        User.getInstance().setLongestStreak(0);
-        User.getInstance().setCurrentStreak(0);
-        User.getInstance().setNumCravings(0);
-        User.getInstance().setCravsRes(0);
-        User.getInstance().setNumCigsSmoked(0);
-        User.getInstance().setMoneySaved(0.00);
-        User.getInstance().setLifeRegained(0);
-        Log.d("Finish Button", "initialized user stats");
-
-        DatabaseOperations db = new DatabaseOperations(ctx);
-        db.addUserStats(db, username, id, time, "0", "0", "0", "0", "0", "0", "0.00", "0");
-        saveUserDemo();
-        Toast.makeText(getBaseContext(), "Profile creation successful!", Toast.LENGTH_LONG).show();
-
-        db.close();
-        Intent intent = new Intent (this, Dashboard.class);
-        startActivity(intent);
-        finish();
->>>>>>> f8921f81f986deea1a7326f7c658c81850186047
     }
 
     public void goToFriends (View view) {
