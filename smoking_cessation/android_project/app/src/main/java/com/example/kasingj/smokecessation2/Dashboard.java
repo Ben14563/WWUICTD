@@ -82,7 +82,7 @@ public class Dashboard extends AppCompatActivity {
         User.getInstance().setNumCravings(cravs);
 
         DatabaseOperations db = new DatabaseOperations(ctx);
-        db.addUserStats(db, username, time, Integer.toString(totDaysFree),Integer.toString(longStreak), Integer.toString(currStreak),
+        db.addUserStats(db, username, User.getInstance().getID() ,time, Integer.toString(totDaysFree),Integer.toString(longStreak), Integer.toString(currStreak),
                 Integer.toString(cravs), Integer.toString(cravsRes), Integer.toString(numSmokes), Double.toString(moneySaved),
                 Integer.toString(lifeReg));
         Log.d("Crave Button", "Logged 1 craving");
@@ -101,7 +101,7 @@ public class Dashboard extends AppCompatActivity {
         User.getInstance().setCravsRes(cravsRes);
 
         DatabaseOperations db = new DatabaseOperations(ctx);
-        db.addUserStats(db, username, time, Integer.toString(totDaysFree), Integer.toString(longStreak), Integer.toString(currStreak),
+        db.addUserStats(db, username, User.getInstance().getID(), time, Integer.toString(totDaysFree), Integer.toString(longStreak), Integer.toString(currStreak),
                 Integer.toString(cravs), Integer.toString(cravsRes), Integer.toString(numSmokes), Double.toString(moneySaved),
                 Integer.toString(lifeReg));
         Log.d("Resist Craving Button", "Logged 1 craving resisted");
@@ -124,7 +124,7 @@ public class Dashboard extends AppCompatActivity {
         User.getInstance().setNumCigsSmoked(numSmokes);
 
         DatabaseOperations db = new DatabaseOperations(ctx);
-        db.addUserStats(db, username, time, Integer.toString(totDaysFree),Integer.toString(longStreak), Integer.toString(currStreak),
+        db.addUserStats(db, username, User.getInstance().getID() ,time, Integer.toString(totDaysFree),Integer.toString(longStreak), Integer.toString(currStreak),
                 Integer.toString(cravs), Integer.toString(cravsRes), Integer.toString(numSmokes), Double.toString(moneySaved),
                 Integer.toString(lifeReg));
         Log.d("Smoked Button", "Logged 1 smoked cigarette");
