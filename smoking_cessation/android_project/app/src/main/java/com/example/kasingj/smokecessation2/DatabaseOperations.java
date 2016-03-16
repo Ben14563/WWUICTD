@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import java.sql.Timestamp;
@@ -16,7 +17,16 @@ import java.util.Date;
  */
 public class DatabaseOperations extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
+
+    // UserDemo Query String
+    public String CREATE_USER_DEMO_QUERY = "CREATE TABLE " + TableData.TableInfo.USER_DEMO_TABLE_NAME + " TEXT," +
+            TableData.TableInfo.USER_NAME + " TEXT," + TableData.TableInfo.ID + " TEXT," + TableData.TableInfo.FIRST_NAME +
+            " TEXT," + TableData.TableInfo.LAST_NAME + " TEXT," + TableData.TableInfo.AGE +
+            " TEXT," + TableData.TableInfo.GENDER + " TEXT," + TableData.TableInfo.ETHNICITY +
+            " TEXT," + TableData.TableInfo.CIGS_PER_DAY + " TEXT," + TableData.TableInfo.PRICE_PER_PACK +
+            " TEXT," + TableData.TableInfo.NUM_YEARS_SMOKED + " TEXT);";
+
 
     // UserStats Query String
     public String CREATE_USER_QUERY = "CREATE TABLE " + TableData.TableInfo.USER_TABLE_NAME + "(" +
@@ -27,7 +37,7 @@ public class DatabaseOperations extends SQLiteOpenHelper{
             " TEXT," + TableData.TableInfo.MONEY_SAVED + " TEXT," + TableData.TableInfo.LIFE_REGAINED + " TEXT);";
 
     // UserAuthentication Query String
-    public String CREATE_USER_AUTH_QUERY = "CREATE TABLE " + TableData.TableInfo.USER_AUTH_NAME + "(" +
+    public String CREATE_USER_AUTH_QUERY = "CREATE TABLE " + TableData.TableInfo.USER_AUTH_TABLE_NAME + "(" +
             TableData.TableInfo.USER_NAME + " TEXT," + TableData.TableInfo.PASSWORD +
             " TEXT," + TableData.TableInfo.EMAIL + " TEXT);";
 
@@ -43,7 +53,12 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         // Create user_auth Table
         Log.d("Database Operations", "creating user_auth table");
         sdb.execSQL(CREATE_USER_AUTH_QUERY);
-        Log.d("Database Operations", "user_stats auth created");
+        Log.d("Database Operations", "user_auth table created");
+
+        // Create user_demo Table
+        Log.d("Database Operations", "creating user_demo table");
+        sdb.execSQL(CREATE_USER_DEMO_QUERY);
+        Log.d("Database Operations", "user_demo table created");
 
         // Create user_stats Table
         Log.d("Database Operations", "creating user_stats table");
@@ -55,8 +70,14 @@ public class DatabaseOperations extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase sdb, int oldVersion, int newVersion) {
 
+        // Create user_demo Table
+        Log.d("Database Operations", "creating user_demo table");
+        sdb.execSQL(CREATE_USER_DEMO_QUERY);
+        Log.d("Database Operations", "user_demo table created");
+
     }
 
+    // get current time
     public static String getCurrTime() {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
@@ -69,7 +90,20 @@ public class DatabaseOperations extends SQLiteOpenHelper{
 
         SQLiteDatabase sq = dbop.getReadableDatabase();
         String[] columns = {TableData.TableInfo.USER_NAME, TableData.TableInfo.PASSWORD};
-        Cursor cr = sq.query(TableData.TableInfo.USER_AUTH_NAME, columns, null, null, null, null, null);
+        Cursor cr = sq.query(TableData.TableInfo.USER_AUTH_TABLE_NAME, columns, null, null, null, null, null);
+        return cr;
+    }
+
+    // pulling from user_demo table
+    public Cursor getUserDemo(DatabaseOperations dbop, String username) {
+
+        SQLiteDatabase sq = dbop.getReadableDatabase();
+        String[] columns = {TableData.TableInfo.USER_NAME, TableData.TableInfo.ID, TableData.TableInfo.FIRST_NAME, TableData.TableInfo.LAST_NAME,
+                TableData.TableInfo.AGE, TableData.TableInfo.GENDER, TableData.TableInfo.ETHNICITY, TableData.TableInfo.CIGS_PER_DAY,
+                TableData.TableInfo.PRICE_PER_PACK, TableData.TableInfo.NUM_YEARS_SMOKED};
+        String where = TableData.TableInfo.USER_NAME + " = ?";
+        String[] whereArgs = new String[] {username};
+        Cursor cr = sq.query(TableData.TableInfo.USER_DEMO_TABLE_NAME, columns, where, whereArgs, null, null, null);
         return cr;
     }
 
@@ -86,13 +120,6 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         String orderBy = TableData.TableInfo.TIME + " DESC LIMIT 1";
         Cursor cr = sq.query(TableData.TableInfo.USER_TABLE_NAME, columns, where, whereArgs, null, null, orderBy);
         return cr;
-
-
-////        String where = TableData.TableInfo.TIME + " = (SELECT max(" + TableData.TableInfo.TIME + ") FROM " + TableData.TableInfo.USER_TABLE_NAME + ") AS lastTime";
-////        String whereArgs = "(SELECT man(" + TableData.TableInfo.TIME + ") FROM " + TableData.TableInfo.USER_TABLE_NAME + ") AS time";
-//        String where = TableData.TableInfo.TIME + " = ? And " +
-//        Cursor cr = sq.query(TableData.TableInfo.USER_TABLE_NAME, columns, where, null, null, null, null);
-//        return cr;
     }
 
     // adding to user_auth Table
@@ -105,8 +132,30 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         cv.put(TableData.TableInfo.PASSWORD, password);
         cv.put(TableData.TableInfo.EMAIL, email);
 
-        sq.insert(TableData.TableInfo.USER_AUTH_NAME, null, cv);
+        sq.insert(TableData.TableInfo.USER_AUTH_TABLE_NAME, null, cv);
         Log.d("Database Operations", "One row inserted into user_auth table");
+    }
+
+    // adding to user_demo Table
+    public void addUserDemo(DatabaseOperations dbop, String username, String id, String firstName, String lastName, String age, String gender, String ethnicity,
+                            String cigsPerDay, String pricePerPack, String numYearsSmoked) {
+
+        SQLiteDatabase sq = dbop.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(TableData.TableInfo.USER_NAME, username);
+        cv.put(TableData.TableInfo.ID, id);
+        cv.put(TableData.TableInfo.FIRST_NAME, firstName);
+        cv.put(TableData.TableInfo.LAST_NAME, lastName);
+        cv.put(TableData.TableInfo.AGE, age);
+        cv.put(TableData.TableInfo.GENDER, gender);
+        cv.put(TableData.TableInfo.ETHNICITY, ethnicity);
+        cv.put(TableData.TableInfo.CIGS_PER_DAY, cigsPerDay);
+        cv.put(TableData.TableInfo.PRICE_PER_PACK, pricePerPack);
+        cv.put(TableData.TableInfo.NUM_YEARS_SMOKED, numYearsSmoked);
+
+        sq.insert(TableData.TableInfo.USER_DEMO_TABLE_NAME, null, cv);
+        Log.d("Database Operations", "One row inserted into user_demo Table");
     }
 
     // adding to user_stats Table
