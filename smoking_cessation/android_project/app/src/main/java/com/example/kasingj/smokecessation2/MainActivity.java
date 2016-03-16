@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Finish Button", "initialized user stats");
 
         DatabaseOperations db = new DatabaseOperations(ctx);
-        db.addUserStats(db, User.getInstance().getUsername(), time, "0", "0", "0", "0", "0", "0", "0.00", "0");
+        db.addUserStats(db, User.getInstance().getUsername(), id, time, "0", "0", "0", "0", "0", "0", "0.00", "0");
         Toast.makeText(getBaseContext(), "Profile creation successful!", Toast.LENGTH_LONG).show();
 
         db.close();

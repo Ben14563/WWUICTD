@@ -16,11 +16,11 @@ import java.util.Date;
  */
 public class DatabaseOperations extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 1;
 
     // UserStats Query String
     public String CREATE_USER_QUERY = "CREATE TABLE " + TableData.TableInfo.USER_TABLE_NAME + "(" +
-            TableData.TableInfo.USER_NAME + " TEXT," + TableData.TableInfo.TIME +
+            TableData.TableInfo.USER_NAME + " TEXT," + TableData.TableInfo.ID + " TEXT," + TableData.TableInfo.TIME +
             " TEXT," + TableData.TableInfo.TOTAL_DAYS_FREE + " TEXT," + TableData.TableInfo.LONGEST_STREAK +
             " TEXT," + TableData.TableInfo.CURRENT_STREAK + " TEXT," + TableData.TableInfo.NUM_CRAVINGS +
             " TEXT," + TableData.TableInfo.CRAVINGS_RESISTED + " TEXT," + TableData.TableInfo.NUM_CIGS_SMOKED +
@@ -55,11 +55,6 @@ public class DatabaseOperations extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase sdb, int oldVersion, int newVersion) {
 
-        // Create user_auth Table
-        Log.d("Database Operations", "creating user_auth table");
-        sdb.execSQL(CREATE_USER_AUTH_QUERY);
-        Log.d("Database Operations", "user_auth created");
-
     }
 
     public static String getCurrTime() {
@@ -82,7 +77,7 @@ public class DatabaseOperations extends SQLiteOpenHelper{
     public Cursor getUserStats(DatabaseOperations dbop, String username) {
 
         SQLiteDatabase sq = dbop.getReadableDatabase();
-        String[] columns = {TableData.TableInfo.USER_NAME, TableData.TableInfo.TIME, TableData.TableInfo.TOTAL_DAYS_FREE,
+        String[] columns = {TableData.TableInfo.USER_NAME, TableData.TableInfo.ID, TableData.TableInfo.TIME, TableData.TableInfo.TOTAL_DAYS_FREE,
                 TableData.TableInfo.LONGEST_STREAK, TableData.TableInfo.CURRENT_STREAK, TableData.TableInfo.NUM_CRAVINGS,
                 TableData.TableInfo.CRAVINGS_RESISTED, TableData.TableInfo.NUM_CIGS_SMOKED, TableData.TableInfo.MONEY_SAVED,
                 TableData.TableInfo.LIFE_REGAINED};
@@ -115,13 +110,14 @@ public class DatabaseOperations extends SQLiteOpenHelper{
     }
 
     // adding to user_stats Table
-    public void addUserStats(DatabaseOperations dbop, String username, String time, String totsDayFree, String longStreak, String currStreak,
+    public void addUserStats(DatabaseOperations dbop, String username, String id, String time, String totsDayFree, String longStreak, String currStreak,
                             String cravs, String cravsRes, String numSmokes, String moneySaved, String lifeReg) {
 
         SQLiteDatabase sq = dbop.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(TableData.TableInfo.USER_NAME, username);
+        cv.put(TableData.TableInfo.ID, id);
         cv.put(TableData.TableInfo.TIME, time);
         cv.put(TableData.TableInfo.TOTAL_DAYS_FREE, totsDayFree);
         cv.put(TableData.TableInfo.LONGEST_STREAK, longStreak);

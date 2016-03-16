@@ -53,6 +53,8 @@ public class User {
 
     protected void setPassword(String pass) { PASSWORD = pass; }
 
+    protected void setID(String id) { ID = id; }
+
     protected void setEmail(String email) { EMAIL = email; }
 
     protected void setTime(String time) {
@@ -100,6 +102,8 @@ public class User {
     }
 
     protected String getPassword() { return PASSWORD; }
+
+    protected String getID() { return ID; }
 
     protected String getEmail() { return EMAIL; }
 
