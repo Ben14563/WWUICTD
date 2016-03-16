@@ -18,6 +18,7 @@ public class Dashboard extends AppCompatActivity {
 
     private String username;
     private String time;
+    private String id;
     private int totDaysFree;
     private int longStreak;
     private int currStreak;
@@ -50,14 +51,15 @@ public class Dashboard extends AppCompatActivity {
         if (cr != null && cr.moveToFirst()) {
 
             username = cr.getString(0);
-            totDaysFree = Integer.parseInt(cr.getString(2));
-            longStreak = Integer.parseInt(cr.getString(3));
-            currStreak = Integer.parseInt(cr.getString(4));
-            cravs = Integer.parseInt(cr.getString(5));
-            cravsRes = Integer.parseInt(cr.getString(6));
-            numSmokes = Integer.parseInt(cr.getString(7));
-            moneySaved = Double.parseDouble(cr.getString(8));
-            lifeReg = Integer.parseInt(cr.getString(9));
+            id = cr.getString(1);
+            totDaysFree = Integer.parseInt(cr.getString(3));
+            longStreak = Integer.parseInt(cr.getString(4));
+            currStreak = Integer.parseInt(cr.getString(5));
+            cravs = Integer.parseInt(cr.getString(6));
+            cravsRes = Integer.parseInt(cr.getString(7));
+            numSmokes = Integer.parseInt(cr.getString(8));
+            moneySaved = Double.parseDouble(cr.getString(9));
+            lifeReg = Integer.parseInt(cr.getString(10));
 
             User.getInstance().setTotalDaysFree(totDaysFree);
             User.getInstance().setLongestStreak(longStreak);

@@ -99,10 +99,34 @@ public class MainActivity extends AppCompatActivity {
         }}); // end of async task for clicking a button the httpRunner is abstract but requires a unique url and functions to parse/connect to main thread.*/
     }
 
-    public String addUserToServer(){
-        asyncAddFriends task = new asyncAddFriends();
-        task.execute("param");
-        return "";
+    public void addUserToServer(){
+       try {
+           AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
+               @Override
+               protected String doInBackground(String... params) {
+                   //result is the json string of the request. might be null
+                   HttpRunner runner = new HttpRunner();
+                   String result = runner.addUser(User.getInstance().getUsername(), User.getInstance().getEmail(), "20", "10.00");
+                   Log.d("http:doInBackground", "***** newUser id: " + result);
+                   if (result == null) {
+                       return "NULL";
+                   }
+                   return result;
+               }
+
+               @Override
+               protected void onPostExecute(String result) {
+                   //expecting the user id
+                   Log.d("htt:add:postExecute", "********** newUser id: " + result);
+                   User.getInstance().setID(result); //result may be json so need to parse.
+               }
+           };
+
+           task.execute("param");
+       } finally {
+           Log.d("Main:addTaskfail","async failed, or main failed");
+       }
+
     }
 
 
@@ -111,39 +135,49 @@ public class MainActivity extends AppCompatActivity {
         ConnectivityManager connMgr = (ConnectivityManager)
                 ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            // fetch data
-        } else {
+        if (networkInfo == null && networkInfo.isConnected()) {
+
             Log.d("goToDashBoard", "*********No_Connectivity***********");
+            Toast.makeText(getBaseContext(), "Please connect to the internet before proceeding", Toast.LENGTH_LONG).show();
+        } else {
+            // fetch data
+            //add user to database
+            //addUserToServer(); //should populate user ID field
+            if(User.getInstance().getID().equals("")){
+                try {
+                    Toast.makeText(getBaseContext(), "Please wait for account creation", Toast.LENGTH_LONG).show();
+                    Thread.sleep(5000);
+
+                } catch (InterruptedException e) {
+                    Log.d("Main:Dashboard:sleep", "sleep interrupted");
+                }
+            }
+            Log.d("Main:Dashboard:sleep", "user id= " + User.getInstance().getID());
+
+            time = DatabaseOperations.getCurrTime();
+            username = User.getInstance().getUsername();
+
+            User.getInstance().setTime(time);
+            User.getInstance().setTotalDaysFree(0);
+            User.getInstance().setLongestStreak(0);
+            User.getInstance().setCurrentStreak(0);
+            User.getInstance().setNumCravings(0);
+            User.getInstance().setCravsRes(0);
+            User.getInstance().setNumCigsSmoked(0);
+            User.getInstance().setMoneySaved(0.00);
+            User.getInstance().setLifeRegained(0);
+            Log.d("Finish Button", "initialized user stats");
+
+            DatabaseOperations db = new DatabaseOperations(ctx);
+            db.addUserStats(db, username, id, time, "0", "0", "0", "0", "0", "0", "0.00", "0");
+            saveUserDemo();
+            Toast.makeText(getBaseContext(), "Profile creation successful!", Toast.LENGTH_LONG).show();
+
+            db.close();
+            Intent intent = new Intent(this, Dashboard.class);
+            startActivity(intent);
+            finish();
         }
-
-        String id = "";
-        //add user to database
-        String newId = addUserToServer();
-
-        time = DatabaseOperations.getCurrTime();
-        username = User.getInstance().getUsername();
-
-        User.getInstance().setTime(time);
-        User.getInstance().setTotalDaysFree(0);
-        User.getInstance().setLongestStreak(0);
-        User.getInstance().setCurrentStreak(0);
-        User.getInstance().setNumCravings(0);
-        User.getInstance().setCravsRes(0);
-        User.getInstance().setNumCigsSmoked(0);
-        User.getInstance().setMoneySaved(0.00);
-        User.getInstance().setLifeRegained(0);
-        Log.d("Finish Button", "initialized user stats");
-
-        DatabaseOperations db = new DatabaseOperations(ctx);
-        db.addUserStats(db, username, id, time, "0", "0", "0", "0", "0", "0", "0.00", "0");
-        saveUserDemo();
-        Toast.makeText(getBaseContext(), "Profile creation successful!", Toast.LENGTH_LONG).show();
-
-        db.close();
-        Intent intent = new Intent (this, Dashboard.class);
-        startActivity(intent);
-        finish();
     }
 
     public void goToFriends (View view) {
@@ -199,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    private class asyncAddFriends extends AsyncTask<String, Void, String> {
+  /*  private class asyncAddFriends extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
             //result is the json string of the request. might be null
@@ -218,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
             User.getInstance().setID(result); //result may be json so need to parse.
         }
     }
-
+*/
 
 
 

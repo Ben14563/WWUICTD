@@ -103,6 +103,7 @@ public class HttpRunner{
         builder.scheme("http")
                 .authority(ENDPOINT)
                 .appendPath("user")
+                .appendPath("add")
                 .appendQueryParameter("name", userName)
                 .appendQueryParameter("email", userEmail)
                 .appendQueryParameter("cigs_per_day", cigs_per_day)
@@ -127,6 +128,7 @@ public class HttpRunner{
         builder.scheme("https")
                 .authority(ENDPOINT)
                 .appendPath("user")
+                .appendPath("add")
                 .appendQueryParameter("id", userId)
                 .appendQueryParameter("day", day)
                 .appendQueryParameter("field", Field);
