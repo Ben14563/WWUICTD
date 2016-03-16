@@ -5,9 +5,9 @@ package com.example.kasingj.smokecessation2;
  */
 public class friendObject {
     /* ALL OF THE FRIEND FIELDS*/
-    private static String USER_NAME="";
+    private static String FRIEND_NAME="";
     private static String TIME="";
-    private static String ID ="";
+    private static String FRIEND_ID ="";
     private static String EMAIL="";
     private static String TOTAL_DAYS_FREE="";
     private static String LONGEST_STREAK="";
@@ -25,18 +25,18 @@ public class friendObject {
     private friendObject() {
     }
 
-    public void setFriendObject(String user_name,String time, String total_days_free, String longest_streak, String current_streak, String num_cravings,
+    public void setFriendObject(String friend_name,String time, String total_days_free, String longest_streak, String current_streak, String num_cravings,
                                                     String cravings_resisted, String num_cigs_smoked, String money_saved, String life_regained){
-        USER_NAME=user_name; TIME=time; TOTAL_DAYS_FREE=total_days_free; LONGEST_STREAK=longest_streak;
+        FRIEND_NAME=friend_name; TIME=time; TOTAL_DAYS_FREE=total_days_free; LONGEST_STREAK=longest_streak;
         CURRENT_STREAK=current_streak; NUM_CRAVINGS=num_cravings; CRAVINGS_RESISTED=cravings_resisted;
         NUM_CIGS_SMOKED=num_cigs_smoked; MONEY_SAVED=money_saved; LIFE_REGAINED=life_regained;
     }
 
     protected void setUsername(String name) {
-        USER_NAME = name;
+        FRIEND_NAME = name;
     }
 
-    protected void setID(String id) { ID = id; }
+    protected void setID(String id) { FRIEND_ID = id; }
 
     protected void setEmail(String email) { EMAIL = email; }
 
@@ -82,14 +82,14 @@ public class friendObject {
     }
 
     protected String[] getFields(){
-        return new String[]{USER_NAME, ID, TIME,TOTAL_DAYS_FREE,LONGEST_STREAK,CURRENT_STREAK,NUM_CRAVINGS,CRAVINGS_RESISTED,NUM_CIGS_SMOKED,MONEY_SAVED,LIFE_REGAINED};
+        return new String[]{FRIEND_NAME, FRIEND_ID, TIME,TOTAL_DAYS_FREE,LONGEST_STREAK,CURRENT_STREAK,NUM_CRAVINGS,CRAVINGS_RESISTED,NUM_CIGS_SMOKED,MONEY_SAVED,LIFE_REGAINED};
     }
 
     protected String getUsername() {
-        return USER_NAME;
+        return FRIEND_NAME;
     }
 
-    protected String getID() { return ID; }
+    protected String getID() { return FRIEND_ID; }
 
     protected String getEmail() { return EMAIL; }
 

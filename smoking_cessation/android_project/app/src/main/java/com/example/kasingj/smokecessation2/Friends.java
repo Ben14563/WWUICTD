@@ -17,6 +17,11 @@ public class Friends extends AppCompatActivity {
 
     }
 
+    public void goToInvite (View view) {
+        Intent intent = new Intent (this, Invite.class);
+        startActivity(intent);
+    }
+
     public void goToDashboard (View view) {
         Intent intent = new Intent (this, Dashboard.class);
         startActivity(intent);

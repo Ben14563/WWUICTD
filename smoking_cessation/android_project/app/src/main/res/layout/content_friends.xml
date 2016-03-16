@@ -50,7 +50,8 @@
         android:id="@+id/inviteButton"
         android:layout_above="@+id/dashButton"
         android:layout_centerHorizontal="true"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:onClick="goToInvite" />
 
     <TextView
         android:layout_width="wrap_content"

@@ -37,9 +37,9 @@ import android.net.NetworkInfo;
 
 public class MainActivity extends AppCompatActivity {
 
-    String time, id;
-    String username, firstName, lastName, age, gender, ethn, cigsPerDay, pricePerPack, yearSmoked;
-    EditText USERNAME, FIRST_NAME, LAST_NAME, AGE, GENDER, ETHNICITY, CIGS_PER_DAY, PRICE_PER_PACK, YEARS_SMOKED;
+    private String time, id;
+    private String username, firstName, lastName, age, gender, ethn, cigsPerDay, pricePerPack, yearSmoked;
+    EditText FIRST_NAME, LAST_NAME, AGE, GENDER, ETHNICITY, CIGS_PER_DAY, PRICE_PER_PACK, YEARS_SMOKED;
     Context ctx = this;
 
     @Override
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("goToDashBoard", "*********No_Connectivity***********");
         }
 
-        String id = "";
+        id = "";
         //add user to database
         String newId = addUserToServer();
 
