@@ -7,6 +7,8 @@ public class friendObject {
     /* ALL OF THE FRIEND FIELDS*/
     private static String USER_NAME="";
     private static String TIME="";
+    private static String ID ="";
+    private static String EMAIL="";
     private static String TOTAL_DAYS_FREE="";
     private static String LONGEST_STREAK="";
     private static String CURRENT_STREAK="";
@@ -15,6 +17,9 @@ public class friendObject {
     private static String NUM_CIGS_SMOKED="";
     private static String MONEY_SAVED="";
     private static String LIFE_REGAINED="";
+    private static friendObject friend = new friendObject();
+
+    public static friendObject getInstance() { return friend; }
 
     //constructor
     public void friendObject(String user_name,String time, String total_days_free, String longest_streak, String current_streak, String num_cravings,

@@ -11,6 +11,7 @@ public class User {
 
     private static String USER_NAME="";
     private static String PASSWORD="";
+    private static String ID="";
     private static String EMAIL="";
     private static String TIME="";
     private static String TOTAL_DAYS_FREE="";
