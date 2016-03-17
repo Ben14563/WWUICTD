@@ -214,7 +214,7 @@
             android:id="@+id/textView2"
             android:textSize="25sp"
             android:paddingBottom="20dp"
-            android:layout_alignTop="@+id/textView4"
+            android:layout_alignTop="@+id/moneySavedAmount"
             android:layout_toRightOf="@+id/notSmokedText"
             android:layout_toEndOf="@+id/notSmokedText" />
 
@@ -235,7 +235,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="$0.00"
-            android:id="@+id/textView4"
+            android:id="@+id/moneySavedAmount"
             android:textSize="25sp"
             android:paddingBottom="20dp"
             android:layout_alignBottom="@+id/moneySavedText"
@@ -247,12 +247,12 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="0 min"
-            android:id="@+id/textView5"
+            android:id="@+id/lifeRegText"
             android:textSize="25sp"
             android:paddingBottom="20dp"
             android:layout_alignBottom="@+id/lifeGainText"
-            android:layout_alignRight="@+id/textView4"
-            android:layout_alignEnd="@+id/textView4" />
+            android:layout_alignRight="@+id/moneySavedAmount"
+            android:layout_alignEnd="@+id/moneySavedAmount" />
 
     </RelativeLayout>
 </RelativeLayout>

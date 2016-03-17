@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.microedition.khronos.egl.EGLDisplay;
+
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -64,10 +66,37 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+
+//                FIRST_NAME = (EditText) findViewById(R.id.firstNameInput);
+//                LAST_NAME = (EditText) findViewById(R.id.lastNameInput);
+//                AGE = (EditText) findViewById(R.id.ageInput);
+//                GENDER = (EditText) findViewById(R.id.genderInput);
+//                ETHNICITY = (EditText) findViewById(R.id.ethnicInput);
+//
+//                firstName = FIRST_NAME.getText().toString();
+//                lastName = LAST_NAME.getText().toString();
+//                age = AGE.getText().toString();
+//                gender = GENDER.getText().toString();
+//                ethn = ETHNICITY.getText().toString();
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+
+//                PRICE_PER_PACK = (EditText) findViewById(R.id.costInput);
+//                pricePerPack = PRICE_PER_PACK.getText().toString();
+
+                CIGS_PER_DAY = (EditText) findViewById(R.id.cigsPerDayInput);
+                PRICE_PER_PACK = (EditText) findViewById(R.id.costInput);
+                YEARS_SMOKED = (EditText) findViewById(R.id.yearsInput);
+
+                cigsPerDay = CIGS_PER_DAY.getText().toString();
+                pricePerPack = PRICE_PER_PACK.getText().toString();
+                yearSmoked = YEARS_SMOKED.getText().toString();
+
+                UserDemographics.getInstance().setCigsPerDay(cigsPerDay);
+                UserDemographics.getInstance().setCostPerPack(pricePerPack);
+                UserDemographics.getInstance().setNumYearsSmoked(yearSmoked);
 
             }
 
@@ -99,39 +128,38 @@ public class MainActivity extends AppCompatActivity {
         }}); // end of async task for clicking a button the httpRunner is abstract but requires a unique url and functions to parse/connect to main thread.*/
     }
 
-    public void addUserToServer(){
-       try {
-           AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
-               @Override
-               protected String doInBackground(String... params) {
-                   //result is the json string of the request. might be null
-                   HttpRunner runner = new HttpRunner();
-                   String result = runner.addUser(User.getInstance().getUsername(), User.getInstance().getEmail(), "20", "10.00");
-                   Log.d("http:doInBackground", "***** newUser id: " + result);
-                   if (result == null) {
-                       return "NULL";
-                   }
-                   return result;
-               }
+    public void addUserToServer() {
+        try {
+            AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
+                @Override
+                protected String doInBackground(String... params) {
+                    //result is the json string of the request. might be null
+                    HttpRunner runner = new HttpRunner();
+                    String result = runner.addUser(User.getInstance().getUsername(), User.getInstance().getEmail(), "20", "10.00");
+                    Log.d("http:doInBackground", "***** newUser id: " + result);
+                    if (result == null) {
+                        return "NULL";
+                    }
+                    return result;
+                }
 
-               @Override
-               protected void onPostExecute(String result) {
-                   //expecting the user id
-                   Log.d("htt:add:postExecute", "********** newUser id: " + result);
-                   User.getInstance().setID(result); //result may be json so need to parse.
-               }
-           };
+                @Override
+                protected void onPostExecute(String result) {
+                    //expecting the user id
+                    Log.d("htt:add:postExecute", "********** newUser id: " + result);
+                    User.getInstance().setID(result); //result may be json so need to parse.
+                }
+            };
 
-           task.execute("param");
-       } finally {
-           Log.d("Main:addTaskfail","async failed, or main failed");
-       }
+            task.execute("param");
+        } finally {
+            Log.d("Main:addTaskfail", "async failed, or main failed");
+        }
 
     }
 
 
-
-    public void goToDashboard (View view) {
+    public void goToDashboard(View view) {
         ConnectivityManager connMgr = (ConnectivityManager)
                 ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -143,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
             // fetch data
             //add user to database
             //addUserToServer(); //should populate user ID field
-            if(User.getInstance().getID().equals("")){
+            if (User.getInstance().getID().equals("")) {
                 try {
                     Toast.makeText(getBaseContext(), "Please wait for account creation", Toast.LENGTH_LONG).show();
                     Thread.sleep(5000);
@@ -181,13 +209,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void goToFriends (View view) {
+    public void goToFriends(View view) {
         Intent intent = new Intent(this, Friends.class);
         startActivity(intent);
     }
 
-    public void goToStatistics (View view) {
-        Intent intent = new Intent (this, Statistics.class);
+    public void goToStatistics(View view) {
+        Intent intent = new Intent(this, Statistics.class);
         startActivity(intent);
     }
 
@@ -199,18 +227,12 @@ public class MainActivity extends AppCompatActivity {
         AGE = (EditText) findViewById(R.id.ageInput);
         GENDER = (EditText) findViewById(R.id.genderInput);
         ETHNICITY = (EditText) findViewById(R.id.ethnicInput);
-        CIGS_PER_DAY = (EditText) findViewById(R.id.cigsPerDayInput);
-        PRICE_PER_PACK = (EditText) findViewById(R.id.costInput);
-        YEARS_SMOKED = (EditText) findViewById(R.id.yearsInput);
 
         firstName = FIRST_NAME.getText().toString();
         lastName = LAST_NAME.getText().toString();
         age = AGE.getText().toString();
         gender = GENDER.getText().toString();
         ethn = ETHNICITY.getText().toString();
-        cigsPerDay = CIGS_PER_DAY.getText().toString();
-        pricePerPack = PRICE_PER_PACK.getText().toString();
-        yearSmoked = YEARS_SMOKED.getText().toString();
 
         DatabaseOperations dbDemo = new DatabaseOperations(ctx);
         dbDemo.addUserDemo(dbDemo, username, id, firstName, lastName, age, gender, ethn, cigsPerDay, pricePerPack, yearSmoked);
@@ -254,9 +276,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 */
-
-
-
 
 
 }

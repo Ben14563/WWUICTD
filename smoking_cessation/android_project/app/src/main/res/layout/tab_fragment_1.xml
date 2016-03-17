@@ -13,63 +13,44 @@
         android:layout_alignParentStart="true"
         android:weightSum="1">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="62dp"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/topBar"></LinearLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cigsPerDayInput"
+            android:hint="Cigs Per Day"
+            android:backgroundTint="#e7d4d4"
+            android:gravity="center"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:singleLine="true"
+            android:layout_marginTop="100dp"
+            android:layout_margin="50dp" />
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="410dp"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/textFieldHolder"
-            android:weightSum="1"
-            android:layout_margin="100dp"
-            android:layout_weight="0.10">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/costInput"
+            android:hint="Cost Per Pack"
+            android:backgroundTint="#65de4f"
+            android:layout_margin="50dp"
+            android:gravity="center"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:singleLine="true"
+            android:layout_marginTop="100dp" />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/cigsPerDayInput"
-                android:hint="Cigs Per Day"
-                android:backgroundTint="#e7d4d4"
-                android:gravity="center"
-                android:layout_marginLeft="100dp"
-                android:layout_marginRight="100dp"
-                android:singleLine="true"
-                android:layout_marginTop="100dp"
-                android:layout_margin="50dp" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/costInput"
-                android:hint="Cost Per Pack"
-                android:backgroundTint="#65de4f"
-                android:layout_margin="50dp"
-                android:gravity="center"
-                android:layout_marginLeft="100dp"
-                android:layout_marginRight="100dp"
-                android:singleLine="true"
-                android:layout_marginTop="100dp" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/yearsInput"
-                android:hint="Number of years smoking"
-                android:backgroundTint="#65de4f"
-                android:layout_margin="50dp"
-                android:gravity="center"
-                android:layout_marginLeft="100dp"
-                android:layout_marginRight="100dp"
-                android:singleLine="true"
-                android:layout_marginTop="100dp" />
-
-        </LinearLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/yearsInput"
+            android:hint="Number of years smoking"
+            android:backgroundTint="#65de4f"
+            android:layout_margin="50dp"
+            android:gravity="center"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:singleLine="true"
+            android:layout_marginTop="100dp" />
 
         <TextView
             android:layout_width="wrap_content"

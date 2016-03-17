@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -27,6 +30,15 @@ public class Dashboard extends AppCompatActivity {
     private int numSmokes;
     private double moneySaved;
     private int lifeReg;
+    private String firstname;
+    private String lastname;
+    private String age;
+    private String gender;
+    private String ethnicity;
+    private String cigsPerDay;
+    private String pricePerPack;
+    private String numYearsSmoked;
+    private String totalMoneySaved;
 
     Context ctx = this;
 
@@ -38,9 +50,50 @@ public class Dashboard extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         updateUser();
+        updateUserDemo();
+        // update cravings resisted count
         TextView resCraveText = (TextView) findViewById(R.id.resCraveCount);
         resCraveText.setText(User.getInstance().getCravingsResisted());
 
+        // update money saved total
+        moneySaved = (cravsRes * Double.parseDouble(UserDemographics.getInstance().getCostPerPack())) / 20;
+        totalMoneySaved = "$" + new DecimalFormat("##.##").format(moneySaved);
+        TextView moneySavedAmount = (TextView) findViewById(R.id.moneySavedAmount);
+        moneySavedAmount.setText(totalMoneySaved);
+
+        // update total life regained
+        TextView lifeRegText = (TextView) findViewById(R.id.lifeRegText);
+        lifeRegText.setText(User.getInstance().getLifeRegained() + " min");
+
+    }
+
+    public void updateUserDemo() {
+
+        DatabaseOperations db = new DatabaseOperations(ctx);
+        Cursor cr = db.getUserDemo(db, User.getInstance().getUsername());
+
+        if (cr != null && cr.moveToFirst()) {
+
+            firstname = cr.getString(2);
+            lastname = cr.getString(3);
+            age = cr.getString(4);
+            gender = cr.getString(5);
+            ethnicity = cr.getString(6);
+            cigsPerDay = cr.getString(7);
+            pricePerPack = cr.getString(8);
+            numYearsSmoked = cr.getString(9);
+
+            UserDemographics.getInstance().setFirstName(firstname);
+            UserDemographics.getInstance().setLastName(lastname);
+            UserDemographics.getInstance().setAge(age);
+            UserDemographics.getInstance().setGender(gender);
+            UserDemographics.getInstance().setEthnicity(ethnicity);
+            UserDemographics.getInstance().setCigsPerDay(cigsPerDay);
+            UserDemographics.getInstance().setCostPerPack(pricePerPack);
+            UserDemographics.getInstance().setNumYearsSmoked(numYearsSmoked);
+            Log.d("Entered Dashboard", "User demo object updated");
+        }
+        cr.close();
     }
 
     public void updateUser() {
@@ -61,6 +114,7 @@ public class Dashboard extends AppCompatActivity {
             moneySaved = Double.parseDouble(cr.getString(9));
             lifeReg = Integer.parseInt(cr.getString(10));
 
+            User.getInstance().setID(id);
             User.getInstance().setTotalDaysFree(totDaysFree);
             User.getInstance().setLongestStreak(longStreak);
             User.getInstance().setCurrentStreak(currStreak);
@@ -99,8 +153,13 @@ public class Dashboard extends AppCompatActivity {
         updateUser();
         time = DatabaseOperations.getCurrTime();
         cravsRes += 1;
+        lifeReg += 11;
+
+        moneySaved = (cravsRes * Double.parseDouble(UserDemographics.getInstance().getCostPerPack())) / 20;
+        totalMoneySaved = "$" + new DecimalFormat("##.##").format(moneySaved);
 
         User.getInstance().setCravsRes(cravsRes);
+        User.getInstance().setLifeRegained(lifeReg);
 
         DatabaseOperations db = new DatabaseOperations(ctx);
         db.addUserStats(db, username, User.getInstance().getID(), time, Integer.toString(totDaysFree), Integer.toString(longStreak), Integer.toString(currStreak),
@@ -110,8 +169,14 @@ public class Dashboard extends AppCompatActivity {
         Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
         Log.d("********TEST: ", User.getInstance().getUsername() + "'s Crave Resist count: " + User.getInstance().getCravingsResisted() + " ************");
 
+        TextView moneySavedAmount = (TextView) findViewById(R.id.moneySavedAmount);
+        moneySavedAmount.setText(totalMoneySaved);
+
         TextView resCraveText = (TextView) findViewById(R.id.resCraveCount);
         resCraveText.setText(User.getInstance().getCravingsResisted());
+
+        TextView lifeRegText = (TextView) findViewById(R.id.lifeRegText);
+        lifeRegText.setText(User.getInstance().getLifeRegained() + " min");
 
         db.close();
     }
