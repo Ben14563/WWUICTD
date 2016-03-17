@@ -24,7 +24,6 @@ public class Friends extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getBuddies();
-
     }
 
     public void goToInvite (View view) {
