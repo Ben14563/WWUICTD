@@ -86,14 +86,16 @@
             android:scrollbars="vertical"
             android:layout_above="@+id/dashButton"
             android:paddingBottom="5dp"
-            android:layout_below="@+id/craveButton">
+            android:layout_below="@+id/craveButton"
+            android:fillViewport="false">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:isScrollContainer="true"
                 android:orientation="vertical"
-                android:baselineAligned="false">
+                android:baselineAligned="false"
+                android:id="@+id/feedlayout">
 
             </LinearLayout>
         </ScrollView>

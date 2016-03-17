@@ -3,6 +3,7 @@ package com.example.kasingj.smokecessation2;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,7 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.Button;
 
+import org.json.*;
 import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
@@ -64,7 +68,7 @@ public class Dashboard extends AppCompatActivity {
         // update total life regained
         TextView lifeRegText = (TextView) findViewById(R.id.lifeRegText);
         lifeRegText.setText(User.getInstance().getLifeRegained());
-
+        getFeed();
     }
 
     public void updateUserDemo() {
@@ -114,7 +118,7 @@ public class Dashboard extends AppCompatActivity {
             moneySaved = Double.parseDouble(cr.getString(9));
             lifeReg = Integer.parseInt(cr.getString(10));
 
-            User.getInstance().setID(id);
+//            User.getInstance().setID(id);
             User.getInstance().setTotalDaysFree(totDaysFree);
             User.getInstance().setLongestStreak(longStreak);
             User.getInstance().setCurrentStreak(currStreak);
@@ -136,7 +140,7 @@ public class Dashboard extends AppCompatActivity {
         cravs += 1;
 
         User.getInstance().setNumCravings(cravs);
-
+        incrementFieldOnServer("cravings");
         DatabaseOperations db = new DatabaseOperations(ctx);
         db.addUserStats(db, username, User.getInstance().getID() ,time, Integer.toString(totDaysFree),Integer.toString(longStreak), Integer.toString(currStreak),
                 Integer.toString(cravs), Integer.toString(cravsRes), Integer.toString(numSmokes), Double.toString(moneySaved),
@@ -160,7 +164,7 @@ public class Dashboard extends AppCompatActivity {
 
         User.getInstance().setCravsRes(cravsRes);
         User.getInstance().setLifeRegained(lifeReg);
-
+        incrementFieldOnServer("cravings_resisted");
         DatabaseOperations db = new DatabaseOperations(ctx);
         db.addUserStats(db, username, User.getInstance().getID(), time, Integer.toString(totDaysFree), Integer.toString(longStreak), Integer.toString(currStreak),
                 Integer.toString(cravs), Integer.toString(cravsRes), Integer.toString(numSmokes), Double.toString(moneySaved),
@@ -189,6 +193,7 @@ public class Dashboard extends AppCompatActivity {
         numSmokes += 1;
 
         User.getInstance().setNumCigsSmoked(numSmokes);
+        incrementFieldOnServer("cigs_smoked");
 
         DatabaseOperations db = new DatabaseOperations(ctx);
         db.addUserStats(db, username, User.getInstance().getID() ,time, Integer.toString(totDaysFree),Integer.toString(longStreak), Integer.toString(currStreak),
@@ -215,6 +220,176 @@ public class Dashboard extends AppCompatActivity {
     public void goToStatistics (View view) {
         Intent intent = new Intent (this, Statistics.class);
         startActivity(intent);
+    }
+
+
+    public void incrementFieldOnServer(final String field) {
+        try {
+            AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
+                @Override
+                protected String doInBackground(String... params) {
+                    //result is the json string of the request. might be null
+                    HttpRunner runner = new HttpRunner();
+                    String result = runner.incrementField(User.getInstance().getID(), field);
+                    if (result == null) {
+                        return "NULL";
+                    }
+                    return result;
+                }
+
+                @Override
+                protected void onPostExecute(String result) {
+                    //expecting the user id
+                    Log.d("htt:add:postExecute", "**********  updated field: " + result);
+                    getFeed();
+                }
+            };
+
+            task.execute("param");
+        } finally {
+            Log.d("Main:addTaskfail", "async failed, or main failed");
+        }
+
+    }
+
+    public void incrementLikesOnPost(final int postid) {
+        try {
+            AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
+                @Override
+                protected String doInBackground(String... params) {
+                    //result is the json string of the request. might be null
+                    HttpRunner runner = new HttpRunner();
+                    String result = runner.incrementLikes(postid);
+                    if (result == null) {
+                        return "NULL";
+                    }
+                    return result;
+                }
+
+                @Override
+                protected void onPostExecute(String result) {
+                    //expecting the user id
+                    Log.d("htt:add:postExecute", "**********  updated field: " + result);
+                    getFeed();
+                }
+            };
+
+            task.execute("param");
+        } finally {
+            Log.d("Main:addTaskfail", "async failed, or main failed");
+        }
+
+    }
+
+
+    public void incrementDislikesOnPost(final int postid) {
+        try {
+            AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
+                @Override
+                protected String doInBackground(String... params) {
+                    //result is the json string of the request. might be null
+                    HttpRunner runner = new HttpRunner();
+                    String result = runner.incrementDislikes(postid);
+                    if (result == null) {
+                        return "NULL";
+                    }
+                    return result;
+                }
+
+                @Override
+                protected void onPostExecute(String result) {
+                    //expecting the user id
+                    Log.d("htt:add:postExecute", "**********  updated field: " + result);
+                    getFeed();
+                }
+            };
+
+            task.execute("param");
+        } finally {
+            Log.d("Main:addTaskfail", "async failed, or main failed");
+        }
+
+    }
+
+    public void getFeed() {
+        try {
+            AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
+                @Override
+                protected String doInBackground(String... params) {
+                    //result is the json string of the request. might be null
+                    HttpRunner runner = new HttpRunner();
+                    String result = runner.getFeedForUser(User.getInstance().getID());
+                    if (result == null) {
+                        return "NULL";
+                    }
+                    return result;
+                }
+
+                @Override
+                protected void onPostExecute(String result) {
+                    //expecting the user id
+                    Log.d("htt:add:postExecute", "********** feed: " + result);
+                    try {
+                        JSONArray arr = new JSONArray(result);
+                        FeedPost[] posts = new FeedPost[arr.length()];
+                        LinearLayout holder = (LinearLayout)findViewById(R.id.feedlayout);
+                        holder.removeAllViews();
+
+                        for (int i = 0; i < arr.length(); i++) {
+                            String date = arr.getJSONObject(i).getString("date");
+                            int dislikes = arr.getJSONObject(i).getInt("dislikes");
+                            int likes = arr.getJSONObject(i).getInt("likes");
+                            int feedid = arr.getJSONObject(i).getInt("feedid");
+                            String description = arr.getJSONObject(i).getString("description");
+                            Log.d("htt:add:postExecute", "********** feed: " + description);
+                            posts[i] = new FeedPost(feedid, date, description, likes, dislikes);
+                            View child = getLayoutInflater().inflate(R.layout.post, null);
+                            TextView tv = (TextView)child.findViewById(R.id.description);
+                            tv.setText(description);
+                            tv = (TextView)child.findViewById(R.id.time);
+                            tv.setText(date);
+                            Button likebtn = (Button)child.findViewById(R.id.likes);
+                            if (likes == 1) {
+                                likebtn.setText(likes + " Like");
+                            } else {
+                                likebtn.setText(likes + " Likes");
+                            }
+                            likebtn.setTag(feedid);
+                            likebtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    incrementLikesOnPost((int) ((Button) v).getTag());
+                                }
+                            });
+
+                            Button dislikebtn = (Button)child.findViewById(R.id.dislikes);
+                            dislikebtn.setTag(feedid);
+                            dislikebtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    incrementDislikesOnPost((int) ((Button) v).getTag());
+                                }
+                            });
+                            if (dislikes == 1) {
+                                dislikebtn.setText(dislikes + " Dislike");
+                            } else {
+                                dislikebtn.setText(dislikes + " Dislikes");
+                            }
+                            holder.addView(child);
+                        }
+
+                    } catch (JSONException e) {
+                        Log.d("http:add:postExecute", "********** feed: failed to parse json");
+
+                    }
+                }
+            };
+
+            task.execute("param");
+        } finally {
+            Log.d("Main:addTaskfail", "async failed, or main failed");
+        }
+
     }
     
 }
