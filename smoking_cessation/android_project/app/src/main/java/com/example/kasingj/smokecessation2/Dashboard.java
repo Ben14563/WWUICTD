@@ -58,7 +58,6 @@ public class Dashboard extends AppCompatActivity {
         // update cravings resisted count
         TextView resCraveText = (TextView) findViewById(R.id.resCraveCount);
         resCraveText.setText(User.getInstance().getCravingsResisted());
-
         // update money saved total
         moneySaved = (cravsRes * Double.parseDouble(UserDemographics.getInstance().getCostPerPack())) / 20;
         totalMoneySaved = "$" + new DecimalFormat("##.##").format(moneySaved);
@@ -75,8 +74,10 @@ public class Dashboard extends AppCompatActivity {
 
         DatabaseOperations db = new DatabaseOperations(ctx);
         Cursor cr = db.getUserDemo(db, User.getInstance().getUsername());
+        Log.d("ASDF",cr.toString());
 
         if (cr != null && cr.moveToFirst()) {
+            Log.d("ASDF",cr.toString());
 
             firstname = cr.getString(2);
             lastname = cr.getString(3);
@@ -104,7 +105,6 @@ public class Dashboard extends AppCompatActivity {
 
         DatabaseOperations db = new DatabaseOperations(ctx);
         Cursor cr = db.getUserStats(db, User.getInstance().getUsername());
-
         if (cr != null && cr.moveToFirst()) {
 
             username = cr.getString(0);
@@ -118,7 +118,7 @@ public class Dashboard extends AppCompatActivity {
             moneySaved = Double.parseDouble(cr.getString(9));
             lifeReg = Integer.parseInt(cr.getString(10));
 
-//            User.getInstance().setID(id);
+            User.getInstance().setID(id);
             User.getInstance().setTotalDaysFree(totDaysFree);
             User.getInstance().setLongestStreak(longStreak);
             User.getInstance().setCurrentStreak(currStreak);
