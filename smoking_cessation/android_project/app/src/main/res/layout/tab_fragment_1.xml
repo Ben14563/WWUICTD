@@ -11,54 +11,75 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:background="#bdd09f"
+        android:transitionGroup="true">
 
-        <EditText
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/cigsPerDayInput"
-            android:hint="Cigs Per Day"
-            android:backgroundTint="#e7d4d4"
-            android:gravity="center"
+            android:id="@+id/textFieldHolder"
+            android:weightSum="1"
+            android:layout_weight="0.10"
+            android:layout_marginTop="50dp"
             android:layout_marginLeft="100dp"
             android:layout_marginRight="100dp"
-            android:singleLine="true"
-            android:layout_marginTop="100dp"
-            android:layout_margin="50dp" />
+            android:layout_marginBottom="50dp"
+            android:background="#ffffff">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/costInput"
-            android:hint="Cost Per Pack"
-            android:backgroundTint="#65de4f"
-            android:layout_margin="50dp"
-            android:gravity="center"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="100dp"
-            android:singleLine="true"
-            android:layout_marginTop="100dp" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/cigsPerDayInput"
+                android:hint="Cigs Per Day"
+                android:gravity="center"
+                android:layout_marginLeft="100dp"
+                android:layout_marginRight="100dp"
+                android:singleLine="true"
+                android:layout_marginTop="50dp"
+                android:layout_margin="25dp"
+                android:background="#f0f0f0" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/yearsInput"
-            android:hint="Number of years smoking"
-            android:backgroundTint="#65de4f"
-            android:layout_margin="50dp"
-            android:gravity="center"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="100dp"
-            android:singleLine="true"
-            android:layout_marginTop="100dp" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/costInput"
+                android:hint="Cost Per Pack"
+                android:layout_margin="25dp"
+                android:gravity="center"
+                android:layout_marginLeft="100dp"
+                android:layout_marginRight="100dp"
+                android:singleLine="true"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="50dp"
+                android:background="#f0f0f0" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/yearsInput"
+                android:hint="Number of years smoking"
+                android:layout_margin="25dp"
+                android:gravity="center"
+                android:layout_marginLeft="100dp"
+                android:layout_marginRight="100dp"
+                android:singleLine="true"
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="10dp"
+                android:background="#f0f0f0" />
+    </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="swipe right"
-            android:id="@+id/textView"
-            android:layout_gravity="center_horizontal" />
+            android:text="Swipe Left"
+            android:id="@+id/textView2"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.10"
+            android:autoText="false"
+            android:textSize="40dp" />
 
     </LinearLayout>
 </RelativeLayout>

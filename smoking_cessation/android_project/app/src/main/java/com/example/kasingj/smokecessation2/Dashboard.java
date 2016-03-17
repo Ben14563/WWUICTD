@@ -67,8 +67,7 @@ public class Dashboard extends AppCompatActivity {
 
         // update total life regained
         TextView lifeRegText = (TextView) findViewById(R.id.lifeRegText);
-        lifeRegText.setText(User.getInstance().getLifeRegained() + " min");
-        getFeed();
+        lifeRegText.setText(User.getInstance().getLifeRegained());
 
     }
 
@@ -181,7 +180,7 @@ public class Dashboard extends AppCompatActivity {
         resCraveText.setText(User.getInstance().getCravingsResisted());
 
         TextView lifeRegText = (TextView) findViewById(R.id.lifeRegText);
-        lifeRegText.setText(User.getInstance().getLifeRegained() + " min");
+        lifeRegText.setText(User.getInstance().getLifeRegained());
 
         db.close();
     }

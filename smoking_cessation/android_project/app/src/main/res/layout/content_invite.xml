@@ -10,27 +10,39 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.kasingj.smokecessation2.Invite"
-    tools:showIn="@layout/activity_invite">
+    tools:showIn="@layout/activity_invite"
+    android:background="#bdd094">
 
-    <EditText
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/inviteInput"
-        android:layout_marginTop="259dp"
-        android:hint="Enter Email"
-        android:textAlignment="center"
-        android:singleLine="true"
-        android:inputType="textEmailAddress"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:background="#ffffff">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Friend"
-        android:id="@+id/addFriend"
-        android:layout_below="@+id/inviteInput"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="191dp"
-        android:onClick="addFriend" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/inviteInput"
+            android:hint="Enter Email"
+            android:textAlignment="center"
+            android:singleLine="true"
+            android:inputType="textEmailAddress"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="#f0f0f0"
+            android:layout_margin="25dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Friend"
+            android:id="@+id/addFriend"
+            android:layout_below="@+id/inviteInput"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:onClick="addFriend"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp" />
+    </LinearLayout>
+
 </RelativeLayout>

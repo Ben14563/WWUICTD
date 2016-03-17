@@ -84,9 +84,8 @@ public class HttpRunner{
         builder.scheme("http")
                 .authority(ENDPOINT)
                 .appendPath("user")
-                .appendQueryParameter("id", friendId);
+                .appendPath(friendId);
         String url = builder.build().toString();
-
         try {
             JSONString = getUrl(url);
         } catch(IOException e){
@@ -264,7 +263,7 @@ public class HttpRunner{
         } catch(IOException e){
             e.printStackTrace();
         }
-        return JSONString; //need to parse, is there anything to return
+        return JSONString; //might not be anything to return
     }
 }
 

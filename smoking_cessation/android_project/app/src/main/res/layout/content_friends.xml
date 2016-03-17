@@ -10,38 +10,66 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.kasingj.smokecessation2.Friends"
-    tools:showIn="@layout/activity_friends">
+    tools:showIn="@layout/activity_friends"
+    android:background="#bdd094">
 
     <!-- bottom navigation buttons -->
-    <Button
+    <ImageButton
         android:layout_width="190dp"
         android:layout_height="70dp"
-        android:text="Dashboard"
         android:id="@+id/dashButton"
+        android:background="#e2e836"
+        android:src="@drawable/dashboard"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:onClick="goToDashboard" />
+        android:onClick="goToDashboard"
+        android:cropToPadding="false"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:paddingLeft="55dp"
+        android:paddingTop="10dp"
+        android:paddingRight="55dp"
+        android:paddingBottom="10dp"
+        android:allowUndo="false" />
 
-    <Button
+    <ImageButton
         android:layout_width="190dp"
         android:layout_height="70dp"
-        android:text="Friends"
         android:id="@+id/friendsButton"
+        android:background="#0e7061"
+        android:src="@drawable/buddies"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/dashButton"
         android:layout_toEndOf="@+id/dashButton"
-        android:onClick="goToFriends" />
+        android:onClick="goToFriends"
+        android:cropToPadding="false"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:paddingLeft="50dp"
+        android:paddingTop="10dp"
+        android:paddingRight="50dp"
+        android:paddingBottom="10dp"
+        android:clickable="true" />
 
-    <Button
+    <ImageButton
         android:layout_width="190dp"
         android:layout_height="70dp"
-        android:text="Stats"
         android:id="@+id/statsButton"
+        android:background="#429df2"
+        android:src="@drawable/stats"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/friendsButton"
         android:layout_toEndOf="@+id/friendsButton"
-        android:onClick="goToStatistics" />
+        android:onClick="goToStatistics"
+        android:cropToPadding="false"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:paddingLeft="55dp"
+        android:paddingTop="10dp"
+        android:paddingRight="55dp"
+        android:paddingBottom="10dp"
+        android:clickable="true" />
 
     <Button
         android:layout_width="match_parent"
