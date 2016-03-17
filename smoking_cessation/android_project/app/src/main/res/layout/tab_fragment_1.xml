@@ -11,7 +11,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-<<<<<<< HEAD
         android:weightSum="1"
         android:background="#bdd09f"
         android:transitionGroup="true">
@@ -69,48 +68,18 @@
                 android:layout_marginTop="100dp"
                 android:layout_marginBottom="10dp"
                 android:background="#f0f0f0" />
-=======
-        android:weightSum="1">
+    </LinearLayout>
 
-        <EditText
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/cigsPerDayInput"
-            android:hint="Cigs Per Day"
-            android:backgroundTint="#e7d4d4"
-            android:gravity="center"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="100dp"
-            android:singleLine="true"
-            android:layout_marginTop="100dp"
-            android:layout_margin="50dp" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/costInput"
-            android:hint="Cost Per Pack"
-            android:backgroundTint="#65de4f"
-            android:layout_margin="50dp"
-            android:gravity="center"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="100dp"
-            android:singleLine="true"
-            android:layout_marginTop="100dp" />
->>>>>>> 7a4e1be630d456015189b023489f2542cd21cee3
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/yearsInput"
-            android:hint="Number of years smoking"
-            android:backgroundTint="#65de4f"
-            android:layout_margin="50dp"
-            android:gravity="center"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="100dp"
-            android:singleLine="true"
-            android:layout_marginTop="100dp" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Swipe Left"
+            android:id="@+id/textView2"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.10"
+            android:autoText="false"
+            android:textSize="40dp" />
 
     </LinearLayout>
 </RelativeLayout>
