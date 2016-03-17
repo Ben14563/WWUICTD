@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.ContactsContract;
-import android.support.design.widget.TabLayout;
 import android.util.Log;
 
 import java.sql.Timestamp;
@@ -165,7 +164,8 @@ public class DatabaseOperations extends SQLiteOpenHelper{
     }
 
     // adding to user_demo Table
-    public void addUserDemo(DatabaseOperations dbop, String username, String id, String firstName, String lastName, String age, String gender, String ethnicity,
+    public void addUserDemo(DatabaseOperations dbop, String username, String id, String firstName,
+                            String lastName, String age, String gender, String ethnicity,
                             String cigsPerDay, String pricePerPack, String numYearsSmoked) {
 
         SQLiteDatabase sq = dbop.getWritableDatabase();
