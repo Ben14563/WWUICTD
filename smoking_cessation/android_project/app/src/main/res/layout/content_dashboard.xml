@@ -11,7 +11,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.kasingj.smokecessation2.Dashboard"
     tools:showIn="@layout/activity_dashboard"
-    android:background="#bdd094">
+    android:background="#ffffff">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             android:layout_width="190dp"
             android:layout_height="70dp"
             android:id="@+id/dashButton"
-            android:background="#e2e836"
+            android:background="@drawable/shadow_42145"
             android:src="@drawable/dashboard"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
@@ -32,7 +32,7 @@
             android:onClick="goToDashboard"
             android:cropToPadding="false"
             android:adjustViewBounds="true"
-            android:scaleType="fitXY"
+            android:scaleType="centerInside"
             android:paddingLeft="55dp"
             android:paddingTop="10dp"
             android:paddingRight="55dp"
@@ -43,7 +43,7 @@
             android:layout_width="190dp"
             android:layout_height="70dp"
             android:id="@+id/friendsButton"
-            android:background="#0e7061"
+            android:background="@drawable/shadow_42927"
             android:src="@drawable/buddies"
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/dashButton"
@@ -51,7 +51,7 @@
             android:onClick="goToFriends"
             android:cropToPadding="false"
             android:adjustViewBounds="true"
-            android:scaleType="fitXY"
+            android:scaleType="centerInside"
             android:paddingLeft="50dp"
             android:paddingTop="10dp"
             android:paddingRight="50dp"
@@ -62,7 +62,7 @@
             android:layout_width="190dp"
             android:layout_height="70dp"
             android:id="@+id/statsButton"
-            android:background="#429df2"
+            android:background="@drawable/shadow_42927"
             android:src="@drawable/stats"
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/friendsButton"
@@ -70,7 +70,7 @@
             android:onClick="goToStatistics"
             android:cropToPadding="false"
             android:adjustViewBounds="true"
-            android:scaleType="fitXY"
+            android:scaleType="centerInside"
             android:paddingLeft="55dp"
             android:paddingTop="10dp"
             android:paddingRight="55dp"
@@ -104,7 +104,7 @@
             android:layout_width="190dp"
             android:layout_height="70dp"
             android:id="@+id/craveButton"
-            android:background="#1793e5"
+            android:background="@drawable/shadow_4266"
             android:src="@drawable/craving"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
@@ -124,7 +124,7 @@
             android:layout_width="190dp"
             android:layout_height="70dp"
             android:id="@+id/resistButton"
-            android:background="#18e225"
+            android:background="@drawable/shadow_4254"
             android:src="@drawable/no_smoking"
             android:layout_marginTop="200dp"
             android:layout_alignBottom="@+id/craveButton"
@@ -134,17 +134,17 @@
             android:cropToPadding="false"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            android:paddingLeft="5dp"
-            android:paddingTop="10dp"
-            android:paddingRight="130dp"
-            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="8dp"
+            android:paddingRight="120dp"
+            android:paddingBottom="12dp"
             android:allowUndo="false" />
 
         <ImageButton
-            android:layout_width="190dp"
+            android:layout_width="200dp"
             android:layout_height="70dp"
             android:id="@+id/smokedButton"
-            android:background="#f68e4e"
+            android:background="@drawable/shadow_42145"
             android:src="@drawable/smoking"
             android:layout_marginTop="200dp"
             android:layout_alignBottom="@+id/resistButton"
@@ -153,12 +153,14 @@
             android:onClick="smoked"
             android:cropToPadding="false"
             android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:paddingLeft="5dp"
-            android:paddingTop="10dp"
-            android:paddingRight="130dp"
-            android:paddingBottom="10dp"
-            android:allowUndo="false" />
+            android:scaleType="centerInside"
+            android:paddingLeft="10dp"
+            android:paddingRight="115dp"
+            android:paddingBottom="14dp"
+            android:allowUndo="false"
+            android:layout_toRightOf="@+id/textView4"
+            android:layout_toEndOf="@+id/textView4"
+            android:paddingTop="7dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -206,11 +208,11 @@
             android:text="I&apos;m Craving"
             android:id="@+id/textView3"
             android:singleLine="true"
-            android:layout_alignBottom="@+id/craveButton"
-            android:layout_toLeftOf="@+id/resistButton"
-            android:layout_toStartOf="@+id/resistButton"
             android:paddingBottom="25dp"
-            android:paddingRight="10dp" />
+            android:paddingRight="10dp"
+            android:layout_above="@+id/scrollView"
+            android:layout_alignRight="@+id/notSmokedText"
+            android:layout_alignEnd="@+id/notSmokedText" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -245,7 +247,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:src="@drawable/circle"
+            android:src="@drawable/btng"
             android:scaleType="fitCenter"
             android:layout_alignRight="@+id/craveButton"
             android:layout_alignEnd="@+id/craveButton"
@@ -254,8 +256,7 @@
             android:layout_marginLeft="-10dp"
             android:layout_marginTop="-10dp"
             android:layout_marginRight="-10dp"
-            android:layout_marginBottom="-10dp"
-            android:tint="#21e83f" />
+            android:layout_marginBottom="-10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -269,17 +270,17 @@
             android:textSize="40sp"
             android:layout_below="@+id/notSmokedText"
             android:layout_marginTop="40dp"
-            android:layout_alignRight="@+id/imageView"
-            android:layout_alignEnd="@+id/imageView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:layout_alignLeft="@+id/imageView"
+            android:layout_alignStart="@+id/imageView"
+            android:layout_alignRight="@+id/moneySavedText"
+            android:layout_alignEnd="@+id/moneySavedText" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView2"
-            android:src="@drawable/circle"
+            android:src="@drawable/buttono"
             android:scaleType="fitCenter"
             android:cropToPadding="false"
             android:layout_alignParentTop="true"
@@ -288,7 +289,6 @@
             android:layout_alignEnd="@+id/resistButton"
             android:layout_toRightOf="@+id/imageView"
             android:layout_toEndOf="@+id/imageView"
-            android:tint="#dda01d"
             android:layout_marginBottom="-5dp" />
 
         <TextView
@@ -329,16 +329,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView3"
-            android:src="@drawable/circle"
+            android:src="@drawable/buttonb"
             android:scaleType="fitCenter"
             android:cropToPadding="false"
-            android:tint="#129ffe"
             android:layout_alignTop="@+id/imageView"
             android:layout_alignRight="@+id/smokedButton"
             android:layout_alignEnd="@+id/smokedButton"
             android:layout_alignLeft="@+id/smokedButton"
             android:layout_alignStart="@+id/smokedButton"
-            android:layout_alignBottom="@+id/imageView" />
+            android:layout_alignBottom="@+id/imageView"
+            android:background="@drawable/buttonb" />
 
         <TextView
             android:layout_width="wrap_content"

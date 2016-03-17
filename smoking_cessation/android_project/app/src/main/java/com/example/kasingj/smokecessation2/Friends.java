@@ -76,7 +76,9 @@ public class Friends extends AppCompatActivity {
                             TextView tv = (TextView) child.findViewById(R.id.name);
                             String name = arr.getString(i);
                             tv.setText(name);
-                            holder.addView(child);
+                            if(!name.equals(User.getInstance().getUsername())) {
+                                holder.addView(child);
+                            }
                         }
                     } catch (JSONException e) {
 
