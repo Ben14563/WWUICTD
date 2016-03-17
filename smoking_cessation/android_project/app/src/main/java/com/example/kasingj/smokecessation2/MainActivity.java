@@ -168,6 +168,8 @@ public class MainActivity extends AppCompatActivity {
                     DatabaseOperations db = new DatabaseOperations(ctx);
                     db.addUserStats(db, username, id, time, "0", "0", "0", "0", "0", "0", "0.00", "0");
                     //saveUserDemo();
+                    db.addUserDemo(db, username, id, "boop","noop","12","Male","White",cigsPerDay,pricePerPack,"sdfg d");
+
                     Toast.makeText(getBaseContext(), "Profile creation successful!", Toast.LENGTH_LONG).show();
 
                     db.close();
@@ -304,7 +306,6 @@ public class MainActivity extends AppCompatActivity {
 
         DatabaseOperations dbDemo = new DatabaseOperations(ctx);
         dbDemo.addUserDemo(dbDemo, username, id, firstName, lastName, age, gender, ethn, cigsPerDay, pricePerPack, yearSmoked);
-
         dbDemo.close();
     }
 
