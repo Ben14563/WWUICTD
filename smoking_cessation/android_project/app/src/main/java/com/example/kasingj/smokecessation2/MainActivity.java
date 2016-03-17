@@ -233,8 +233,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             // fetch data
             //add user to database
-            //      addUserToServer(); //should populate user ID field
-            getUserStats("1");
+            addUserToServer(); //should populate user ID field
+
             if (User.getInstance().getID().equals("")) {
                 //addUserToServer(); //should populate user ID field
                 if (User.getInstance().getID().equals("")) {
