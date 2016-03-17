@@ -93,7 +93,7 @@ public class DatabaseOperations extends SQLiteOpenHelper{
     // get current time
     public static String getCurrTime() {
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss.SSS a");
         String time = sdf.format(date).toString();
         return time;
     }
