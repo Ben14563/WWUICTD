@@ -65,7 +65,7 @@ public class Friends extends AppCompatActivity {
                 protected void onPostExecute(String result) {
                     //expecting the user id
                     Log.d("htt:add:postExecute", "**********  updated field: " + result);
-                    LinearLayout holder = (LinearLayout)findViewById(R.id.friendView);
+                    LinearLayout holder = (LinearLayout)findViewById(R.id.friendlist);
                     try {
                         JSONArray arr = new JSONArray(result);
                         FeedPost[] posts = new FeedPost[arr.length()];

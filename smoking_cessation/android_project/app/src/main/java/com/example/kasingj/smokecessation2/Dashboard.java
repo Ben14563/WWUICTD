@@ -68,7 +68,7 @@ public class Dashboard extends AppCompatActivity {
         // update total life regained
         TextView lifeRegText = (TextView) findViewById(R.id.lifeRegText);
         lifeRegText.setText(User.getInstance().getLifeRegained());
-
+        getFeed();
     }
 
     public void updateUserDemo() {

@@ -92,68 +92,27 @@
         android:textStyle="bold"
         android:textSize="50sp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/textView9"
-        android:layout_alignLeft="@+id/textView9"
-        android:layout_alignStart="@+id/textView9"
-        android:layout_above="@+id/inviteButton">
 
         <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/scrollView4"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_below="@+id/textView9"
+            android:layout_alignLeft="@+id/textView9"
+            android:layout_alignStart="@+id/textView9"
+            android:layout_above="@+id/inviteButton">
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
+                android:id="@+id/friendlist"
+
                 android:layout_height="match_parent"
                 android:layout_below="@+id/scrollView4"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true">
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:text="Alvin"
-                    android:id="@+id/friend1"
-                    android:layout_above="@+id/dashButton"
-                    android:layout_centerHorizontal="true"
-                    android:textSize="30sp" />
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:text="James"
-                    android:id="@+id/friend2"
-                    android:layout_below="@+id/friend1"
-                    android:layout_centerHorizontal="true"
-                    android:textSize="30sp" />
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:text="Brandon"
-                    android:id="@+id/friend3"
-                    android:layout_below="@+id/friend2"
-                    android:layout_centerHorizontal="true"
-                    android:textSize="30sp" />
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:text="Megan"
-                    android:id="@+id/friend4"
-                    android:layout_below="@+id/friend3"
-                    android:layout_centerHorizontal="true"
-                    android:textSize="30sp" />
-
-            </LinearLayout>
+            </LinearLayout>'
+        </ScrollView>
     </RelativeLayout>
 
-
-</RelativeLayout>
