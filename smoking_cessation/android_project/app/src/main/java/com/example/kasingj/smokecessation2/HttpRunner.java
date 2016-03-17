@@ -80,12 +80,11 @@ public class HttpRunner{
         //this will retrieve friend information
         String JSONString = null;
         Uri.Builder builder = new Uri.Builder();
-        builder.scheme("https")
+        builder.scheme("http")
                 .authority(ENDPOINT)
                 .appendPath("user")
-                .appendQueryParameter("id", friendId);
+                .appendPath(friendId);
         String url = builder.build().toString();
-
         try {
             JSONString = getUrl(url);
         } catch(IOException e){
@@ -197,10 +196,10 @@ public class HttpRunner{
     public String addBuddyToUser(String userId, String email){
         String JSONString = null;
         Uri.Builder builder = new Uri.Builder();
-        builder.scheme("https")
+        builder.scheme("http")
                 .authority(ENDPOINT)
                 .appendPath("user")
-                .appendQueryParameter("id", userId)
+                .appendPath(userId)
                 .appendQueryParameter("email", email);
         String url = builder.build().toString();
         try {
@@ -208,7 +207,7 @@ public class HttpRunner{
         } catch(IOException e){
             e.printStackTrace();
         }
-        return JSONString; //need to parse, is there anything to return
+        return JSONString; //might not be anything to return
     }
 }
 

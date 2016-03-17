@@ -10,7 +10,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.kasingj.smokecessation2.Friends"
-    tools:showIn="@layout/activity_friends">
+    tools:showIn="@layout/activity_friends"
+    android:background="#bdd094">
 
     <!-- bottom navigation buttons -->
     <Button

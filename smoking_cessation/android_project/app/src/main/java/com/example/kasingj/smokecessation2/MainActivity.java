@@ -25,11 +25,13 @@ import java.util.Date;
 
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import javax.microedition.khronos.egl.EGLDisplay;
 import android.net.ConnectivityManager;
@@ -129,6 +131,67 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void getUserStats(String friendId){
+        try {
+            AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
+                @Override
+                protected String doInBackground(String... params) {
+                    //result is the json string of the request. might be null
+                    HttpRunner runner = new HttpRunner();
+                    String result = runner.getUserInformation(params[0]);
+                    Log.d("http:getUserStats", "**user: "+params[0]+ "data: " + result);
+                    if (result == null) {
+                        return "NULL";
+                    }
+                    return result;
+                }
+
+                @Override
+                protected void onPostExecute(String result) {
+                    //expecting the user id
+                    Log.d("htt:data:postExecute", "fiend data" + result);
+
+                    //result will be  json so need to parse. need function to parse data add to database
+                    //do stuff with user data
+                }
+            };
+
+            task.execute(friendId);
+        } finally {
+            Log.d("Main:addTaskfail","async failed, or main failed");
+        }
+
+    }
+
+    public void addBuddyToUser(String friendId, String email){
+        try {
+            AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
+                @Override
+                protected String doInBackground(String... params) {
+                    //result is the json string of the request. might be null
+                    HttpRunner runner = new HttpRunner();
+                    String result = runner.addBuddyToUser(params[0],params[1]);
+                    Log.d("http:addBuddyToUser", "**user: "+params[0]+ "data: " + result);
+                    if (result == null) {
+                        return "NULL";
+                    }
+                    return result;
+                }
+
+                @Override
+                protected void onPostExecute(String result) {
+                    //expecting the user id
+                    Log.d("addBuddy:postExecute", "fiend data" + result);
+                    //if no data returned then delete on post execute.
+                }
+            };
+
+            task.execute(friendId, email);
+        } finally {
+            Log.d("Main:addTaskfail","async failed, or main failed");
+        }
+
+    }
 
 
     public void goToDashboard (View view) {
@@ -142,7 +205,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             // fetch data
             //add user to database
-            //addUserToServer(); //should populate user ID field
+      //      addUserToServer(); //should populate user ID field
+            getUserStats("1");
             if(User.getInstance().getID().equals("")){
                 try {
                     Toast.makeText(getBaseContext(), "Please wait for account creation", Toast.LENGTH_LONG).show();
@@ -170,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
 
             DatabaseOperations db = new DatabaseOperations(ctx);
             db.addUserStats(db, username, id, time, "0", "0", "0", "0", "0", "0", "0.00", "0");
-            saveUserDemo();
+            //saveUserDemo();
             Toast.makeText(getBaseContext(), "Profile creation successful!", Toast.LENGTH_LONG).show();
 
             db.close();
@@ -255,7 +319,14 @@ public class MainActivity extends AppCompatActivity {
     }
 */
 
-
+public void clearButton(View v){
+    TextView tv = (TextView)findViewById(R.id.motivationBox);
+    TextView tv2 = (TextView)findViewById(R.id.motivationBox2);
+    TextView tv3 = (TextView)findViewById(R.id.motivationBox3);
+    tv.setText("");
+    tv2.setText("");
+    tv3.setText("");
+}
 
 
 
