@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -241,6 +242,22 @@ public class HttpRunner{
                 .appendPath("buddy")
                 .appendPath("add")
                 .appendPath(email);
+        String url = builder.build().toString();
+        try {
+            JSONString = getUrl(url);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        return JSONString; //need to parse, is there anything to return
+    }
+
+    public String getAllBuddies(String userId){
+        String JSONString = null;
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("http")
+                .authority(ENDPOINT)
+                .appendPath("buddies")
+                .appendPath(userId);
         String url = builder.build().toString();
         try {
             JSONString = getUrl(url);
