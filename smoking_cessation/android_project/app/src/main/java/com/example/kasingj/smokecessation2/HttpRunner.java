@@ -80,7 +80,7 @@ public class HttpRunner{
         //this will retrieve friend information
         String JSONString = null;
         Uri.Builder builder = new Uri.Builder();
-        builder.scheme("https")
+        builder.scheme("http")
                 .authority(ENDPOINT)
                 .appendPath("user")
                 .appendQueryParameter("id", friendId);
@@ -108,7 +108,9 @@ public class HttpRunner{
                 .appendQueryParameter("email", userEmail)
                 .appendQueryParameter("cigs_per_day", cigs_per_day)
                 .appendQueryParameter("price_per_pack", price_per_pack);
+
         String url = builder.build().toString();
+        Log.d("ASDF",url);
 
         try {
             JSONString = getUrl(url);
@@ -122,16 +124,15 @@ public class HttpRunner{
 
 
 
-    public String incrementField(String userId, String day, String Field){
+    public String incrementField(String userId, String Field){
         String JSONString = null;
         Uri.Builder builder = new Uri.Builder();
-        builder.scheme("https")
+        builder.scheme("http")
                 .authority(ENDPOINT)
                 .appendPath("user")
-                .appendPath("add")
-                .appendQueryParameter("id", userId)
-                .appendQueryParameter("day", day)
-                .appendQueryParameter("field", Field);
+                .appendPath(userId)
+                .appendPath("update")
+                .appendPath(Field);
         String url = builder.build().toString();
 
         try {
@@ -142,14 +143,50 @@ public class HttpRunner{
         return JSONString; //need to parse, is there anything to return
     }
 
+    public String incrementLikes(int feedId){
+        String JSONString = null;
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("http")
+                .authority(ENDPOINT)
+                .appendPath("feed")
+                .appendPath(Integer.toString(feedId))
+                .appendPath("like");
+        String url = builder.build().toString();
+
+        try {
+            JSONString = getUrl(url);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        return JSONString; //need to parse, is there anything to return
+    }
+
+    public String incrementDislikes(int feedId){
+        String JSONString = null;
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("http")
+                .authority(ENDPOINT)
+                .appendPath("feed")
+                .appendPath(Integer.toString(feedId))
+                .appendPath("dislike");
+        String url = builder.build().toString();
+
+        try {
+            JSONString = getUrl(url);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        return JSONString; //need to parse, is there anything to return
+    }
 
     public String getFeedForUser(String userId){
         String JSONString = null;
         Uri.Builder builder = new Uri.Builder();
-        builder.scheme("https")
+        builder.scheme("http")
                 .authority(ENDPOINT)
                 .appendPath("user")
-                .appendQueryParameter("id", userId);
+                .appendPath(userId)
+                .appendPath("feed");
         String url = builder.build().toString();
         try {
             JSONString = getUrl(url);
@@ -162,7 +199,7 @@ public class HttpRunner{
     public String getDataForDay(String userId,String day){
         String JSONString = null;
         Uri.Builder builder = new Uri.Builder();
-        builder.scheme("https")
+        builder.scheme("http")
                 .authority(ENDPOINT)
                 .appendPath("user")
                 .appendQueryParameter("id", userId)
@@ -180,7 +217,7 @@ public class HttpRunner{
     public String addNewCurrentDay(String userId){
         String JSONString = null;
         Uri.Builder builder = new Uri.Builder();
-        builder.scheme("https")
+        builder.scheme("http")
                 .authority(ENDPOINT)
                 .appendPath("user")
                 .appendQueryParameter("id", userId);
@@ -197,11 +234,13 @@ public class HttpRunner{
     public String addBuddyToUser(String userId, String email){
         String JSONString = null;
         Uri.Builder builder = new Uri.Builder();
-        builder.scheme("https")
+        builder.scheme("http")
                 .authority(ENDPOINT)
                 .appendPath("user")
-                .appendQueryParameter("id", userId)
-                .appendQueryParameter("email", email);
+                .appendPath(userId)
+                .appendPath("buddy")
+                .appendPath("add")
+                .appendPath(email);
         String url = builder.build().toString();
         try {
             JSONString = getUrl(url);

@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             // fetch data
             //add user to database
-            //addUserToServer(); //should populate user ID field
+            addUserToServer(); //should populate user ID field
             if (User.getInstance().getID().equals("")) {
                 try {
                     Toast.makeText(getBaseContext(), "Please wait for account creation", Toast.LENGTH_LONG).show();

@@ -28,6 +28,7 @@ public class Invite extends AppCompatActivity {
         EMAIL = (EditText) findViewById(R.id.inviteInput);
         email = EMAIL.getText().toString();
 
+
         // if exists, add friend to friends list, go back to friends page
         Intent intent = new Intent(this, Friends.class);
         startActivity(intent);
