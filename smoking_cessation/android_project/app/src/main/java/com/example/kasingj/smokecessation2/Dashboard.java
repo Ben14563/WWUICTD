@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout;
@@ -348,6 +349,20 @@ public class Dashboard extends AppCompatActivity {
                             tv.setText(description);
                             tv = (TextView)child.findViewById(R.id.time);
                             tv.setText(date);
+                            ImageView img = (ImageView)child.findViewById(R.id.img);
+
+                            if (description.indexOf("resisted") > -1) {
+                                img.setImageResource(R.drawable.no_smoking);
+                                Log.d("ASDf","resisited");
+                            } else if(description.indexOf("craving") > -1) {
+                                img.setImageResource(R.drawable.craving);
+
+                                Log.d("ASDF","craving");
+                            } else if (description.indexOf("smoked") > -1) {
+                                img.setImageResource(R.drawable.smoking);
+
+                                Log.d("ASDf","smoked");
+                            }
                             Button likebtn = (Button)child.findViewById(R.id.likes);
                             if (likes == 1) {
                                 likebtn.setText(likes + " Like");
