@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 
 public class TabFragment3 extends Fragment {
 
+    /* Tab fragment 3 of 3 part of account setup, demographic data
+     * features are implemented in main activity */
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.tab_fragment_3, container, false);

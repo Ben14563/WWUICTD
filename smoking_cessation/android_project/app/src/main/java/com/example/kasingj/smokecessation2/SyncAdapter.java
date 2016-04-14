@@ -14,6 +14,8 @@ import java.util.HashSet;
  * Handle the transfer of data between a server and an
  * app, using the Android sync adapter framework.
  */
+
+
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     // Global variables

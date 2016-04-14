@@ -13,6 +13,10 @@ import android.widget.Toast;
 
 public class SignUp extends AppCompatActivity {
 
+    /*The sign up page is used if the user needs to make an account. User provides username,password
+    which is verified against the database and added, does not require. internet. but final fragment will
+    so maybe stop them here if there is no internet.*/
+
     EditText USERNAME, PASSWORD, EMAIL, CON_PASS;
     String username, password, email, con_pass;
     Context ctx = this;
@@ -40,6 +44,7 @@ public class SignUp extends AppCompatActivity {
         Cursor cr = dbAuth.getUserAuth(dbAuth);
         boolean exist = false;
 
+        //check if username exists
         if (cr != null && cr.moveToFirst()) {
             do {
                 if (username.equals(cr.getString(0))) {
@@ -70,11 +75,13 @@ public class SignUp extends AppCompatActivity {
             Toast.makeText(getBaseContext(), "Password does not match", Toast.LENGTH_LONG).show();
         }
         else {
+            //valid username & password
             User.getInstance().setUsername(username);
             User.getInstance().setPassword(password);
             User.getInstance().setEmail(email);
             Log.d("Next Button", "initialized username, password, email");
 
+            //add user to db
             DatabaseOperations db = new DatabaseOperations(ctx);
             db.addUserAuth(db, username, password, email);
 

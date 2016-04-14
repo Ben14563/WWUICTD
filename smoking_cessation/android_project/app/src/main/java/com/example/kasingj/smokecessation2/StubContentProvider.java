@@ -9,6 +9,8 @@ import android.content.ContentValues;
  * Created by kasingj on 3/9/16.
  */
 
+/* android version of a chron job to concurrently update remote server/local db
+* not currently in use.  */
 public class StubContentProvider extends ContentProvider{
     /*
      * Always return true, indicating that the
