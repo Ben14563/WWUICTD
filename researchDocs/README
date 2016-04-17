@@ -1,0 +1,11 @@
+researchDocs is  to be used for organizing our research documents. 
+
+Currently used docs go in production
+
+docs we're that are in progress inProgressDocs
+
+docs that are retired should go in oldDocs
+
+resources will contain literature, interview transcriptions/audio, and any miscellaneous resources.
+
+
