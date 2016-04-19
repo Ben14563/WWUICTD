@@ -168,11 +168,17 @@ public class MainActivity extends AppCompatActivity {
                     DatabaseOperations db = new DatabaseOperations(ctx);
                     db.addUserStats(db, username, id, time, "0", "0", "0", "0", "0", "0", "0.00", "0");
                     //saveUserDemo();
-                    db.addUserDemo(db, username, id, "boop","noop","12","Male","White",cigsPerDay,pricePerPack,"sdfg d");
+                    db.addUserDemo(db, username, id, "boop", "noop", "12", "Male", "White", cigsPerDay, pricePerPack, "sdfg d");
 
                     Toast.makeText(getBaseContext(), "Profile creation successful!", Toast.LENGTH_LONG).show();
 
                     db.close();
+                    //go to dashboard
+
+                    Log.d("finish button", "go to dashboard");
+                    Intent intent = new Intent(getApplicationContext(),Dashboard.class);
+                    startActivity(intent);
+                    finish();
                 }
             };
 
@@ -256,26 +262,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             // fetch data
             //add user to database
+            Toast.makeText(getBaseContext(), "Please connect to the internet before proceeding", Toast.LENGTH_LONG).show();
             addUserToServer(); //should populate user ID field
 
-            if (User.getInstance().getID().equals("")) {
-                //addUserToServer(); //should populate user ID field
-                if (User.getInstance().getID().equals("")) {
-                    try {
-                        Toast.makeText(getBaseContext(), "Please wait for account creation", Toast.LENGTH_LONG).show();
-                        Thread.sleep(5000);
-
-                    } catch (InterruptedException e) {
-                        Log.d("Main:Dashboard:sleep", "sleep interrupted");
-                    }
-                }
-                Log.d("Main:Dashboard:sleep", "user id= " + User.getInstance().getID());
-
-
-                Intent intent = new Intent(this, Dashboard.class);
-                startActivity(intent);
-                finish();
-            }
         }
     }
 
@@ -344,6 +333,26 @@ public class MainActivity extends AppCompatActivity {
             User.getInstance().setID(result); //result may be json so need to parse.
         }
     }
+
+
+        //used in gotodashboard.
+
+            if (User.getInstance().getID().equals("")) {
+                //addUserToServer(); //should populate user ID field
+                if (User.getInstance().getID().equals("")) {
+                    try {
+                        Toast.makeText(getBaseContext(), "Please wait for account creation", Toast.LENGTH_LONG).show();
+                        Thread.sleep(5000);
+
+                    } catch (InterruptedException e) {
+                        Log.d("Main:Dashboard:sleep", "sleep interrupted");
+                    }
+                }
+                Log.d("Main:Dashboard:sleep", "user id= " + User.getInstance().getID());
+
+            }
+
+
 */
 
 public void clearButton(View v){
