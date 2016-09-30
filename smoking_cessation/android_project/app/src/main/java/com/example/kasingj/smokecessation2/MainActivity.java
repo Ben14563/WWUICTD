@@ -2,6 +2,7 @@ package com.example.kasingj.smokecessation2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -38,6 +39,7 @@ import javax.microedition.khronos.egl.EGLDisplay;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import java.util.regex.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,89 +48,19 @@ public class MainActivity extends AppCompatActivity {
     EditText FIRST_NAME, LAST_NAME, AGE, GENDER, ETHNICITY, CIGS_PER_DAY, PRICE_PER_PACK, YEARS_SMOKED;
     Context ctx = this;
 
+    EditText USERNAME, PASSWORD, EMAIL, CON_PASS;
+    String password, email, con_pass;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        //creating fragments for intro activities
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Current Habits"));
-        tabLayout.addTab(tabLayout.newTab().setText("Goals"));
-        tabLayout.addTab(tabLayout.newTab().setText("Demographics"));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        setContentView(R.layout.content_main);
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        final PagerAdapter adapter = new PagerAdapter
-                (getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-
-//                FIRST_NAME = (EditText) findViewById(R.id.firstNameInput);
-//                LAST_NAME = (EditText) findViewById(R.id.lastNameInput);
-//                AGE = (EditText) findViewById(R.id.ageInput);
-//                GENDER = (EditText) findViewById(R.id.genderInput);
-//                ETHNICITY = (EditText) findViewById(R.id.ethnicInput);
-//
-//                firstName = FIRST_NAME.getText().toString();
-//                lastName = LAST_NAME.getText().toString();
-//                age = AGE.getText().toString();
-//                gender = GENDER.getText().toString();
-//                ethn = ETHNICITY.getText().toString();
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-//                PRICE_PER_PACK = (EditText) findViewById(R.id.costInput);
-//                pricePerPack = PRICE_PER_PACK.getText().toString();
-
-                CIGS_PER_DAY = (EditText) findViewById(R.id.cigsPerDayInput);
-                PRICE_PER_PACK = (EditText) findViewById(R.id.costInput);
-                YEARS_SMOKED = (EditText) findViewById(R.id.yearsInput);
-
-                cigsPerDay = CIGS_PER_DAY.getText().toString();
-                pricePerPack = PRICE_PER_PACK.getText().toString();
-                yearSmoked = YEARS_SMOKED.getText().toString();
-
-                UserDemographics.getInstance().setCigsPerDay(cigsPerDay);
-                UserDemographics.getInstance().setCostPerPack(pricePerPack);
-                UserDemographics.getInstance().setNumYearsSmoked(yearSmoked);
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-/*
-        Button signUpButton = (Button)findViewById(R.id.signUpButton); // example button
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-            AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
-                @Override
-                protected String doInBackground(String... params) {
-                    //result is the json string of the request. might be null
-                    String result = new HttpRunner().getFriendInformation("which friend?");
-                    return result;
-                }
-
-                @Override
-                protected void onPostExecute(String result) {
-
-                }
-            };
-        }}); // end of async task for clicking a button the httpRunner is abstract but requires a unique url and functions to parse/connect to main thread.*/
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
     }
+
 
     public void addUserToServer() {
         try {
@@ -167,8 +99,8 @@ public class MainActivity extends AppCompatActivity {
 
                     DatabaseOperations db = new DatabaseOperations(ctx);
                     db.addUserStats(db, username, id, time, "0", "0", "0", "0", "0", "0", "0.00", "0");
-                    //saveUserDemo();
-                    db.addUserDemo(db, username, id, "boop", "noop", "12", "Male", "White", cigsPerDay, pricePerPack, "sdfg d");
+                    saveUserDemo();
+                    //db.addUserDemo(db, username, id, "boop", "noop", "12", "Male", "White", cigsPerDay, pricePerPack, "sdfg d");
 
                     Toast.makeText(getBaseContext(), "Profile creation successful!", Toast.LENGTH_LONG).show();
 
@@ -228,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
                 protected String doInBackground(String... params) {
                     //result is the json string of the request. might be null
                     HttpRunner runner = new HttpRunner();
-                    String result = runner.addBuddyToUser(params[0],params[1]);
+                    String result = runner.addBuddyToUser(params[0], params[1]);
                     Log.d("http:addBuddyToUser", "**user: "+params[0]+ "data: " + result);
                     if (result == null) {
                         return "NULL";
@@ -252,6 +184,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToDashboard(View view) {
+        //before going to dashboard  sanitize data
+        if (checkInput() == true){
+
         ConnectivityManager connMgr = (ConnectivityManager)
                 ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -262,9 +197,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             // fetch data
             //add user to database
-            Toast.makeText(getBaseContext(), "Please connect to the internet before proceeding", Toast.LENGTH_LONG).show();
             addUserToServer(); //should populate user ID field
-
+        }
         }
     }
 
@@ -281,17 +215,17 @@ public class MainActivity extends AppCompatActivity {
     // save user demographics
     public void saveUserDemo() {
 
-        FIRST_NAME = (EditText) findViewById(R.id.firstNameInput);
+      /*  FIRST_NAME = (EditText) findViewById(R.id.firstNameInput);
         LAST_NAME = (EditText) findViewById(R.id.lastNameInput);
         AGE = (EditText) findViewById(R.id.ageInput);
         GENDER = (EditText) findViewById(R.id.genderInput);
-        ETHNICITY = (EditText) findViewById(R.id.ethnicInput);
+        ETHNICITY = (EditText) findViewById(R.id.ethnicInput);*/
 
-        firstName = FIRST_NAME.getText().toString();
+        /*firstName = FIRST_NAME.getText().toString();
         lastName = LAST_NAME.getText().toString();
         age = AGE.getText().toString();
         gender = GENDER.getText().toString();
-        ethn = ETHNICITY.getText().toString();
+        ethn = ETHNICITY.getText().toString();*/
 
         DatabaseOperations dbDemo = new DatabaseOperations(ctx);
         dbDemo.addUserDemo(dbDemo, username, id, firstName, lastName, age, gender, ethn, cigsPerDay, pricePerPack, yearSmoked);
@@ -353,18 +287,93 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-*/
+*/public boolean checkInput () {
 
-public void clearButton(View v){
-    TextView tv = (TextView)findViewById(R.id.motivationBox);
-    TextView tv2 = (TextView)findViewById(R.id.motivationBox2);
-    TextView tv3 = (TextView)findViewById(R.id.motivationBox3);
-    tv.setText("");
-    tv2.setText("");
-    tv3.setText("");
-}
+      USERNAME = (EditText) findViewById(R.id.signUpUserInput);
+      PASSWORD = (EditText) findViewById(R.id.signUpPassInput);
+      CON_PASS = (EditText) findViewById(R.id.signUpPassConfirm);
+      EMAIL = (EditText) findViewById(R.id.signUpEmailInput);
+      CIGS_PER_DAY = (EditText)findViewById(R.id.cigsPerDayInput);
+      PRICE_PER_PACK = (EditText)findViewById(R.id.costInput);
+      YEARS_SMOKED = (EditText)findViewById(R.id.yearsInput);
+      cigsPerDay = CIGS_PER_DAY.getText().toString();
+      pricePerPack = PRICE_PER_PACK.getText().toString();
+      yearSmoked = YEARS_SMOKED.getText().toString();
+      username = USERNAME.getText().toString();
+      password = PASSWORD.getText().toString();
+      con_pass = CON_PASS.getText().toString();
+      email = EMAIL.getText().toString();
+      String regex = "\\d+(?:\\.\\d+)?";
 
+      //cigsPerDay = (EditText)R.id.cigsPerDayInput ;
 
+      DatabaseOperations dbAuth = new DatabaseOperations(ctx);
+      Cursor cr = dbAuth.getUserAuth(dbAuth);
+      boolean exist = false;
 
+      //check if username exists
+      if (cr != null && cr.moveToFirst()) {
+          do {
+              if (username.equals(cr.getString(0))) {
+                  exist = true;
+              }
+          } while (cr.moveToNext());
+      }
+
+      if (exist == true) {
+          Toast.makeText(getBaseContext(), "Username already exists", Toast.LENGTH_LONG).show();
+          return false;
+      }
+      else if (username.equals("")) {
+          Toast.makeText(getBaseContext(), "Must enter valid username", Toast.LENGTH_LONG).show();
+          return false;
+      }
+      else if (email.equals("")) {
+          Toast.makeText(getBaseContext(), "Email required", Toast.LENGTH_LONG).show();
+          return false;
+      }
+      else if (password.equals("")) {
+          Toast.makeText(getBaseContext(), "Password required", Toast.LENGTH_LONG).show();
+          return false;
+      }
+      else if (con_pass.equals("")) {
+          PASSWORD.setText("");
+          Toast.makeText(getBaseContext(), "Must confirm password", Toast.LENGTH_LONG).show();
+          return false;
+      }
+      else if (!password.equals(con_pass)) {
+          PASSWORD.setText("");
+          CON_PASS.setText("");
+          Toast.makeText(getBaseContext(), "Password does not match", Toast.LENGTH_LONG).show();
+          return false;
+      } //check everything else.
+      else if (!cigsPerDay.matches(regex) ){
+          Toast.makeText(getBaseContext(), "cigs per day must be a number.", Toast.LENGTH_LONG).show();
+          return false;
+      }else if(!pricePerPack.matches(regex)){
+          Toast.makeText(getBaseContext(), "cost per pack must be a number.", Toast.LENGTH_LONG).show();
+          return false;
+      }else if(!yearSmoked.matches(regex)){
+          Toast.makeText(getBaseContext(), "num years smoked must be a number.", Toast.LENGTH_LONG).show();
+          return false;
+      }
+          //valid username & password
+          User.getInstance().setUsername(username);
+          User.getInstance().setPassword(password);
+          User.getInstance().setEmail(email);
+          UserDemographics.getInstance().setCostPerPack(pricePerPack);
+          UserDemographics.getInstance().setCigsPerDay(cigsPerDay);
+      UserDemographics.getInstance().setNumYearsSmoked(yearSmoked);
+          Log.d("Next Button", "initialized username, password, email");
+
+          //add user to db
+          DatabaseOperations db = new DatabaseOperations(ctx);
+          db.addUserAuth(db, username, password, email);
+
+      cr.close();
+      dbAuth.close();
+      return true;
+    /*done checking authentification information*/
+  }
 }
 

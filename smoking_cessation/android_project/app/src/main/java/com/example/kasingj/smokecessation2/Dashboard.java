@@ -59,7 +59,7 @@ public class Dashboard extends AppCompatActivity {
         // update cravings resisted count
         TextView resCraveText = (TextView) findViewById(R.id.resCraveCount);
         resCraveText.setText(User.getInstance().getCravingsResisted());
-        // update money saved total
+        // update money saved total still does not like parse line.
         moneySaved = (cravsRes * Double.parseDouble(UserDemographics.getInstance().getCostPerPack())) / 20;
         totalMoneySaved = "$" + new DecimalFormat("##.##").format(moneySaved);
         TextView moneySavedAmount = (TextView) findViewById(R.id.moneySavedAmount);

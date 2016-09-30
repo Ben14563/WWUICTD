@@ -36,7 +36,7 @@ public class TableData {
         public static final String CIGS_PER_DAY = "cigs_per_day";
         public static final String PRICE_PER_PACK = "price_per_pack";
         public static final String NUM_YEARS_SMOKED = "num_years_smoked";
-        public static final String DATABASE_NAME = "app_data";
+        public static final String DATABASE_NAME = "app_data2"; //change this to reset db then back to dbop change dp version back to 1
         public static final String USER_DEMO_TABLE_NAME = "user_demo";
         public static final String USER_AUTH_TABLE_NAME = "user_auth";
         public static final String USER_TABLE_NAME = "user_stats";

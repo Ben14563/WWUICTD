@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.kasingj.smokecessation2.SignUp"
-    tools:showIn="@layout/activity_sign_up"
-    android:background="#bdd094">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -83,7 +74,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:id="@+id/editText"
+                android:id="@+id/cigsPerDayInput"
                 android:hint="Cigs Per Day"
                 android:gravity="center"
                 android:layout_marginLeft="100dp"
@@ -98,7 +89,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:id="@+id/editText2"
+                android:id="@+id/costInput"
                 android:hint="Cost Per Pack"
                 android:layout_margin="25dp"
                 android:gravity="center"
@@ -112,21 +103,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:id="@+id/editText3"
-                android:hint="Number of years smoking"
-                android:layout_margin="25dp"
-                android:gravity="center"
-                android:layout_marginLeft="100dp"
-                android:layout_marginRight="100dp"
-                android:singleLine="true"
-                android:layout_marginTop="100dp"
-                android:layout_marginBottom="10dp"
-                android:background="#f0f0f0"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:id="@+id/editText4"
+                android:id="@+id/yearsInput"
                 android:hint="Number of years smoking"
                 android:layout_margin="25dp"
                 android:gravity="center"
@@ -142,7 +119,7 @@
                 android:layout_height="wrap_content"
                 android:text="Next"
                 android:id="@+id/signUpNextButton"
-                android:onClick="goToMain"
+                android:onClick="goToDashboard"
                 android:layout_below="@+id/signUpPassConfirm"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="0dp"
@@ -153,5 +130,4 @@
                 android:layout_margin="20dp" />
         </LinearLayout>
     </ScrollView>
-
-</RelativeLayout>
+</LinearLayout>
