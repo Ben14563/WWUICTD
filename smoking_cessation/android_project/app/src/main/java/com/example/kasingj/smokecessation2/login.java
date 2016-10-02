@@ -42,7 +42,7 @@ public class login extends AppCompatActivity {
 
         if (cr != null && cr.moveToFirst()) {
             do {
-                if (username.equals(cr.getString(0)) && password.equals(cr.getString(1))) {
+                if (username.equals(cr.getString(1)) && password.equals(cr.getString(2))) {
                     loginStatus = true;
                 }
             } while (cr.moveToNext());

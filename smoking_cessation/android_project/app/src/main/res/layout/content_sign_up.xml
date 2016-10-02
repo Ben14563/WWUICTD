@@ -83,7 +83,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:id="@+id/editText"
+                android:id="@+id/signUpCigsPerDay"
                 android:hint="Cigs Per Day"
                 android:gravity="center"
                 android:layout_marginLeft="100dp"
@@ -98,7 +98,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:id="@+id/editText2"
+                android:id="@+id/signUpPricePerPack"
                 android:hint="Cost Per Pack"
                 android:layout_margin="25dp"
                 android:gravity="center"
@@ -112,21 +112,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:id="@+id/editText3"
-                android:hint="Number of years smoking"
-                android:layout_margin="25dp"
-                android:gravity="center"
-                android:layout_marginLeft="100dp"
-                android:layout_marginRight="100dp"
-                android:singleLine="true"
-                android:layout_marginTop="100dp"
-                android:layout_marginBottom="10dp"
-                android:background="#f0f0f0"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:id="@+id/editText4"
+                android:id="@+id/signUpNumYearsSmoked"
                 android:hint="Number of years smoking"
                 android:layout_margin="25dp"
                 android:gravity="center"

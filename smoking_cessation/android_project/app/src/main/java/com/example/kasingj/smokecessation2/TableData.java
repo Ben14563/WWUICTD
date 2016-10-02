@@ -42,6 +42,10 @@ public class TableData {
         public static final String USER_TABLE_NAME = "user_stats";
         public static final String USER_FRIENDS_TABLE_NAME = "user_friends";
         public static final String FRIENDS_TABLE_NAME = "friends_stats";
+        public static final String SERVER_ID = "server_id";
+        public static final String USER_AUTH_ID = "user_auth_id";
+        public static final String FRIEND_OF_ID = "friend_of_id";
+
     }
 
 }

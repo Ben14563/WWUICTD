@@ -22,6 +22,53 @@ public class User {
     private static String NUM_CIGS_SMOKED="";
     private static String MONEY_SAVED="";
     private static String LIFE_REGAINED="";
+    private static int SERVER_ID= -1;
+    private static int USER_AUTH_ID= -1;
+
+    public static int getServerId() {
+        return SERVER_ID;
+    }
+
+    public static void setServerId(int serverId) {
+        SERVER_ID = serverId;
+    }
+
+    public static int getUserAuthId() {
+        return USER_AUTH_ID;
+    }
+
+    public static void setUserAuthId(int userAuthId) {
+        USER_AUTH_ID = userAuthId;
+    }
+
+
+    public static String getCigsPerDay() {
+        return CIGS_PER_DAY;
+    }
+
+    public static void setCigsPerDay(String cigsPerDay) {
+        CIGS_PER_DAY = cigsPerDay;
+    }
+
+    public static String getPricePerPack() {
+        return PRICE_PER_PACK;
+    }
+
+    public static void setPricePerPack(String pricePerPack) {
+        PRICE_PER_PACK = pricePerPack;
+    }
+
+    public static String getNumYearsSmoked() {
+        return NUM_YEARS_SMOKED;
+    }
+
+    public static void setNumYearsSmoked(String numYearsSmoked) {
+        NUM_YEARS_SMOKED = numYearsSmoked;
+    }
+
+    private static String CIGS_PER_DAY="";
+    private static String PRICE_PER_PACK="";
+    private static String NUM_YEARS_SMOKED="";
     private static HashSet<String> friends = new HashSet<String>(); //
     private static User ourInstance = new User();
 
@@ -41,10 +88,11 @@ public class User {
     }
 
     protected void setFields(String user_name,String time, String total_days_free, String longest_streak, String current_streak, String num_cravings,
-                             String cravings_resisted, String num_cigs_smoked, String money_saved, String life_regained){
+                             String cravings_resisted, String num_cigs_smoked, String money_saved, String life_regained,String cigsPerDay, String pricePerPack, String numYearsSmoked){
         USER_NAME=user_name; TIME=time; TOTAL_DAYS_FREE=total_days_free; LONGEST_STREAK=longest_streak;
         CURRENT_STREAK=current_streak; NUM_CRAVINGS=num_cravings; CRAVINGS_RESISTED=cravings_resisted;
         NUM_CIGS_SMOKED=num_cigs_smoked; MONEY_SAVED=money_saved; LIFE_REGAINED=life_regained;
+        CIGS_PER_DAY=cigsPerDay; PRICE_PER_PACK=pricePerPack;NUM_YEARS_SMOKED=numYearsSmoked;
     }
 
     protected void setUsername(String name) {

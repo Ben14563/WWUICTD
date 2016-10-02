@@ -17,8 +17,8 @@ public class SignUp extends AppCompatActivity {
     which is verified against the database and added, does not require. internet. but final fragment will
     so maybe stop them here if there is no internet.*/
 
-    EditText USERNAME, PASSWORD, EMAIL, CON_PASS;
-    String username, password, email, con_pass;
+    EditText USERNAME, PASSWORD, EMAIL, CON_PASS, CIGS_PER_DAY, PRICE_PER_PACK,NUM_YEARS_SMOKED;
+    String username, password, email, con_pass, cigsPerDay, pricePerPack,numYearsSmoked ;
     Context ctx = this;
 
     @Override
@@ -35,10 +35,17 @@ public class SignUp extends AppCompatActivity {
         PASSWORD = (EditText) findViewById(R.id.signUpPassInput);
         CON_PASS = (EditText) findViewById(R.id.signUpPassConfirm);
         EMAIL = (EditText) findViewById(R.id.signUpEmailInput);
+        CIGS_PER_DAY = (EditText) findViewById(R.id.signUpCigsPerDay);
+        PRICE_PER_PACK = (EditText) findViewById(R.id.signUpPricePerPack);
+        NUM_YEARS_SMOKED = (EditText) findViewById(R.id.signUpNumYearsSmoked);
         username = USERNAME.getText().toString();
         password = PASSWORD.getText().toString();
         con_pass = CON_PASS.getText().toString();
+        cigsPerDay = CIGS_PER_DAY.getText().toString();
+        pricePerPack = PRICE_PER_PACK.getText().toString();
+        numYearsSmoked = NUM_YEARS_SMOKED.getText().toString();
         email = EMAIL.getText().toString();
+
 
         DatabaseOperations dbAuth = new DatabaseOperations(ctx);
         Cursor cr = dbAuth.getUserAuth(dbAuth);
@@ -68,6 +75,15 @@ public class SignUp extends AppCompatActivity {
         else if (con_pass.equals("")) {
             PASSWORD.setText("");
             Toast.makeText(getBaseContext(), "Must confirm password", Toast.LENGTH_LONG).show();
+        }else if (cigsPerDay.equals("")) {
+            PASSWORD.setText("");
+            Toast.makeText(getBaseContext(), "Must confirm cigs per day", Toast.LENGTH_LONG).show();
+        } else if (pricePerPack.equals("")) {
+            PASSWORD.setText("");
+            Toast.makeText(getBaseContext(), "Must confirm price per pack", Toast.LENGTH_LONG).show();
+        }else if (numYearsSmoked.equals("")) {
+            PASSWORD.setText("");
+            Toast.makeText(getBaseContext(), "Must confirm num years smoked", Toast.LENGTH_LONG).show();
         }
         else if (!password.equals(con_pass)) {
             PASSWORD.setText("");
@@ -79,6 +95,9 @@ public class SignUp extends AppCompatActivity {
             User.getInstance().setUsername(username);
             User.getInstance().setPassword(password);
             User.getInstance().setEmail(email);
+            User.getInstance().setCigsPerDay(cigsPerDay);
+            User.getInstance().setPricePerPack(pricePerPack);
+            User.getInstance().setNumYearsSmoked(numYearsSmoked);
             Log.d("Next Button", "initialized username, password, email");
 
             //add user to db

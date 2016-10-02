@@ -55,12 +55,12 @@ public class Dashboard extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         updateUser();
-        updateUserDemo();
+        //updateUserDemo();
         // update cravings resisted count
         TextView resCraveText = (TextView) findViewById(R.id.resCraveCount);
         resCraveText.setText(User.getInstance().getCravingsResisted());
         // update money saved total still does not like parse line.
-        moneySaved = (cravsRes * Double.parseDouble(UserDemographics.getInstance().getCostPerPack())) / 20;
+        moneySaved = (cravsRes * Double.parseDouble( User.getInstance().getPricePerPack() )) / 20;
         totalMoneySaved = "$" + new DecimalFormat("##.##").format(moneySaved);
         TextView moneySavedAmount = (TextView) findViewById(R.id.moneySavedAmount);
         moneySavedAmount.setText(totalMoneySaved);
@@ -118,6 +118,10 @@ public class Dashboard extends AppCompatActivity {
             numSmokes = Integer.parseInt(cr.getString(8));
             moneySaved = Double.parseDouble(cr.getString(9));
             lifeReg = Integer.parseInt(cr.getString(10));
+            cigsPerDay = cr.getString(11);
+            pricePerPack = cr.getString(12);
+            numYearsSmoked = cr.getString(13);
+
 
             User.getInstance().setID(id);
             User.getInstance().setTotalDaysFree(totDaysFree);
@@ -128,6 +132,10 @@ public class Dashboard extends AppCompatActivity {
             User.getInstance().setNumCigsSmoked(numSmokes);
             User.getInstance().setMoneySaved(moneySaved);
             User.getInstance().setLifeRegained(lifeReg);
+            User.getInstance().setCigsPerDay(cigsPerDay);
+            User.getInstance().setPricePerPack(pricePerPack);
+            User.getInstance().setNumYearsSmoked(numYearsSmoked);
+
             Log.d("Entered Dashboard", "User object updated");
         }
         cr.close();
@@ -143,9 +151,11 @@ public class Dashboard extends AppCompatActivity {
         User.getInstance().setNumCravings(cravs);
         incrementFieldOnServer("cravings");
         DatabaseOperations db = new DatabaseOperations(ctx);
-        db.addUserStats(db, username, User.getInstance().getID() ,time, Integer.toString(totDaysFree),Integer.toString(longStreak), Integer.toString(currStreak),
+        int serverId = User.getInstance().getServerId();
+        int userAuth = User.getInstance().getUserAuthId();
+        db.addUserStats(db, username,time, Integer.toString(totDaysFree),Integer.toString(longStreak), Integer.toString(currStreak),
                 Integer.toString(cravs), Integer.toString(cravsRes), Integer.toString(numSmokes), Double.toString(moneySaved),
-                Integer.toString(lifeReg));
+                Integer.toString(lifeReg), cigsPerDay, pricePerPack, numYearsSmoked,serverId,userAuth);
         Log.d("Crave Button", "Logged 1 craving");
         Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
         Log.d("********TEST: ", User.getInstance().getUsername() + "'s Crave count: " + User.getInstance().getNumCravings() + " ************");
@@ -167,9 +177,11 @@ public class Dashboard extends AppCompatActivity {
         User.getInstance().setLifeRegained(lifeReg);
         incrementFieldOnServer("cravings_resisted");
         DatabaseOperations db = new DatabaseOperations(ctx);
-        db.addUserStats(db, username, User.getInstance().getID(), time, Integer.toString(totDaysFree), Integer.toString(longStreak), Integer.toString(currStreak),
+        int serverId = User.getInstance().getServerId();
+        int userAuth = User.getInstance().getUserAuthId();
+        db.addUserStats(db, username,time, Integer.toString(totDaysFree),Integer.toString(longStreak), Integer.toString(currStreak),
                 Integer.toString(cravs), Integer.toString(cravsRes), Integer.toString(numSmokes), Double.toString(moneySaved),
-                Integer.toString(lifeReg));
+                Integer.toString(lifeReg), cigsPerDay, pricePerPack, numYearsSmoked,serverId,userAuth);
         Log.d("Resist Craving Button", "Logged 1 craving resisted");
         Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
         Log.d("********TEST: ", User.getInstance().getUsername() + "'s Crave Resist count: " + User.getInstance().getCravingsResisted() + " ************");
@@ -197,9 +209,11 @@ public class Dashboard extends AppCompatActivity {
         incrementFieldOnServer("cigs_smoked");
 
         DatabaseOperations db = new DatabaseOperations(ctx);
-        db.addUserStats(db, username, User.getInstance().getID() ,time, Integer.toString(totDaysFree),Integer.toString(longStreak), Integer.toString(currStreak),
+        int serverId = User.getInstance().getServerId();
+        int userAuth = User.getInstance().getUserAuthId();
+        db.addUserStats(db, username,time, Integer.toString(totDaysFree),Integer.toString(longStreak), Integer.toString(currStreak),
                 Integer.toString(cravs), Integer.toString(cravsRes), Integer.toString(numSmokes), Double.toString(moneySaved),
-                Integer.toString(lifeReg));
+                Integer.toString(lifeReg), cigsPerDay, pricePerPack, numYearsSmoked,serverId,userAuth);
         Log.d("Smoked Button", "Logged 1 smoked cigarette");
         Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
         Log.d("********TEST: ", User.getInstance().getUsername() + "'s Smoke count: " + User.getInstance().getNumCigsSmoked() + " ************");

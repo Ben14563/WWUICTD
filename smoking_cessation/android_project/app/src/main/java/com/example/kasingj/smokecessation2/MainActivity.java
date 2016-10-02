@@ -5,46 +5,22 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import javax.microedition.khronos.egl.EGLDisplay;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import java.util.regex.*;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String time, id;
-    private String username, firstName, lastName, age, gender, ethn, cigsPerDay, pricePerPack, yearSmoked;
+    private String time, serverId;
+    private String username, firstName, lastName, age, gender, ethn, cigsPerDay, pricePerPack, numYearsSmoked;
     EditText FIRST_NAME, LAST_NAME, AGE, GENDER, ETHNICITY, CIGS_PER_DAY, PRICE_PER_PACK, YEARS_SMOKED;
     Context ctx = this;
 
@@ -57,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
 
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.serverId.toolbar);
         //setSupportActionBar(toolbar);
     }
 
@@ -69,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
                 protected String doInBackground(String... params) {
                     //result is the json string of the request. might be null
                     HttpRunner runner = new HttpRunner();
-                    String result = runner.addUser(User.getInstance().getUsername(), User.getInstance().getEmail(), "20", "10.00");
-                    Log.d("http:doInBackground", "***** newUser id: " + result);
+                    String result = runner.addUser(User.getInstance().getUsername(), User.getInstance().getEmail(), User.getInstance().getCigsPerDay(),User.getInstance().getPricePerPack());
+                    Log.d("http:doInBackground", "***** newUser serverId: " + result);
                     if (result == null) {
                         return "NULL";
                     }
@@ -79,38 +55,22 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 protected void onPostExecute(String result) {
-                    //expecting the user id
-                    Log.d("htt:add:postExecute", "********** newUser id: " + result);
+                    //expecting the user serverId
+                    Log.d("htt:add:postExecute", "********** newUser serverId: " + result);
                     User.getInstance().setID(result); //result may be json so need to parse.
-                    id = result;
-                    time = DatabaseOperations.getCurrTime();
-                    username = User.getInstance().getUsername();
+                    serverId = result;
 
-                    User.getInstance().setTime(time);
-                    User.getInstance().setTotalDaysFree(0);
-                    User.getInstance().setLongestStreak(0);
-                    User.getInstance().setCurrentStreak(0);
-                    User.getInstance().setNumCravings(0);
-                    User.getInstance().setCravsRes(0);
-                    User.getInstance().setNumCigsSmoked(0);
-                    User.getInstance().setMoneySaved(0.00);
-                    User.getInstance().setLifeRegained(0);
-                    Log.d("Finish Button", "initialized user stats");
 
                     DatabaseOperations db = new DatabaseOperations(ctx);
-                    db.addUserStats(db, username, id, time, "0", "0", "0", "0", "0", "0", "0.00", "0");
-                    saveUserDemo();
-                    //db.addUserDemo(db, username, id, "boop", "noop", "12", "Male", "White", cigsPerDay, pricePerPack, "sdfg d");
+                    db.updateServerIdForUser(db, serverId);
+                    //db.addUserStats(db, username, serverId, time, "0", "0", "0", "0", "0", "0", "0.00", "0" , cigsPerDay,pricePerPack, numYearsSmoked);
+                    //saveUserDemo();
+                    //db.addUserDemo(db, username, serverId, "boop", "noop", "12", "Male", "White", cigsPerDay, pricePerPack, "sdfg d");
 
-                    Toast.makeText(getBaseContext(), "Profile creation successful!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "Network save succesful!", Toast.LENGTH_LONG).show();
 
                     db.close();
                     //go to dashboard
-
-                    Log.d("finish button", "go to dashboard");
-                    Intent intent = new Intent(getApplicationContext(),Dashboard.class);
-                    startActivity(intent);
-                    finish();
                 }
             };
 
@@ -138,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 protected void onPostExecute(String result) {
-                    //expecting the user id
+                    //expecting the user serverId
                     Log.d("htt:data:postExecute", "fiend data" + result);
 
                     //result will be  json so need to parse. need function to parse data add to database
@@ -170,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 protected void onPostExecute(String result) {
-                    //expecting the user id
+                    //expecting the user serverId
                     Log.d("addBuddy:postExecute", "fiend data" + result);
                     //if no data returned then delete on post execute.
                 }
@@ -191,16 +151,39 @@ public class MainActivity extends AppCompatActivity {
                 ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null && networkInfo.isConnected()) {
-
-            Log.d("goToDashBoard", "*********No_Connectivity***********");
-            Toast.makeText(getBaseContext(), "Please connect to the internet before proceeding", Toast.LENGTH_LONG).show();
+            addUserLocally();
+            //Log.d("goToDashBoard", "*********No_Connectivity***********");
+            //Toast.makeText(getBaseContext(), "Please connect to the internet before proceeding", Toast.LENGTH_LONG).show();
         } else {
-            // fetch data
             //add user to database
-            addUserToServer(); //should populate user ID field
+            addUserLocally();
+            addUserToServer();
         }
+            Log.d("finish button", "go to dashboard");
+            Intent intent = new Intent(getApplicationContext(),Dashboard.class);
+            startActivity(intent);
+            finish();
         }
     }
+
+    public void addUserLocally(){
+        User.getInstance().setTime(time);
+        User.getInstance().setTotalDaysFree(0);
+        User.getInstance().setLongestStreak(0);
+        User.getInstance().setCurrentStreak(0);
+        User.getInstance().setNumCravings(0);
+        User.getInstance().setCravsRes(0);
+        User.getInstance().setMoneySaved(0.00);
+        User.getInstance().setLifeRegained(0);
+
+        Log.d("Finish Button", "initialized user stats");
+
+        DatabaseOperations db = new DatabaseOperations(ctx);
+        db.addUserStats(db, username, time, "0", "0", "0", "0", "0", "0", "0.00", "0" , cigsPerDay,pricePerPack, numYearsSmoked , 0,0 );
+        Toast.makeText(getBaseContext(), "Profile creation successful!", Toast.LENGTH_LONG).show();
+        db.close();
+    }
+
 
     public void goToFriends(View view) {
         Intent intent = new Intent(this, Friends.class);
@@ -215,11 +198,11 @@ public class MainActivity extends AppCompatActivity {
     // save user demographics
     public void saveUserDemo() {
 
-      /*  FIRST_NAME = (EditText) findViewById(R.id.firstNameInput);
-        LAST_NAME = (EditText) findViewById(R.id.lastNameInput);
-        AGE = (EditText) findViewById(R.id.ageInput);
-        GENDER = (EditText) findViewById(R.id.genderInput);
-        ETHNICITY = (EditText) findViewById(R.id.ethnicInput);*/
+      /*  FIRST_NAME = (EditText) findViewById(R.serverId.firstNameInput);
+        LAST_NAME = (EditText) findViewById(R.serverId.lastNameInput);
+        AGE = (EditText) findViewById(R.serverId.ageInput);
+        GENDER = (EditText) findViewById(R.serverId.genderInput);
+        ETHNICITY = (EditText) findViewById(R.serverId.ethnicInput);*/
 
         /*firstName = FIRST_NAME.getText().toString();
         lastName = LAST_NAME.getText().toString();
@@ -228,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
         ethn = ETHNICITY.getText().toString();*/
 
         DatabaseOperations dbDemo = new DatabaseOperations(ctx);
-        dbDemo.addUserDemo(dbDemo, username, id, firstName, lastName, age, gender, ethn, cigsPerDay, pricePerPack, yearSmoked);
+        //dbDemo.addUserDemo(dbDemo, username, serverId, firstName, lastName, age, gender, ethn, cigsPerDay, pricePerPack, yearSmoked);
         dbDemo.close();
     }
 
@@ -254,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
             //result is the json string of the request. might be null
             HttpRunner runner = new HttpRunner();
             String result = runner.addUser(User.getInstance().getUsername(),User.getInstance().getEmail(), "20" , "10.00"  );
-            Log.d("http:doInBackground","***** newUser id: "+result );
+            Log.d("http:doInBackground","***** newUser serverId: "+result );
             if (result == null){
                 return "NULL";
             }
@@ -262,8 +245,8 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(String result) {
-            //expecting the user id
-            Log.d("htt:add:postExecute","********** newUser id: "+result );
+            //expecting the user serverId
+            Log.d("htt:add:postExecute","********** newUser serverId: "+result );
             User.getInstance().setID(result); //result may be json so need to parse.
         }
     }
@@ -282,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("Main:Dashboard:sleep", "sleep interrupted");
                     }
                 }
-                Log.d("Main:Dashboard:sleep", "user id= " + User.getInstance().getID());
+                Log.d("Main:Dashboard:sleep", "user serverId= " + User.getInstance().getID());
 
             }
 
@@ -298,14 +281,14 @@ public class MainActivity extends AppCompatActivity {
       YEARS_SMOKED = (EditText)findViewById(R.id.yearsInput);
       cigsPerDay = CIGS_PER_DAY.getText().toString();
       pricePerPack = PRICE_PER_PACK.getText().toString();
-      yearSmoked = YEARS_SMOKED.getText().toString();
+      numYearsSmoked = YEARS_SMOKED.getText().toString();
       username = USERNAME.getText().toString();
       password = PASSWORD.getText().toString();
       con_pass = CON_PASS.getText().toString();
       email = EMAIL.getText().toString();
       String regex = "\\d+(?:\\.\\d+)?";
 
-      //cigsPerDay = (EditText)R.id.cigsPerDayInput ;
+      //cigsPerDay = (EditText)R.serverId.cigsPerDayInput ;
 
       DatabaseOperations dbAuth = new DatabaseOperations(ctx);
       Cursor cr = dbAuth.getUserAuth(dbAuth);
@@ -353,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
       }else if(!pricePerPack.matches(regex)){
           Toast.makeText(getBaseContext(), "cost per pack must be a number.", Toast.LENGTH_LONG).show();
           return false;
-      }else if(!yearSmoked.matches(regex)){
+      }else if(!numYearsSmoked.matches(regex)){
           Toast.makeText(getBaseContext(), "num years smoked must be a number.", Toast.LENGTH_LONG).show();
           return false;
       }
@@ -363,7 +346,7 @@ public class MainActivity extends AppCompatActivity {
           User.getInstance().setEmail(email);
           UserDemographics.getInstance().setCostPerPack(pricePerPack);
           UserDemographics.getInstance().setCigsPerDay(cigsPerDay);
-      UserDemographics.getInstance().setNumYearsSmoked(yearSmoked);
+      UserDemographics.getInstance().setNumYearsSmoked(numYearsSmoked);
           Log.d("Next Button", "initialized username, password, email");
 
           //add user to db
