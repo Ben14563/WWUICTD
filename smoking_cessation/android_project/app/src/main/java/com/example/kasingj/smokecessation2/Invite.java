@@ -44,7 +44,7 @@ public class Invite extends AppCompatActivity {
                 protected String doInBackground(String... params) {
                     //result is the json string of the request. might be null
                     HttpRunner runner = new HttpRunner();
-                    String result = runner.addBuddyToUser(User.getInstance().getID(), email);
+                    String result = runner.addBuddyToUser(User.getInstance().getServerId()+"", email);
                     if (result == null) {
                         return "NULL";
                     }

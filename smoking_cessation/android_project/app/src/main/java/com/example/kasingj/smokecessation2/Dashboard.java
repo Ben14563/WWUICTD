@@ -44,6 +44,8 @@ public class Dashboard extends AppCompatActivity {
     private String pricePerPack;
     private String numYearsSmoked;
     private String totalMoneySaved;
+    private Integer serverId;
+
 
     Context ctx = this;
 
@@ -68,7 +70,13 @@ public class Dashboard extends AppCompatActivity {
         // update total life regained
         TextView lifeRegText = (TextView) findViewById(R.id.lifeRegText);
         lifeRegText.setText(User.getInstance().getLifeRegained());
-        getFeed();
+        updateUser();
+        if(User.getInstance().getServerId() != -1 ){
+            getFeed();
+        } {
+            updateUser();
+        }
+
     }
 
     public void updateUserDemo() {
@@ -121,6 +129,7 @@ public class Dashboard extends AppCompatActivity {
             cigsPerDay = cr.getString(11);
             pricePerPack = cr.getString(12);
             numYearsSmoked = cr.getString(13);
+            serverId = cr.getInt(14);
 
 
             User.getInstance().setID(id);
@@ -135,6 +144,7 @@ public class Dashboard extends AppCompatActivity {
             User.getInstance().setCigsPerDay(cigsPerDay);
             User.getInstance().setPricePerPack(pricePerPack);
             User.getInstance().setNumYearsSmoked(numYearsSmoked);
+            User.getInstance().setServerId(serverId);
 
             Log.d("Entered Dashboard", "User object updated");
         }
@@ -170,7 +180,7 @@ public class Dashboard extends AppCompatActivity {
         cravsRes += 1;
         lifeReg += 11;
 
-        moneySaved = (cravsRes * Double.parseDouble(UserDemographics.getInstance().getCostPerPack())) / 20;
+        moneySaved = (cravsRes * Double.parseDouble(User.getInstance().getPricePerPack())) / 20;
         totalMoneySaved = "$" + new DecimalFormat("##.##").format(moneySaved);
 
         User.getInstance().setCravsRes(cravsRes);
@@ -245,7 +255,7 @@ public class Dashboard extends AppCompatActivity {
                 protected String doInBackground(String... params) {
                     //result is the json string of the request. might be null
                     HttpRunner runner = new HttpRunner();
-                    String result = runner.incrementField(User.getInstance().getID(), field);
+                    String result = runner.incrementField(""+ User.getInstance().getServerId(), field);
                     if (result == null) {
                         return "NULL";
                     }
@@ -256,7 +266,12 @@ public class Dashboard extends AppCompatActivity {
                 protected void onPostExecute(String result) {
                     //expecting the user id
                     Log.d("htt:add:postExecute", "**********  updated field: " + result);
-                    getFeed();
+                    updateUser();
+                    if(User.getInstance().getServerId() != -1 ){
+                        getFeed();
+                    }else {
+                        updateUser();
+                    }
                 }
             };
 
@@ -285,7 +300,12 @@ public class Dashboard extends AppCompatActivity {
                 protected void onPostExecute(String result) {
                     //expecting the user id
                     Log.d("htt:add:postExecute", "**********  updated field: " + result);
-                    getFeed();
+                    updateUser();
+                    if(User.getInstance().getServerId() != -1 ){
+                        getFeed();
+                    }{
+                        updateUser();
+                    }
                 }
             };
 
@@ -315,7 +335,12 @@ public class Dashboard extends AppCompatActivity {
                 protected void onPostExecute(String result) {
                     //expecting the user id
                     Log.d("htt:add:postExecute", "**********  updated field: " + result);
-                    getFeed();
+                    updateUser();
+                    if(User.getInstance().getServerId() != -1 ){
+                        getFeed();
+                    }else{
+                        updateUser();
+                    }
                 }
             };
 
@@ -333,7 +358,8 @@ public class Dashboard extends AppCompatActivity {
                 protected String doInBackground(String... params) {
                     //result is the json string of the request. might be null
                     HttpRunner runner = new HttpRunner();
-                    String result = runner.getFeedForUser(User.getInstance().getID());
+
+                    String result = runner.getFeedForUser( ""+User.getInstance().getServerId() );
                     if (result == null) {
                         return "NULL";
                     }

@@ -53,7 +53,7 @@ public class Friends extends AppCompatActivity {
                 protected String doInBackground(String... params) {
                     //result is the json string of the request. might be null
                     HttpRunner runner = new HttpRunner();
-                    String result = runner.getAllBuddies(User.getInstance().getID());
+                    String result = runner.getAllBuddies(User.getInstance().getServerId() + "");
                     if (result == null) {
                         return "NULL";
                     }

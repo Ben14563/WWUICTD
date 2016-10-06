@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 protected void onPostExecute(String result) {
                     //expecting the user serverId
                     Log.d("htt:add:postExecute", "********** newUser serverId: " + result);
-                    User.getInstance().setID(result); //result may be json so need to parse.
+                    User.getInstance().setServerId(Integer.parseInt(result) ); //result may be json so need to parse.
                     serverId = result;
 
 
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Finish Button", "initialized user stats");
 
         DatabaseOperations db = new DatabaseOperations(ctx);
-        db.addUserStats(db, username, time, "0", "0", "0", "0", "0", "0", "0.00", "0" , cigsPerDay,pricePerPack, numYearsSmoked , 0,0 );
+        db.addUserStats(db, username, time, "0", "0", "0", "0", "0", "0", "0.00", "0" , User.getInstance().getCigsPerDay() ,User.getInstance().getPricePerPack(), User.getInstance().getNumYearsSmoked() , -1,0 );
         Toast.makeText(getBaseContext(), "Profile creation successful!", Toast.LENGTH_LONG).show();
         db.close();
     }
@@ -344,9 +344,9 @@ public class MainActivity extends AppCompatActivity {
           User.getInstance().setUsername(username);
           User.getInstance().setPassword(password);
           User.getInstance().setEmail(email);
-          UserDemographics.getInstance().setCostPerPack(pricePerPack);
-          UserDemographics.getInstance().setCigsPerDay(cigsPerDay);
-      UserDemographics.getInstance().setNumYearsSmoked(numYearsSmoked);
+          User.getInstance().setPricePerPack(pricePerPack);
+          User.getInstance().setCigsPerDay(cigsPerDay);
+          User.getInstance().setNumYearsSmoked(numYearsSmoked);
           Log.d("Next Button", "initialized username, password, email");
 
           //add user to db

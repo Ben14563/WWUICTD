@@ -146,7 +146,8 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         String[] columns = {TableData.TableInfo.USER_NAME, TableData.TableInfo.ID, TableData.TableInfo.TIME, TableData.TableInfo.TOTAL_DAYS_FREE,
                 TableData.TableInfo.LONGEST_STREAK, TableData.TableInfo.CURRENT_STREAK, TableData.TableInfo.NUM_CRAVINGS,
                 TableData.TableInfo.CRAVINGS_RESISTED, TableData.TableInfo.NUM_CIGS_SMOKED, TableData.TableInfo.MONEY_SAVED,
-                TableData.TableInfo.LIFE_REGAINED, TableData.TableInfo.CIGS_PER_DAY, TableData.TableInfo.PRICE_PER_PACK, TableData.TableInfo.NUM_YEARS_SMOKED} ;
+                TableData.TableInfo.LIFE_REGAINED, TableData.TableInfo.CIGS_PER_DAY, TableData.TableInfo.PRICE_PER_PACK, TableData.TableInfo.NUM_YEARS_SMOKED,
+                TableData.TableInfo.SERVER_ID, TableData.TableInfo.USER_AUTH_ID} ;
         String where = TableData.TableInfo.USER_NAME + " = ?";
         String[] whereArgs = new String[] {username};
         String orderBy = TableData.TableInfo.TIME + " DESC LIMIT 1";
