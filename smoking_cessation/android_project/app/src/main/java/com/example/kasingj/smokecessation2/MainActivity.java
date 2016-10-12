@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void addUserToServer() {
         System.out.println("test2print");
+        System.out.println("test3print");
         try {
             AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
                 @Override
