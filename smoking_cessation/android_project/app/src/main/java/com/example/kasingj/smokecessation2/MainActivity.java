@@ -17,133 +17,65 @@ import android.widget.Toast;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
 public class MainActivity extends AppCompatActivity {
 
     private String time, serverId;
     private String username, firstName, lastName, age, gender, ethn, cigsPerDay, pricePerPack, numYearsSmoked;
     EditText FIRST_NAME, LAST_NAME, AGE, GENDER, ETHNICITY, CIGS_PER_DAY, PRICE_PER_PACK, YEARS_SMOKED;
     Context ctx = this;
+    private static final String ENDPOINT = "198.199.67.166";
 
     EditText USERNAME, PASSWORD, EMAIL, CON_PASS;
     String password, email, con_pass;
+    HttpServices httpServices;
+    UserService userService;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
-        System.out.println("temp");
-        //Toolbar toolbar = (Toolbar) findViewById(R.serverId.toolbar);
-        //setSupportActionBar(toolbar);
+        httpServices = new HttpServices(this);
+        userService = new UserService(this);
     }
 
-
-    public void addUserToServer() {
-        System.out.println("test2print");
-        System.out.println("test3print");
-        try {
-            AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
-                @Override
-                protected String doInBackground(String... params) {
-                    //result is the json string of the request. might be null
-                    HttpRunner runner = new HttpRunner();
-                    String result = runner.addUser(User.getInstance().getUsername(), User.getInstance().getEmail(), User.getInstance().getCigsPerDay(),User.getInstance().getPricePerPack());
-                    Log.d("http:doInBackground", "***** newUser serverId: " + result);
-                    if (result == null) {
-                        return "NULL";
-                    }
-                    return result;
-                }
-
-                @Override
-                protected void onPostExecute(String result) {
-                    //expecting the user serverId
-                    Log.d("htt:add:postExecute", "********** newUser serverId: " + result);
-                    User.getInstance().setServerId(Integer.parseInt(result) ); //result may be json so need to parse.
-                    serverId = result;
-
-
-                    DatabaseOperations db = new DatabaseOperations(ctx);
-                    db.updateServerIdForUser(db, serverId);
-                    //db.addUserStats(db, username, serverId, time, "0", "0", "0", "0", "0", "0", "0.00", "0" , cigsPerDay,pricePerPack, numYearsSmoked);
-                    //saveUserDemo();
-                    //db.addUserDemo(db, username, serverId, "boop", "noop", "12", "Male", "White", cigsPerDay, pricePerPack, "sdfg d");
-
-                    Toast.makeText(getBaseContext(), "Network save succesful!", Toast.LENGTH_LONG).show();
-
-                    db.close();
-                    //go to dashboard
-                }
-            };
-
-            task.execute("param");
-        } finally {
-            Log.d("Main:addTaskfail", "async failed, or main failed");
-        }
-
-    }
-
-    public void getUserStats(String friendId){
-        try {
-            AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
-                @Override
-                protected String doInBackground(String... params) {
-                    //result is the json string of the request. might be null
-                    HttpRunner runner = new HttpRunner();
-                    String result = runner.getUserInformation(params[0]);
-                    Log.d("http:getUserStats", "**user: "+params[0]+ "data: " + result);
-                    if (result == null) {
-                        return "NULL";
-                    }
-                    return result;
-                }
-
-                @Override
-                protected void onPostExecute(String result) {
-                    //expecting the user serverId
-                    Log.d("htt:data:postExecute", "fiend data" + result);
-
-                    //result will be  json so need to parse. need function to parse data add to database
-                    //do stuff with user data
-                }
-            };
-
-            task.execute(friendId);
-        } finally {
-            Log.d("Main:addTaskfail","async failed, or main failed");
-        }
-
-    }
-
-    public void addBuddyToUser(String friendId, String email){
-        try {
-            AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
-                @Override
-                protected String doInBackground(String... params) {
-                    //result is the json string of the request. might be null
-                    HttpRunner runner = new HttpRunner();
-                    String result = runner.addBuddyToUser(params[0], params[1]);
-                    Log.d("http:addBuddyToUser", "**user: "+params[0]+ "data: " + result);
-                    if (result == null) {
-                        return "NULL";
-                    }
-                    return result;
-                }
-
-                @Override
-                protected void onPostExecute(String result) {
-                    //expecting the user serverId
-                    Log.d("addBuddy:postExecute", "fiend data" + result);
-                    //if no data returned then delete on post execute.
-                }
-            };
-
-            task.execute(friendId, email);
-        } finally {
-            Log.d("Main:addTaskfail","async failed, or main failed");
-        }
-
-    }
+//    public void getUserStats(String friendId){
+//        try {
+//            AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
+//                @Override
+//                protected String doInBackground(String... params) {
+//                    //result is the json string of the request. might be null
+//                    HttpRunner runner = new HttpRunner();
+//                    String result = runner.getUserInformation(params[0]);
+//                    Log.d("http:getUserStats", "**user: "+params[0]+ "data: " + result);
+//                    if (result == null) {
+//                        return "NULL";
+//                    }
+//                    return result;
+//                }
+//
+//                @Override
+//                protected void onPostExecute(String result) {
+//                    //expecting the user serverId
+//                    Log.d("htt:data:postExecute", "fiend data" + result);
+//
+//                    //result will be  json so need to parse. need function to parse data add to database
+//                    //do stuff with user data
+//                }
+//            };
+//
+//            task.execute(friendId);
+//        } finally {
+//            Log.d("Main:addTaskfail","async failed, or main failed");
+//        }
+//
+//    }
 
     public void goToDashboard(View view) {
         //before going to dashboard  sanitize data
@@ -153,13 +85,13 @@ public class MainActivity extends AppCompatActivity {
                 ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null && networkInfo.isConnected()) {
-            addUserLocally();
+            userService.addUserLocally();
             //Log.d("goToDashBoard", "*********No_Connectivity***********");
             //Toast.makeText(getBaseContext(), "Please connect to the internet before proceeding", Toast.LENGTH_LONG).show();
         } else {
             //add user to database
-            addUserLocally();
-            addUserToServer();
+            userService.addUserLocally();
+            httpServices.addUserToServer();
         }
             Log.d("finish button", "go to dashboard");
             Intent intent = new Intent(getApplicationContext(),Dashboard.class);
@@ -167,25 +99,6 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
     }
-
-    public void addUserLocally(){
-        User.getInstance().setTime(time);
-        User.getInstance().setTotalDaysFree(0);
-        User.getInstance().setLongestStreak(0);
-        User.getInstance().setCurrentStreak(0);
-        User.getInstance().setNumCravings(0);
-        User.getInstance().setCravsRes(0);
-        User.getInstance().setMoneySaved(0.00);
-        User.getInstance().setLifeRegained(0);
-
-        Log.d("Finish Button", "initialized user stats");
-
-        DatabaseOperations db = new DatabaseOperations(ctx);
-        db.addUserStats(db, username, time, "0", "0", "0", "0", "0", "0", "0.00", "0" , User.getInstance().getCigsPerDay() ,User.getInstance().getPricePerPack(), User.getInstance().getNumYearsSmoked() , -1,0 );
-        Toast.makeText(getBaseContext(), "Profile creation successful!", Toast.LENGTH_LONG).show();
-        db.close();
-    }
-
 
     public void goToFriends(View view) {
         Intent intent = new Intent(this, Friends.class);
@@ -195,26 +108,6 @@ public class MainActivity extends AppCompatActivity {
     public void goToStatistics(View view) {
         Intent intent = new Intent(this, Statistics.class);
         startActivity(intent);
-    }
-
-    // save user demographics
-    public void saveUserDemo() {
-
-      /*  FIRST_NAME = (EditText) findViewById(R.serverId.firstNameInput);
-        LAST_NAME = (EditText) findViewById(R.serverId.lastNameInput);
-        AGE = (EditText) findViewById(R.serverId.ageInput);
-        GENDER = (EditText) findViewById(R.serverId.genderInput);
-        ETHNICITY = (EditText) findViewById(R.serverId.ethnicInput);*/
-
-        /*firstName = FIRST_NAME.getText().toString();
-        lastName = LAST_NAME.getText().toString();
-        age = AGE.getText().toString();
-        gender = GENDER.getText().toString();
-        ethn = ETHNICITY.getText().toString();*/
-
-        DatabaseOperations dbDemo = new DatabaseOperations(ctx);
-        //dbDemo.addUserDemo(dbDemo, username, serverId, firstName, lastName, age, gender, ethn, cigsPerDay, pricePerPack, yearSmoked);
-        dbDemo.close();
     }
 
 
@@ -233,46 +126,8 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-  /*  private class asyncAddFriends extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-            //result is the json string of the request. might be null
-            HttpRunner runner = new HttpRunner();
-            String result = runner.addUser(User.getInstance().getUsername(),User.getInstance().getEmail(), "20" , "10.00"  );
-            Log.d("http:doInBackground","***** newUser serverId: "+result );
-            if (result == null){
-                return "NULL";
-            }
-            return result;
-        }
-        @Override
-        protected void onPostExecute(String result) {
-            //expecting the user serverId
-            Log.d("htt:add:postExecute","********** newUser serverId: "+result );
-            User.getInstance().setID(result); //result may be json so need to parse.
-        }
-    }
 
-
-        //used in gotodashboard.
-
-            if (User.getInstance().getID().equals("")) {
-                //addUserToServer(); //should populate user ID field
-                if (User.getInstance().getID().equals("")) {
-                    try {
-                        Toast.makeText(getBaseContext(), "Please wait for account creation", Toast.LENGTH_LONG).show();
-                        Thread.sleep(5000);
-
-                    } catch (InterruptedException e) {
-                        Log.d("Main:Dashboard:sleep", "sleep interrupted");
-                    }
-                }
-                Log.d("Main:Dashboard:sleep", "user serverId= " + User.getInstance().getID());
-
-            }
-
-
-*/public boolean checkInput () {
+    public boolean checkInput () {
 
       USERNAME = (EditText) findViewById(R.id.signUpUserInput);
       PASSWORD = (EditText) findViewById(R.id.signUpPassInput);
@@ -362,3 +217,43 @@ public class MainActivity extends AppCompatActivity {
   }
 }
 
+  /*  private class asyncAddFriends extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            //result is the json string of the request. might be null
+            HttpRunner runner = new HttpRunner();
+            String result = runner.addUser(User.getInstance().getUsername(),User.getInstance().getEmail(), "20" , "10.00"  );
+            Log.d("http:doInBackground","***** newUser serverId: "+result );
+            if (result == null){
+                return "NULL";
+            }
+            return result;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            //expecting the user serverId
+            Log.d("htt:add:postExecute","********** newUser serverId: "+result );
+            User.getInstance().setID(result); //result may be json so need to parse.
+        }
+    }
+
+
+        //used in gotodashboard.
+
+            if (User.getInstance().getID().equals("")) {
+                //addUserToServer(); //should populate user ID field
+                if (User.getInstance().getID().equals("")) {
+                    try {
+                        Toast.makeText(getBaseContext(), "Please wait for account creation", Toast.LENGTH_LONG).show();
+                        Thread.sleep(5000);
+
+                    } catch (InterruptedException e) {
+                        Log.d("Main:Dashboard:sleep", "sleep interrupted");
+                    }
+                }
+                Log.d("Main:Dashboard:sleep", "user serverId= " + User.getInstance().getID());
+
+            }
+
+
+*/

@@ -24,6 +24,11 @@ public class User {
     private static String LIFE_REGAINED="";
     private static int SERVER_ID= -1;
     private static int USER_AUTH_ID= -1;
+    private static String CIGS_PER_DAY="";
+    private static String PRICE_PER_PACK="";
+    private static String NUM_YEARS_SMOKED="";
+    private static HashSet<String> friends = new HashSet<String>(); //
+    private static User ourInstance = new User();
 
     public static int getServerId() {
         return SERVER_ID;
@@ -65,12 +70,6 @@ public class User {
     public static void setNumYearsSmoked(String numYearsSmoked) {
         NUM_YEARS_SMOKED = numYearsSmoked;
     }
-
-    private static String CIGS_PER_DAY="";
-    private static String PRICE_PER_PACK="";
-    private static String NUM_YEARS_SMOKED="";
-    private static HashSet<String> friends = new HashSet<String>(); //
-    private static User ourInstance = new User();
 
     public static User getInstance() {
         return ourInstance;
