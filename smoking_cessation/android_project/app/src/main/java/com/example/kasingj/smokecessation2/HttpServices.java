@@ -1,6 +1,7 @@
 package com.example.kasingj.smokecessation2;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -37,49 +38,58 @@ public class HttpServices {
 * */
 
 
-public void addUserToServer(){
-    String serverId;
-    String url= ENDPOINT + "";
-    StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-            new Response.Listener<String>() {
-                @Override
-                public void onResponse(String serverId) {
-                    // Result handling
-                    User.getInstance().setServerId(Integer.parseInt(serverId)); //result may be json so need to parse.
-                    DatabaseOperations db = new DatabaseOperations(context);
-                    db.updateServerIdForUser(db, serverId);
-                    //db.addUserStats(db, username, serverId, time, "0", "0", "0", "0", "0", "0", "0.00", "0" , cigsPerDay,pricePerPack, numYearsSmoked);
-                    Toast.makeText(context, "Network save succesful!", Toast.LENGTH_LONG).show();
-                    db.close();
-                    //go to dashboard
-                }
-            }, new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error) {
+    public void addUserToServer() {
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("http")
+                .authority(ENDPOINT)
+                .appendPath("user")
+                .appendPath("add")
+                .appendQueryParameter("name", User.getInstance().getUsername())
+                .appendQueryParameter("email", User.getInstance().getEmail())
+                .appendQueryParameter("cigs_per_day", User.getInstance().getCigsPerDay())
+                .appendQueryParameter("price_per_pack", User.getInstance().getPricePerPack());
 
-            // Error handling
-            System.out.println("Something went wrong!");
-            error.printStackTrace();
-        }
-    });
-    queue.add(stringRequest);
-}
+        String url = builder.build().toString();
 
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String serverId) {
+                        // Result handling
+                        User.getInstance().setServerId(Integer.parseInt(serverId)); //result may be json so need to parse.
+                        DatabaseOperations db = new DatabaseOperations(context);
+                        db.updateServerIdForUser(db, serverId);
+                        //db.addUserStats(db, username, serverId, time, "0", "0", "0", "0", "0", "0", "0.00", "0" , cigsPerDay,pricePerPack, numYearsSmoked);
+                        Toast.makeText(context, "Server ID: " + serverId, Toast.LENGTH_LONG).show();
+                        db.close();
+                        //go to dashboard
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                // Error handling
+                System.out.println("Something went wrong!");
+                error.printStackTrace();
+            }
+
+        });
+        queue.add(stringRequest);
+    }
 
     /*
     * add buddy to user
     * */
 
-
-    public void addBuddyToUser(String friendId, String email){
-        String url = ENDPOINT + "/"+friendId +"/add/"+email;
+    public void addBuddyToUser(String friendId, String email) {
+        String url = ENDPOINT + "/" + friendId + "/add/" + email;
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if(response == null){
-                            Log.d("addBuddyToUser", "user exists id = "+response) ;
-                        }else{
+                        if (response == null) {
+                            Log.d("addBuddyToUser", "user exists id = " + response);
+                        } else {
                             Log.d("addBuddyToUser", "User does not exist");
                         }
                     }
@@ -87,18 +97,17 @@ public void addUserToServer(){
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("addBuddyToUser", "Something Went Wrong") ;
+                        Log.d("addBuddyToUser", "Something Went Wrong");
                         error.printStackTrace();
                     }
                 }
         ) {
             @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String>  params = new HashMap<>();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
                 // the POST parameters:
                 User user = User.getInstance();
-                params.put("name", user.getUsername() );
+                params.put("name", user.getUsername());
                 params.put("email", user.getEmail());
                 params.put("cigs_per_day", user.getCigsPerDay());
                 params.put("price_per_pack", user.getPricePerPack());
@@ -113,7 +122,7 @@ public void addUserToServer(){
 * get user stats
 * */
 
-    public void getUserStats(String id){
+    public void getUserStats(String id) {
         String url = ENDPOINT + "/user/" + id;
 
         JsonObjectRequest jsonRequest = new JsonObjectRequest
@@ -143,6 +152,70 @@ public void addUserToServer(){
 
         queue.add(jsonRequest);
     }
+}
+/*
+* increment field on server
+* */
+/*
+    public void incrementFieldOnServer(final String field) {
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("http")
+                .authority(ENDPOINT)
+                .appendPath("user")
+                .appendPath("add")
+                .appendQueryParameter("name", User.getInstance().getUsername())
+                .appendQueryParameter("email", User.getInstance().getEmail())
+                .appendQueryParameter("cigs_per_day", User.getInstance().getCigsPerDay())
+                .appendQueryParameter("price_per_pack", User.getInstance().getPricePerPack());
 
+        String url = builder.build().toString();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String result) {
+                        // Result handling
+                        Log.d("htt:add:postExecute", "**********  updated field: " + result);
+                    //userService.updateUser();
+                    if(User.getInstance().getServerId() != -1 ){
+                        //getFeed();
+                    }else {
+                        //userService.updateUser();
+                    }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Error handling
+                System.out.println("Something went wrong!");
+                error.printStackTrace();
+            }
+        });
+        queue.add(stringRequest);
+    }
+/*
 
 }
+
+
+/* template get request
+*
+*
+
+StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+            new Response.Listener<String>() {
+                @Override
+                public void onResponse(String serverId) {
+
+                }
+            }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+            // Error handling
+            System.out.println("Something went wrong!");
+            error.printStackTrace();
+        }
+
+    });
+*/

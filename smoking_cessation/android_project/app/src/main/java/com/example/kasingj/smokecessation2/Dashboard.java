@@ -48,16 +48,19 @@ public class Dashboard extends AppCompatActivity {
 
 
     Context ctx = this;
+    private UserService userService;
+    private HttpServices httpServices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+        userService = new UserService(this);
+        httpServices = new HttpServices(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        updateUser();
-        //updateUserDemo();
+        userService.updateUser();
         // update cravings resisted count
         TextView resCraveText = (TextView) findViewById(R.id.resCraveCount);
         resCraveText.setText(User.getInstance().getCravingsResisted());
@@ -70,91 +73,19 @@ public class Dashboard extends AppCompatActivity {
         // update total life regained
         TextView lifeRegText = (TextView) findViewById(R.id.lifeRegText);
         lifeRegText.setText(User.getInstance().getLifeRegained());
-        updateUser();
+        userService.updateUser();
         if(User.getInstance().getServerId() != -1 ){
             getFeed();
         } {
-            updateUser();
+            userService.updateUser();
         }
 
-    }
-
-    public void updateUserDemo() {
-
-        DatabaseOperations db = new DatabaseOperations(ctx);
-        Cursor cr = db.getUserDemo(db, User.getInstance().getUsername());
-        Log.d("ASDF",cr.toString());
-
-        if (cr != null && cr.moveToFirst()) {
-            Log.d("ASDF",cr.toString());
-
-            firstname = cr.getString(2);
-            lastname = cr.getString(3);
-            age = cr.getString(4);
-            gender = cr.getString(5);
-            ethnicity = cr.getString(6);
-            cigsPerDay = cr.getString(7);
-            pricePerPack = cr.getString(8);
-            numYearsSmoked = cr.getString(9);
-
-            UserDemographics.getInstance().setFirstName(firstname);
-            UserDemographics.getInstance().setLastName(lastname);
-            UserDemographics.getInstance().setAge(age);
-            UserDemographics.getInstance().setGender(gender);
-            UserDemographics.getInstance().setEthnicity(ethnicity);
-            UserDemographics.getInstance().setCigsPerDay(cigsPerDay);
-            UserDemographics.getInstance().setCostPerPack(pricePerPack);
-            UserDemographics.getInstance().setNumYearsSmoked(numYearsSmoked);
-            Log.d("Entered Dashboard", "User demo object updated");
-        }
-        cr.close();
-    }
-
-    public void updateUser() {
-
-        DatabaseOperations db = new DatabaseOperations(ctx);
-        Cursor cr = db.getUserStats(db, User.getInstance().getUsername());
-        if (cr != null && cr.moveToFirst()) {
-
-            username = cr.getString(0);
-            id = cr.getString(1);
-            totDaysFree = Integer.parseInt(cr.getString(3));
-            longStreak = Integer.parseInt(cr.getString(4));
-            currStreak = Integer.parseInt(cr.getString(5));
-            cravs = Integer.parseInt(cr.getString(6));
-            cravsRes = Integer.parseInt(cr.getString(7));
-            numSmokes = Integer.parseInt(cr.getString(8));
-            moneySaved = Double.parseDouble(cr.getString(9));
-            lifeReg = Integer.parseInt(cr.getString(10));
-            cigsPerDay = cr.getString(11);
-            pricePerPack = cr.getString(12);
-            numYearsSmoked = cr.getString(13);
-            serverId = cr.getInt(14);
-
-
-            User.getInstance().setID(id);
-            User.getInstance().setTotalDaysFree(totDaysFree);
-            User.getInstance().setLongestStreak(longStreak);
-            User.getInstance().setCurrentStreak(currStreak);
-            User.getInstance().setNumCravings(cravs);
-            User.getInstance().setCravsRes(cravsRes);
-            User.getInstance().setNumCigsSmoked(numSmokes);
-            User.getInstance().setMoneySaved(moneySaved);
-            User.getInstance().setLifeRegained(lifeReg);
-            User.getInstance().setCigsPerDay(cigsPerDay);
-            User.getInstance().setPricePerPack(pricePerPack);
-            User.getInstance().setNumYearsSmoked(numYearsSmoked);
-            User.getInstance().setServerId(serverId);
-
-            Log.d("Entered Dashboard", "User object updated");
-        }
-        cr.close();
     }
 
     // Crave Button
     public void imCraving(View view) {
 
-        updateUser();
+        userService.updateUser();
         time = DatabaseOperations.getCurrTime();
         cravs += 1;
 
@@ -175,7 +106,7 @@ public class Dashboard extends AppCompatActivity {
     // Resist Craving Button
     public void resistCraving(View view) {
 
-        updateUser();
+        userService.updateUser();
         time = DatabaseOperations.getCurrTime();
         cravsRes += 1;
         lifeReg += 11;
@@ -211,7 +142,7 @@ public class Dashboard extends AppCompatActivity {
     // Smoked Button
     public void smoked(View view) {
 
-        updateUser();
+        userService.updateUser();
         time = DatabaseOperations.getCurrTime();
         numSmokes += 1;
 
@@ -266,11 +197,11 @@ public class Dashboard extends AppCompatActivity {
                 protected void onPostExecute(String result) {
                     //expecting the user id
                     Log.d("htt:add:postExecute", "**********  updated field: " + result);
-                    updateUser();
+                    userService.updateUser();
                     if(User.getInstance().getServerId() != -1 ){
                         getFeed();
                     }else {
-                        updateUser();
+                        userService.updateUser();
                     }
                 }
             };
@@ -300,11 +231,11 @@ public class Dashboard extends AppCompatActivity {
                 protected void onPostExecute(String result) {
                     //expecting the user id
                     Log.d("htt:add:postExecute", "**********  updated field: " + result);
-                    updateUser();
+                    userService.updateUser();
                     if(User.getInstance().getServerId() != -1 ){
                         getFeed();
                     }{
-                        updateUser();
+                        userService.updateUser();
                     }
                 }
             };
@@ -335,11 +266,11 @@ public class Dashboard extends AppCompatActivity {
                 protected void onPostExecute(String result) {
                     //expecting the user id
                     Log.d("htt:add:postExecute", "**********  updated field: " + result);
-                    updateUser();
+                    userService.updateUser();
                     if(User.getInstance().getServerId() != -1 ){
                         getFeed();
                     }else{
-                        updateUser();
+                        userService.updateUser();
                     }
                 }
             };

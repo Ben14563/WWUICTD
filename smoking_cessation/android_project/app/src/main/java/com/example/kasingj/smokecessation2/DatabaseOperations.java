@@ -5,10 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.ContactsContract;
 import android.util.Log;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -35,7 +33,7 @@ public class DatabaseOperations extends SQLiteOpenHelper{
             " TEXT," + TableData.TableInfo.CURRENT_STREAK + " TEXT," + TableData.TableInfo.NUM_CRAVINGS +
             " TEXT," + TableData.TableInfo.CRAVINGS_RESISTED + " TEXT," + TableData.TableInfo.NUM_CIGS_SMOKED +
             " TEXT," + TableData.TableInfo.MONEY_SAVED + " TEXT," + TableData.TableInfo.LIFE_REGAINED + " TEXT, " +
-            TableData.TableInfo.SERVER_ID + " INTEGER," + TableData.TableInfo.FRIEND_OF_ID + " INTEGER);";
+            TableData.TableInfo.USER_SERVER_ID + " INTEGER," + TableData.TableInfo.FRIEND_OF_ID + " INTEGER);";
 
     // UserStats Query String
     public String CREATE_USER_QUERY = "CREATE TABLE " + TableData.TableInfo.USER_TABLE_NAME + "(" +
@@ -46,13 +44,19 @@ public class DatabaseOperations extends SQLiteOpenHelper{
             " TEXT," + TableData.TableInfo.CRAVINGS_RESISTED + " TEXT," + TableData.TableInfo.NUM_CIGS_SMOKED +
             " TEXT," + TableData.TableInfo.MONEY_SAVED + " TEXT," + TableData.TableInfo.LIFE_REGAINED + " TEXT," +
             TableData.TableInfo.CIGS_PER_DAY + " TEXT," + TableData.TableInfo.PRICE_PER_PACK +
-            " TEXT," + TableData.TableInfo.NUM_YEARS_SMOKED + " TEXT," + TableData.TableInfo.SERVER_ID + " INTEGER," +
+            " TEXT," + TableData.TableInfo.NUM_YEARS_SMOKED + " TEXT," + TableData.TableInfo.USER_SERVER_ID + " INTEGER," +
             TableData.TableInfo.USER_AUTH_ID + " INTEGER);";
 
     // UserAuthentication Query String
     public String CREATE_USER_AUTH_QUERY = "CREATE TABLE " + TableData.TableInfo.USER_AUTH_TABLE_NAME + "(" +
             TableData.TableInfo.ID + " INTEGER PRIMARY KEY," + TableData.TableInfo.USER_NAME + " TEXT," +
             TableData.TableInfo.PASSWORD + " TEXT," + TableData.TableInfo.EMAIL + " TEXT);";
+
+    //FeedPosts Query string
+    public String CREATE_USER_FEED_QUERY= "CREATE TABLE " + TableData.TableInfo.USER_FEED_TABLE_NAME + "(" +
+            TableData.TableInfo.ID + " INTEGER PRIMARY KEY," + TableData.TableInfo.DISLIKES + " TEXT," +
+            TableData.TableInfo.LIKES + " TEXT," + TableData.TableInfo.FEED_ID + " TEXT," + TableData.TableInfo.DESCRIPTION + " TEXT," +
+            TableData.TableInfo.USER_NAME + " TEXT," + TableData.TableInfo.USER_SERVER_ID + " TEXT" + TableData.TableInfo.DATE + " TEXT)";
 
     // Create Database
     public DatabaseOperations(Context context) {
@@ -83,6 +87,10 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         sdb.execSQL(CREATE_FRIENDS_STATS_QUERY);
         Log.d("Database Operations", "friends_stats table created");
 
+        // Create friends_stats Table
+        Log.d("Database Operations", "creating friends_stats table");
+        sdb.execSQL(CREATE_USER_FEED_QUERY);
+        Log.d("Database Operations", "friends_stats table created");
     }
 
     @Override
@@ -147,7 +155,7 @@ public class DatabaseOperations extends SQLiteOpenHelper{
                 TableData.TableInfo.LONGEST_STREAK, TableData.TableInfo.CURRENT_STREAK, TableData.TableInfo.NUM_CRAVINGS,
                 TableData.TableInfo.CRAVINGS_RESISTED, TableData.TableInfo.NUM_CIGS_SMOKED, TableData.TableInfo.MONEY_SAVED,
                 TableData.TableInfo.LIFE_REGAINED, TableData.TableInfo.CIGS_PER_DAY, TableData.TableInfo.PRICE_PER_PACK, TableData.TableInfo.NUM_YEARS_SMOKED,
-                TableData.TableInfo.SERVER_ID, TableData.TableInfo.USER_AUTH_ID} ;
+                TableData.TableInfo.USER_SERVER_ID, TableData.TableInfo.USER_AUTH_ID} ;
         String where = TableData.TableInfo.USER_NAME + " = ?";
         String[] whereArgs = new String[] {username};
         String orderBy = TableData.TableInfo.TIME + " DESC LIMIT 1";
@@ -213,7 +221,7 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         cv.put(TableData.TableInfo.CIGS_PER_DAY, cigsPerDay);
         cv.put(TableData.TableInfo.PRICE_PER_PACK, pricePerPack);
         cv.put(TableData.TableInfo.NUM_YEARS_SMOKED, numYearsSmoked);
-        cv.put(TableData.TableInfo.SERVER_ID, serverId);
+        cv.put(TableData.TableInfo.USER_SERVER_ID, serverId);
         cv.put(TableData.TableInfo.USER_AUTH_ID, userAuth);
 
         sq.insert(TableData.TableInfo.USER_TABLE_NAME, null, cv);
@@ -248,10 +256,22 @@ public class DatabaseOperations extends SQLiteOpenHelper{
     public void updateServerIdForUser(DatabaseOperations dbop, String serverId) {
         SQLiteDatabase sq = dbop.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(TableData.TableInfo.SERVER_ID, serverId);
+        cv.put(TableData.TableInfo.USER_SERVER_ID, serverId);
         String whereClause =  "user_name='" + User.getInstance().getUsername()+"'";
         int updateResult = sq.update(TableData.TableInfo.USER_TABLE_NAME, cv, whereClause, null);
 
         Log.d("Database Operations", "Updated server id for current user update result:"+updateResult);
     }
+
+    public void addFeedPosts(DatabaseOperations dbop) {
+
+        SQLiteDatabase sq = dbop.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(TableData.TableInfo.USER_NAME, "");
+        sq.insert(TableData.TableInfo.USER_DEMO_TABLE_NAME, null, cv);
+        Log.d("Database Operations", "One row inserted into user_demo Table");
+    }
+
+
 }

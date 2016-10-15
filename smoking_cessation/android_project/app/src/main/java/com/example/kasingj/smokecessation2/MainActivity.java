@@ -45,38 +45,6 @@ public class MainActivity extends AppCompatActivity {
         userService = new UserService(this);
     }
 
-//    public void getUserStats(String friendId){
-//        try {
-//            AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
-//                @Override
-//                protected String doInBackground(String... params) {
-//                    //result is the json string of the request. might be null
-//                    HttpRunner runner = new HttpRunner();
-//                    String result = runner.getUserInformation(params[0]);
-//                    Log.d("http:getUserStats", "**user: "+params[0]+ "data: " + result);
-//                    if (result == null) {
-//                        return "NULL";
-//                    }
-//                    return result;
-//                }
-//
-//                @Override
-//                protected void onPostExecute(String result) {
-//                    //expecting the user serverId
-//                    Log.d("htt:data:postExecute", "fiend data" + result);
-//
-//                    //result will be  json so need to parse. need function to parse data add to database
-//                    //do stuff with user data
-//                }
-//            };
-//
-//            task.execute(friendId);
-//        } finally {
-//            Log.d("Main:addTaskfail","async failed, or main failed");
-//        }
-//
-//    }
-
     public void goToDashboard(View view) {
         //before going to dashboard  sanitize data
         if (checkInput() == true){

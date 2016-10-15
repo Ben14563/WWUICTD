@@ -42,10 +42,22 @@ public class TableData {
         public static final String USER_TABLE_NAME = "user_stats";
         public static final String USER_FRIENDS_TABLE_NAME = "user_friends";
         public static final String FRIENDS_TABLE_NAME = "friends_stats";
-        public static final String SERVER_ID = "server_id";
+        public static final String USER_SERVER_ID = "user_server_id";
         public static final String USER_AUTH_ID = "user_auth_id";
         public static final String FRIEND_OF_ID = "friend_of_id";
+
+        //User Feed
+        public static final String USER_FEED_TABLE_NAME="user_feed";
+        public static final String DATE = "date";
+        public static final String DISLIKES = "dislikes";
+        public static final String LIKES = "likes";
+        public static final String FEED_ID = "feed_id";
+        public static final String DESCRIPTION = "description";
 
     }
 
 }
+/*
+
+[{"date": "2016-10-14 16:15:07", "dislikes": 0, "likes": 0, "feedid": 699, "description": "klim is craving a cigarette. Encourage them to not give in!"},
+* */
