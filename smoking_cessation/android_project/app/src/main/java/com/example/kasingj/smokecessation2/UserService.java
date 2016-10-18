@@ -16,7 +16,7 @@ public class UserService {
     }
 
     public void addUserLocally(){
-        String time= "";
+        String time= UserDAO.getCurrTime();
         User.getInstance().setTime(time);
         User.getInstance().setTotalDaysFree(0);
         User.getInstance().setLongestStreak(0);
@@ -73,4 +73,6 @@ public class UserService {
         }
         cr.close();
     }
+
+    /* testing branch comment */
 }
