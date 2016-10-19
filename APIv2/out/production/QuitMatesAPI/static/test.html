@@ -1,0 +1,36 @@
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script language="javascript">
+        function modifyFunction() {
+            var  idElement = document.getElementById("userId")
+            var url = document.getElementById("addDayForUserForm").getAttribute('action').toString()
+            var form = document.getElementById("addDayForUserForm")
+            var result = url+ idElement.value
+            form.action=result
+            form.submit()
+        }
+    </script>
+</head>
+
+<body>
+<form action="/API/user/add/" method="post" enctype="multipart/form-data">
+    <input type="text" name="name" value="">name </br>
+    <input type="text" name="email" value="">email</br>
+    <input type="text" name="cigs_per_day" value="">cigs_per_day</br>
+    <input type="text" name="price_per_pack" value="">price per pack</br>
+    <input type="submit" value="submit"></br>
+</form>
+
+
+</br>
+</br>
+</br>
+
+
+<form action="/API/day/add/" name="addDayForUserForm" id="addDayForUserForm" method="post" enctype="multipart/form-data">
+    <input type="text" name="userId" id="userId" value="">id </br>
+    <input type="button" value="submit" onclick="modifyFunction()">
+</form>
+</body>
+</html>
