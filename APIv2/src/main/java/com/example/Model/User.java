@@ -2,7 +2,10 @@ package com.example.Model;
 
 
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by kasingj on 10/19/16.
@@ -64,6 +67,17 @@ public class User {
 
     @Column(name="buddy_id")
     private Integer buddy_id;
+
+    // will be a relationship *********************
+    @Column(name="buddy")
+    @ManyToOne(cascade=CascadeType.ALL)
+    private List<User> buddies;
+
+    //has a relationship *********
+    @Column(name="days")
+    @ManyToOne(cascade=CascadeType.ALL)
+    private List<Day> days;
+
 
     public Integer getId() {
         return id;
@@ -176,13 +190,5 @@ public class User {
     public void setBuddy_id(Integer buddy_id) {
         this.buddy_id = buddy_id;
     }
-// will be a relationship *********************
-//    @Column(name="buddy")
-//    private Integer buddy;
-
-//    //has a relationship *********
-//    @Column(name="days")
-//    private String days;
-
 
 }
