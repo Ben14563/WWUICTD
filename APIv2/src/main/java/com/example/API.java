@@ -15,6 +15,12 @@ import javax.json.*;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+//import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 
 
@@ -51,6 +57,7 @@ public class API {
                    @RequestParam(value = "cigs_per_day",required=true)String cigs_per_day,
                    @RequestParam(value = "price_per_pack",required=true)String price_per_pack
     ){
+
 
         return name + email + cigs_per_day + price_per_pack;
     }
