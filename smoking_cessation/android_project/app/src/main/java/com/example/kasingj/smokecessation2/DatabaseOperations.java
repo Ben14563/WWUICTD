@@ -58,6 +58,15 @@ public class DatabaseOperations extends SQLiteOpenHelper{
             TableData.TableInfo.LIKES + " TEXT," + TableData.TableInfo.FEED_ID + " TEXT," + TableData.TableInfo.DESCRIPTION + " TEXT," +
             TableData.TableInfo.USER_NAME + " TEXT," + TableData.TableInfo.USER_SERVER_ID + " TEXT" + TableData.TableInfo.DATE + " TEXT)";
 
+
+
+    //DAY_STATS Query string
+    public String CREATE_DAY_STATS = "CREATE TABLE " + TableData.TableInfo.DAY_STATS_TABLE_NAME + "(" +
+            TableData.TableInfo.ID + " INTEGER PRIMARY KEY," + TableData.TableInfo.DATE + " TEXT," +
+            TableData.TableInfo.USER_AUTH_ID + " INTEGER," + TableData.TableInfo.CIGS_SMOKED_ON_DATE + " TEXT," + TableData.TableInfo.CRAVINGS_RESISTED_ON_DATE + " TEXT," +
+            TableData.TableInfo.CRAVINGS_ON_DATE + " TEXT," +
+            TableData.TableInfo.USER_NAME + " TEXT);";
+
     // Create Database
     public DatabaseOperations(Context context) {
         super(context, TableData.TableInfo.DATABASE_NAME, null, DATABASE_VERSION);
@@ -91,6 +100,9 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         Log.d("Database Operations", "creating friends_stats table");
         sdb.execSQL(CREATE_USER_FEED_QUERY);
         Log.d("Database Operations", "friends_stats table created");
+
+        sdb.execSQL(CREATE_DAY_STATS);
+        Log.d(" Database Operations", "day stats table created ");
     }
 
     @Override
