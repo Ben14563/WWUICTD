@@ -49,18 +49,18 @@ public class MainActivity extends AppCompatActivity {
         //before going to dashboard  sanitize data
         if (checkInput() == true){
 
-        ConnectivityManager connMgr = (ConnectivityManager)
-                ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo == null && networkInfo.isConnected()) {
             userService.addUserLocally();
-            //Log.d("goToDashBoard", "*********No_Connectivity***********");
-            //Toast.makeText(getBaseContext(), "Please connect to the internet before proceeding", Toast.LENGTH_LONG).show();
-        } else {
+
+            //check network
+            ConnectivityManager connMgr = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+
             //add user to database
-            userService.addUserLocally();
-            httpServices.addUserToServer();
-        }
+            if( networkInfo != null && networkInfo.isConnected() ) {
+                httpServices.addUserToServer();
+            }
+
             Log.d("finish button", "go to dashboard");
             Intent intent = new Intent(getApplicationContext(),Dashboard.class);
             startActivity(intent);
