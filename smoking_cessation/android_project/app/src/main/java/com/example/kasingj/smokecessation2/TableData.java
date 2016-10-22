@@ -54,6 +54,15 @@ public class TableData {
         public static final String FEED_ID = "feed_id";
         public static final String DESCRIPTION = "description";
 
+        //day
+        public static final String DAY_STATS_TABLE_NAME="day_stats";
+        public static final String CIGS_SMOKED_ON_DATE="cigs_smoked_on_date";
+        public static final String CRAVINGS_ON_DATE="cravings_on_date";
+        public static final String CRAVINGS_RESISTED_ON_DATE="cravings_resisted_on_date";
+
+
+
+
     }
 
 }
