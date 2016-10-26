@@ -234,9 +234,9 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         cv.put(TableData.TableInfo.USER_SERVER_ID, entity.getServerId());
         cv.put(TableData.TableInfo.USER_AUTH_ID, entity.getUserAuthId());
 
-        long result = sq.insert(TableData.TableInfo.USER_TABLE_NAME, null, cv);
+        result = sq.insert(TableData.TableInfo.USER_TABLE_NAME, null, cv);
         Log.d("Database Operations", "One row inserted into user_stats Table");
-        entity.setID(result+"");
+        entity.setID(result );
         return entity;
     }
 
@@ -300,4 +300,8 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         return cr;
     }
 
+
+    public int isUserAuthorized(DatabaseOperations ,String username, String password){
+        return -1;
+    }
 }

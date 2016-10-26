@@ -40,23 +40,12 @@ public class login extends AppCompatActivity {
 
         DatabaseOperations db = new DatabaseOperations(ctx);
         Cursor cr = db.getUserAuth(db);
-        int userAuthStatus;
+        UserEntity userEntity;
         //if not authorized return userAuth id
-        userAuthStatus = userService.userIsAuthorized(username,password);
-        if (cr != null && cr.moveToFirst()) {
-            do {
-                if (username.equals(cr.getString(1)) && password.equals(cr.getString(2))) {
-                    loginStatus = true;
-                }
-            } while (cr.moveToNext());
-        }
+        userEntity = userService.getUserIfAuthorized(username,password);
 
-        if (loginStatus == true) {
-            userEntity.setUsername(username);
-            Toast.makeText(getBaseContext(), "Login Successful!", Toast.LENGTH_LONG).show();
-
-            cr.close();
-            db.close();
+        if(userEntity != null){
+            Toast.makeText(getBaseContext(), "Login Success", Toast.LENGTH_LONG).show();
             Intent intent = new Intent (this, Dashboard.class);
             startActivity(intent);
             finish();
@@ -74,5 +63,6 @@ public class login extends AppCompatActivity {
         Intent intent = new Intent (this, MainActivity.class);
         startActivity(intent);
     }
+
 
 }

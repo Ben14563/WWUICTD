@@ -65,4 +65,16 @@ public class UserService {
         entity = UserDAO.addUserStats(UserDAO, entity);
         return entity.getID();
     }
+
+    public UserEntity getUserIfAuthorized(String username, String password){
+        //call to the dao
+        int authId = UserDAO.isUserAuthorized(UserDAO,username,password);
+        Cursor cr = UserDAO.getUserStats(UserDAO,username);
+        UserEntity entity = new UserEntity();
+        return entity;
+    }
+
+
+
+
 }
