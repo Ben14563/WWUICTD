@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     EditText FIRST_NAME, LAST_NAME, AGE, GENDER, ETHNICITY, CIGS_PER_DAY, PRICE_PER_PACK, YEARS_SMOKED;
     Context ctx = this;
     private static final String ENDPOINT = "198.199.67.166";
+    public static final String CURRENT_USER_ID = "currentUserId";
 
     EditText USERNAME, PASSWORD, EMAIL, CON_PASS;
     String password, email, con_pass;
@@ -47,9 +48,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToDashboard(View view) {
         //before going to dashboard  sanitize data
-        if (checkInput() == true){
+        UserEntity userEntity;
+        if ( (userEntity = createUser()) != null){
 
-            userService.addUserLocally();
+            userService.saveUserEntity(userEntity);
 
             //check network
             ConnectivityManager connMgr = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -95,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public boolean checkInput () {
+    public UserEntity createUser () {
 
       USERNAME = (EditText) findViewById(R.id.signUpUserInput);
       PASSWORD = (EditText) findViewById(R.id.signUpPassInput);
@@ -112,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
       con_pass = CON_PASS.getText().toString();
       email = EMAIL.getText().toString();
       String regex = "\\d+(?:\\.\\d+)?";
+        UserEntity userEntity= new UserEntity();
 
       //cigsPerDay = (EditText)R.serverId.cigsPerDayInput ;
 
@@ -130,48 +133,49 @@ public class MainActivity extends AppCompatActivity {
 
       if (exist == true) {
           Toast.makeText(getBaseContext(), "Username already exists", Toast.LENGTH_LONG).show();
-          return false;
+          return null;
       }
       else if (username.equals("")) {
           Toast.makeText(getBaseContext(), "Must enter valid username", Toast.LENGTH_LONG).show();
-          return false;
+          return null;
       }
       else if (email.equals("")) {
           Toast.makeText(getBaseContext(), "Email required", Toast.LENGTH_LONG).show();
-          return false;
+          return null;
       }
       else if (password.equals("")) {
           Toast.makeText(getBaseContext(), "Password required", Toast.LENGTH_LONG).show();
-          return false;
+          return null;
       }
       else if (con_pass.equals("")) {
           PASSWORD.setText("");
           Toast.makeText(getBaseContext(), "Must confirm password", Toast.LENGTH_LONG).show();
-          return false;
+          return null;
       }
       else if (!password.equals(con_pass)) {
           PASSWORD.setText("");
           CON_PASS.setText("");
           Toast.makeText(getBaseContext(), "Password does not match", Toast.LENGTH_LONG).show();
-          return false;
+          return null;
       } //check everything else.
       else if (!cigsPerDay.matches(regex) ){
           Toast.makeText(getBaseContext(), "cigs per day must be a number.", Toast.LENGTH_LONG).show();
-          return false;
+          return null;
       }else if(!pricePerPack.matches(regex)){
           Toast.makeText(getBaseContext(), "cost per pack must be a number.", Toast.LENGTH_LONG).show();
-          return false;
+          return null;
       }else if(!numYearsSmoked.matches(regex)){
           Toast.makeText(getBaseContext(), "num years smoked must be a number.", Toast.LENGTH_LONG).show();
-          return false;
+          return null;
       }
+
           //valid username & password
-          User.getInstance().setUsername(username);
-          User.getInstance().setPassword(password);
-          User.getInstance().setEmail(email);
-          User.getInstance().setPricePerPack(pricePerPack);
-          User.getInstance().setCigsPerDay(cigsPerDay);
-          User.getInstance().setNumYearsSmoked(numYearsSmoked);
+          userEntity.setUsername(username);
+        userEntity.setPassword(password);
+        userEntity.setEmail(email);
+        userEntity.setPricePerPack(pricePerPack);
+        userEntity.setCigsPerDay(cigsPerDay);
+        userEntity.setNumYearsSmoked(numYearsSmoked);
           Log.d("Next Button", "initialized username, password, email");
 
           //add user to db
@@ -180,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
 
       cr.close();
       dbAuth.close();
-      return true;
+      return userEntity;
     /*done checking authentification information*/
   }
 }

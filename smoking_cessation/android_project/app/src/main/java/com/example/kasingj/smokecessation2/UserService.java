@@ -1,6 +1,7 @@
 package com.example.kasingj.smokecessation2;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.util.Log;
 import android.widget.Toast;
@@ -10,35 +11,19 @@ import android.widget.Toast;
  */
 public class UserService {
     DatabaseOperations UserDAO;
-
     public UserService(Context context) {
         UserDAO = new DatabaseOperations(context);
+
     }
 
-    public void addUserLocally(){
-        String time= UserDAO.getCurrTime();
-        User.getInstance().setTime(time);
-        User.getInstance().setTotalDaysFree(0);
-        User.getInstance().setLongestStreak(0);
-        User.getInstance().setCurrentStreak(0);
-        User.getInstance().setNumCravings(0);
-        User.getInstance().setCravsRes(0);
-        User.getInstance().setMoneySaved(0.00);
-        User.getInstance().setLifeRegained(0);
+    public UserEntity getUserEntityWithPrimaryId(int primaryId){
 
-        Log.d("Finish Button", "initialized user stats");
+        Cursor cr = UserDAO.getUserWithPrimaryId(UserDAO, primaryId);
+        //map object
+        UserEntity entity=null;
 
-        UserDAO.addUserStats(UserDAO, User.getInstance().getUsername(), time, "0", "0", "0", "0", "0", "0", "0.00", "0" ,
-                User.getInstance().getCigsPerDay() ,User.getInstance().getPricePerPack(), User.getInstance().getNumYearsSmoked() , -1,0 );
-        /* close database or end session? */
-    }
-
-    public void updateUser() {
-
-        //UserDAO = new DatabaseOperations(ctx);
-        Cursor cr = UserDAO.getUserStats(UserDAO, User.getInstance().getUsername());
         if (cr != null && cr.moveToFirst()) {
-
+            entity = new UserEntity();
             String username = cr.getString(0);
             String id = cr.getString(1);
             int totDaysFree = Integer.parseInt(cr.getString(3));
@@ -54,25 +39,30 @@ public class UserService {
             String numYearsSmoked = cr.getString(13);
             int serverId = cr.getInt(14);
 
-
-            User.getInstance().setID(id);
-            User.getInstance().setTotalDaysFree(totDaysFree);
-            User.getInstance().setLongestStreak(longStreak);
-            User.getInstance().setCurrentStreak(currStreak);
-            User.getInstance().setNumCravings(cravs);
-            User.getInstance().setCravsRes(cravsRes);
-            User.getInstance().setNumCigsSmoked(numSmokes);
-            User.getInstance().setMoneySaved(moneySaved);
-            User.getInstance().setLifeRegained(lifeReg);
-            User.getInstance().setCigsPerDay(cigsPerDay);
-            User.getInstance().setPricePerPack(pricePerPack);
-            User.getInstance().setNumYearsSmoked(numYearsSmoked);
-            User.getInstance().setServerId(serverId);
+            entity.setID( Integer.parseInt(id) );
+            entity.setTotalDaysFree(totDaysFree);
+            entity.setLongestStreak(longStreak);
+            entity.setCurrentStreak(currStreak);
+            entity.setNumCravings(cravs);
+            entity.setCravsRes(cravsRes);
+            entity.setNumCigsSmoked(numSmokes);
+            entity.setMoneySaved(moneySaved);
+            entity.setLifeRegained(lifeReg);
+            entity.setCigsPerDay(cigsPerDay);
+            entity.setPricePerPack(pricePerPack);
+            entity.setNumYearsSmoked(numYearsSmoked);
+            entity.setServerId(serverId);
 
             Log.d("Entered Dashboard", "User object updated");
         }
         cr.close();
+        return entity;
     }
 
-    /* testing branch comment */
+    public int saveUserEntity(UserEntity entity){
+        String time= UserDAO.getCurrTime();
+        Log.d("Finish Button", "initialized user stats");
+        entity = UserDAO.addUserStats(UserDAO, entity);
+        return entity.getID();
+    }
 }

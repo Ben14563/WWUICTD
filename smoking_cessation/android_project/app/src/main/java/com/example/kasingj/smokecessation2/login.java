@@ -19,18 +19,20 @@ public class login extends AppCompatActivity {
     EditText USERNAME, PASSWORD;
     String username, password;
     Context ctx = this;
+    UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        userService = new UserService(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
 
     // authenticates users: if successful, go to dashboard
     public void goToDashboard (View view) {
-
+        UserEntity entity;
         USERNAME = (EditText) findViewById(R.id.userNameInput);
         PASSWORD = (EditText) findViewById(R.id.passwordInput);
         username = USERNAME.getText().toString();
@@ -38,8 +40,9 @@ public class login extends AppCompatActivity {
 
         DatabaseOperations db = new DatabaseOperations(ctx);
         Cursor cr = db.getUserAuth(db);
-        boolean loginStatus = false;
-
+        int userAuthStatus;
+        //if not authorized return userAuth id
+        userAuthStatus = userService.userIsAuthorized(username,password);
         if (cr != null && cr.moveToFirst()) {
             do {
                 if (username.equals(cr.getString(1)) && password.equals(cr.getString(2))) {
@@ -47,8 +50,9 @@ public class login extends AppCompatActivity {
                 }
             } while (cr.moveToNext());
         }
+
         if (loginStatus == true) {
-            User.getInstance().setUsername(username);
+            userEntity.setUsername(username);
             Toast.makeText(getBaseContext(), "Login Successful!", Toast.LENGTH_LONG).show();
 
             cr.close();
@@ -70,4 +74,5 @@ public class login extends AppCompatActivity {
         Intent intent = new Intent (this, MainActivity.class);
         startActivity(intent);
     }
+
 }

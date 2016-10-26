@@ -12,13 +12,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
 public class Friends extends AppCompatActivity {
 
+    private final UserService userService = new UserService(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        UserService userService = new UserService(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -47,13 +50,15 @@ public class Friends extends AppCompatActivity {
     }
 
     public void getBuddies() {
+        final UserEntity entity = userService.getUserEntityWithPrimaryId(1);
         try {
             AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
                 @Override
                 protected String doInBackground(String... params) {
                     //result is the json string of the request. might be null
+
                     HttpRunner runner = new HttpRunner();
-                    String result = runner.getAllBuddies(User.getInstance().getServerId() + "");
+                    String result = runner.getAllBuddies(entity.getServerId() + "");
                     if (result == null) {
                         return "NULL";
                     }
@@ -75,7 +80,7 @@ public class Friends extends AppCompatActivity {
                             TextView tv = (TextView) child.findViewById(R.id.name);
                             String name = arr.getString(i);
                             tv.setText(name);
-                            if(!name.equals(User.getInstance().getUsername())) {
+                            if(!name.equals(entity.getUsername())) {
                                 holder.addView(child);
                             }
                         }

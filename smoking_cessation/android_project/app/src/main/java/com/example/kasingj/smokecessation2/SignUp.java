@@ -2,6 +2,7 @@ package com.example.kasingj.smokecessation2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,11 +21,13 @@ public class SignUp extends AppCompatActivity {
     EditText USERNAME, PASSWORD, EMAIL, CON_PASS, CIGS_PER_DAY, PRICE_PER_PACK,NUM_YEARS_SMOKED;
     String username, password, email, con_pass, cigsPerDay, pricePerPack,numYearsSmoked ;
     Context ctx = this;
+    UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        userService = new UserService(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
@@ -92,13 +95,24 @@ public class SignUp extends AppCompatActivity {
         }
         else {
             //valid username & password
-            User.getInstance().setUsername(username);
-            User.getInstance().setPassword(password);
-            User.getInstance().setEmail(email);
-            User.getInstance().setCigsPerDay(cigsPerDay);
-            User.getInstance().setPricePerPack(pricePerPack);
-            User.getInstance().setNumYearsSmoked(numYearsSmoked);
+            UserEntity userEntity = new UserEntity();
+
+            userEntity.setUsername(username);
+            userEntity.setPassword(password);
+            userEntity.setEmail(email);
+            userEntity.setCigsPerDay(cigsPerDay);
+            userEntity.setPricePerPack(pricePerPack);
+            userEntity.setNumYearsSmoked(numYearsSmoked);
+
             Log.d("Next Button", "initialized username, password, email");
+            //save user entity
+            int id = userService.saveUserEntity(userEntity);
+            SharedPreferences preference = getSharedPreferences( getApplicationContext().getPackageName() , 1 );
+            SharedPreferences.Editor editor = preference.edit();
+            editor.putInt(MainActivity.CURRENT_USER_ID ,id);
+            editor.commit();
+
+            int result = preference.getInt(MainActivity.CURRENT_USER_ID,-1);
 
             //add user to db
             DatabaseOperations db = new DatabaseOperations(ctx);

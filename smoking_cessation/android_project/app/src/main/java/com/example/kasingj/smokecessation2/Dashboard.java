@@ -60,40 +60,38 @@ public class Dashboard extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        userService.updateUser();
+        UserEntity userEntity = userService.getUserEntityWithPrimaryId(1);
         // update cravings resisted count
         TextView resCraveText = (TextView) findViewById(R.id.resCraveCount);
-        resCraveText.setText(User.getInstance().getCravingsResisted());
+        resCraveText.setText(userEntity.getCravingsResisted());
         // update money saved total still does not like parse line.
-        moneySaved = (cravsRes * Double.parseDouble( User.getInstance().getPricePerPack() )) / 20;
+        moneySaved = (cravsRes * Double.parseDouble( userEntity.getPricePerPack() )) / 20;
         totalMoneySaved = "$" + new DecimalFormat("##.##").format(moneySaved);
         TextView moneySavedAmount = (TextView) findViewById(R.id.moneySavedAmount);
         moneySavedAmount.setText(totalMoneySaved);
 
         // update total life regained
         TextView lifeRegText = (TextView) findViewById(R.id.lifeRegText);
-        lifeRegText.setText(User.getInstance().getLifeRegained());
-        userService.updateUser();
-        if(User.getInstance().getServerId() != -1 ){
-            getFeed();
-        } {
-            userService.updateUser();
-        }
+        lifeRegText.setText(userEntity.getLifeRegained());
 
+        userEntity = userService.getUserEntityWithPrimaryId(1);
+        if(userEntity.getServerId() != -1 ){
+            getFeed();
+        }
     }
 
     // Crave Button
     public void imCraving(View view) {
 
-        userService.updateUser();
+        UserEntity userEntity = userService.getUserEntityWithPrimaryId(1);
         time = DatabaseOperations.getCurrTime();
         cravs += 1;
 
         User.getInstance().setNumCravings(cravs);
         incrementFieldOnServer("cravings");
         DatabaseOperations db = new DatabaseOperations(ctx);
-        int serverId = User.getInstance().getServerId();
-        int userAuth = User.getInstance().getUserAuthId();
+        int serverId = userEntity.getServerId();
+        int userAuth = userEntity.getUserAuthId();
         db.addUserStats(db, username,time, Integer.toString(totDaysFree),Integer.toString(longStreak), Integer.toString(currStreak),
                 Integer.toString(cravs), Integer.toString(cravsRes), Integer.toString(numSmokes), Double.toString(moneySaved),
                 Integer.toString(lifeReg), cigsPerDay, pricePerPack, numYearsSmoked,serverId,userAuth);
@@ -106,7 +104,7 @@ public class Dashboard extends AppCompatActivity {
     // Resist Craving Button
     public void resistCraving(View view) {
 
-        userService.updateUser();
+        UserEntity userEntity = userService.getUserEntityWithPrimaryId(1);
         time = DatabaseOperations.getCurrTime();
         cravsRes += 1;
         lifeReg += 11;
@@ -114,18 +112,18 @@ public class Dashboard extends AppCompatActivity {
         moneySaved = (cravsRes * Double.parseDouble(User.getInstance().getPricePerPack())) / 20;
         totalMoneySaved = "$" + new DecimalFormat("##.##").format(moneySaved);
 
-        User.getInstance().setCravsRes(cravsRes);
-        User.getInstance().setLifeRegained(lifeReg);
+        userEntity.setCravsRes(cravsRes);
+        userEntity.setLifeRegained(lifeReg);
         incrementFieldOnServer("cravings_resisted");
         DatabaseOperations db = new DatabaseOperations(ctx);
-        int serverId = User.getInstance().getServerId();
-        int userAuth = User.getInstance().getUserAuthId();
+        int serverId = userEntity.getServerId();
+        int userAuth = userEntity.getUserAuthId();
         db.addUserStats(db, username,time, Integer.toString(totDaysFree),Integer.toString(longStreak), Integer.toString(currStreak),
                 Integer.toString(cravs), Integer.toString(cravsRes), Integer.toString(numSmokes), Double.toString(moneySaved),
                 Integer.toString(lifeReg), cigsPerDay, pricePerPack, numYearsSmoked,serverId,userAuth);
         Log.d("Resist Craving Button", "Logged 1 craving resisted");
         Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
-        Log.d("********TEST: ", User.getInstance().getUsername() + "'s Crave Resist count: " + User.getInstance().getCravingsResisted() + " ************");
+        Log.d("********TEST: ", userEntity.getUsername() + "'s Crave Resist count: " + userEntity.getCravingsResisted() + " ************");
 
         TextView moneySavedAmount = (TextView) findViewById(R.id.moneySavedAmount);
         moneySavedAmount.setText(totalMoneySaved);
@@ -142,22 +140,22 @@ public class Dashboard extends AppCompatActivity {
     // Smoked Button
     public void smoked(View view) {
 
-        userService.updateUser();
+        UserEntity userEntity = userService.getUserEntityWithPrimaryId(1);
         time = DatabaseOperations.getCurrTime();
         numSmokes += 1;
 
-        User.getInstance().setNumCigsSmoked(numSmokes);
+        userEntity.setNumCigsSmoked(numSmokes);
         incrementFieldOnServer("cigs_smoked");
 
         DatabaseOperations db = new DatabaseOperations(ctx);
-        int serverId = User.getInstance().getServerId();
-        int userAuth = User.getInstance().getUserAuthId();
+        int serverId = userEntity.getServerId();
+        int userAuth = userEntity.getUserAuthId();
         db.addUserStats(db, username,time, Integer.toString(totDaysFree),Integer.toString(longStreak), Integer.toString(currStreak),
                 Integer.toString(cravs), Integer.toString(cravsRes), Integer.toString(numSmokes), Double.toString(moneySaved),
                 Integer.toString(lifeReg), cigsPerDay, pricePerPack, numYearsSmoked,serverId,userAuth);
         Log.d("Smoked Button", "Logged 1 smoked cigarette");
         Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
-        Log.d("********TEST: ", User.getInstance().getUsername() + "'s Smoke count: " + User.getInstance().getNumCigsSmoked() + " ************");
+        Log.d("********TEST: ", userEntity.getUsername() + "'s Smoke count: " + userEntity.getNumCigsSmoked() + " ************");
         db.close();
 
     }
@@ -197,11 +195,9 @@ public class Dashboard extends AppCompatActivity {
                 protected void onPostExecute(String result) {
                     //expecting the user id
                     Log.d("htt:add:postExecute", "**********  updated field: " + result);
-                    userService.updateUser();
-                    if(User.getInstance().getServerId() != -1 ){
+                    UserEntity userEntity = userService.getUserEntityWithPrimaryId(1);
+                    if(userEntity.getServerId() != -1 ){
                         getFeed();
-                    }else {
-                        userService.updateUser();
                     }
                 }
             };
@@ -231,11 +227,9 @@ public class Dashboard extends AppCompatActivity {
                 protected void onPostExecute(String result) {
                     //expecting the user id
                     Log.d("htt:add:postExecute", "**********  updated field: " + result);
-                    userService.updateUser();
-                    if(User.getInstance().getServerId() != -1 ){
+                    UserEntity userEntity = userService.getUserEntityWithPrimaryId(1);
+                    if(userEntity.getServerId() != -1 ){
                         getFeed();
-                    }{
-                        userService.updateUser();
                     }
                 }
             };
@@ -266,11 +260,9 @@ public class Dashboard extends AppCompatActivity {
                 protected void onPostExecute(String result) {
                     //expecting the user id
                     Log.d("htt:add:postExecute", "**********  updated field: " + result);
-                    userService.updateUser();
-                    if(User.getInstance().getServerId() != -1 ){
+                    UserEntity userEntity = userService.getUserEntityWithPrimaryId(1);
+                    if(userEntity.getServerId() != -1 ){
                         getFeed();
-                    }else{
-                        userService.updateUser();
                     }
                 }
             };

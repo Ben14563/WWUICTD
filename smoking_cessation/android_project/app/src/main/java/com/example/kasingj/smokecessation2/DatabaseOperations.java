@@ -213,31 +213,31 @@ public class DatabaseOperations extends SQLiteOpenHelper{
     }
 
     // adding to user_stats Table
-    public void addUserStats(DatabaseOperations dbop, String username, String time, String totsDayFree, String longStreak, String currStreak,
-                            String cravs, String cravsRes, String numSmokes, String moneySaved, String lifeReg, String cigsPerDay, String pricePerPack,
-                             String numYearsSmoked , int serverId, int userAuth) {
+    public UserEntity addUserStats(DatabaseOperations dbop,UserEntity entity){
 
         SQLiteDatabase sq = dbop.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(TableData.TableInfo.USER_NAME, username);
-        cv.put(TableData.TableInfo.TIME, time);
-        cv.put(TableData.TableInfo.TOTAL_DAYS_FREE, totsDayFree);
-        cv.put(TableData.TableInfo.LONGEST_STREAK, longStreak);
-        cv.put(TableData.TableInfo.CURRENT_STREAK, currStreak);
-        cv.put(TableData.TableInfo.NUM_CRAVINGS, cravs);
-        cv.put(TableData.TableInfo.CRAVINGS_RESISTED, cravsRes);
-        cv.put(TableData.TableInfo.NUM_CIGS_SMOKED, numSmokes);
-        cv.put(TableData.TableInfo.MONEY_SAVED, moneySaved);
-        cv.put(TableData.TableInfo.LIFE_REGAINED, lifeReg);
-        cv.put(TableData.TableInfo.CIGS_PER_DAY, cigsPerDay);
-        cv.put(TableData.TableInfo.PRICE_PER_PACK, pricePerPack);
-        cv.put(TableData.TableInfo.NUM_YEARS_SMOKED, numYearsSmoked);
-        cv.put(TableData.TableInfo.USER_SERVER_ID, serverId);
-        cv.put(TableData.TableInfo.USER_AUTH_ID, userAuth);
+        cv.put(TableData.TableInfo.USER_NAME, entity.getUsername() );
+        cv.put(TableData.TableInfo.TIME, getCurrTime() );
+        cv.put(TableData.TableInfo.TOTAL_DAYS_FREE, entity.getTotalDaysFree());
+        cv.put(TableData.TableInfo.LONGEST_STREAK, entity.getLongestStreak());
+        cv.put(TableData.TableInfo.CURRENT_STREAK, entity.getCurrentStreak());
+        cv.put(TableData.TableInfo.NUM_CRAVINGS, entity.getNumCravings());
+        cv.put(TableData.TableInfo.CRAVINGS_RESISTED, entity.getCravingsResisted());
+        cv.put(TableData.TableInfo.NUM_CIGS_SMOKED, entity.getNumCigsSmoked());
+        cv.put(TableData.TableInfo.MONEY_SAVED, entity.getMoneySaved());
+        cv.put(TableData.TableInfo.LIFE_REGAINED, entity.getLifeRegained());
+        cv.put(TableData.TableInfo.CIGS_PER_DAY,entity.getCigsPerDay());
+        cv.put(TableData.TableInfo.PRICE_PER_PACK, entity.getPricePerPack());
+        cv.put(TableData.TableInfo.NUM_YEARS_SMOKED, entity.getNumYearsSmoked());
+        cv.put(TableData.TableInfo.USER_SERVER_ID, entity.getServerId());
+        cv.put(TableData.TableInfo.USER_AUTH_ID, entity.getUserAuthId());
 
-        sq.insert(TableData.TableInfo.USER_TABLE_NAME, null, cv);
+        long result = sq.insert(TableData.TableInfo.USER_TABLE_NAME, null, cv);
         Log.d("Database Operations", "One row inserted into user_stats Table");
+        entity.setID(result+"");
+        return entity;
     }
 
     // adding to friends_stats Table
@@ -265,11 +265,11 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         Log.d("Database Operations", "One row inserted into friends_stats Table");
     }
 
-    public void updateServerIdForUser(DatabaseOperations dbop, String serverId) {
+    public void updateServerIdForUser(DatabaseOperations dbop, String serverId, int userId) {
         SQLiteDatabase sq = dbop.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(TableData.TableInfo.USER_SERVER_ID, serverId);
-        String whereClause =  "user_name='" + User.getInstance().getUsername()+"'";
+        String whereClause =  "id='" + userId;
         int updateResult = sq.update(TableData.TableInfo.USER_TABLE_NAME, cv, whereClause, null);
 
         Log.d("Database Operations", "Updated server id for current user update result:"+updateResult);
@@ -285,5 +285,19 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         Log.d("Database Operations", "One row inserted into user_demo Table");
     }
 
+    public Cursor getUserWithPrimaryId(DatabaseOperations dbop, int primaryId){
+        SQLiteDatabase sq = dbop.getReadableDatabase();
+        String[] columns = {TableData.TableInfo.USER_NAME, TableData.TableInfo.ID, TableData.TableInfo.TIME, TableData.TableInfo.TOTAL_DAYS_FREE,
+                TableData.TableInfo.LONGEST_STREAK, TableData.TableInfo.CURRENT_STREAK, TableData.TableInfo.NUM_CRAVINGS,
+                TableData.TableInfo.CRAVINGS_RESISTED, TableData.TableInfo.NUM_CIGS_SMOKED, TableData.TableInfo.MONEY_SAVED,
+                TableData.TableInfo.LIFE_REGAINED, TableData.TableInfo.CIGS_PER_DAY, TableData.TableInfo.PRICE_PER_PACK, TableData.TableInfo.NUM_YEARS_SMOKED,
+                TableData.TableInfo.USER_SERVER_ID, TableData.TableInfo.USER_AUTH_ID} ;
+
+        String where = TableData.TableInfo._ID + " = ?";
+        String[] whereArgs = new String[] {primaryId+""};
+        String orderBy = TableData.TableInfo.TIME + " DESC LIMIT 1";
+        Cursor cr = sq.query(TableData.TableInfo.USER_TABLE_NAME, columns, where, whereArgs, null, null, orderBy);
+        return cr;
+    }
 
 }
