@@ -2,7 +2,10 @@ package com.example.kasingj.smokecessation2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -39,12 +42,27 @@ public class login extends AppCompatActivity {
         password = PASSWORD.getText().toString();
 
         DatabaseOperations db = new DatabaseOperations(ctx);
-        Cursor cr = db.getUserAuth(db);
+        //Cursor cr = db.getUserAuth(db);
         UserEntity userEntity;
         //if not authorized return userAuth id
         userEntity = userService.getUserIfAuthorized(username,password);
 
         if(userEntity != null){
+
+            //try to add user again
+            ConnectivityManager connMgr = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+            if(userEntity.getServerId() ==-1 && networkInfo != null && networkInfo.isConnected()){
+                HttpServices services = new HttpServices(this);
+                services.addUserToServer(userEntity);
+            }
+
+            SharedPreferences preference = getSharedPreferences( getApplicationContext().getPackageName() , 1 );
+            SharedPreferences.Editor editor = preference.edit();
+            editor.putInt(MainActivity.CURRENT_USER_ID ,userEntity.getID());
+            editor.commit();
+
             Toast.makeText(getBaseContext(), "Login Success", Toast.LENGTH_LONG).show();
             Intent intent = new Intent (this, Dashboard.class);
             startActivity(intent);

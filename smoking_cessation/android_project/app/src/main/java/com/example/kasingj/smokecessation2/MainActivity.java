@@ -2,6 +2,7 @@ package com.example.kasingj.smokecessation2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         UserEntity userEntity;
         if ( (userEntity = createUser()) != null){
 
-            userService.saveUserEntity(userEntity);
+            //userService.saveUserEntity(userEntity);
 
             //check network
             ConnectivityManager connMgr = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
             //add user to database
             if( networkInfo != null && networkInfo.isConnected() ) {
-                httpServices.addUserToServer();
+                httpServices.addUserToServer(userEntity);
             }
 
             Log.d("finish button", "go to dashboard");
@@ -114,24 +115,12 @@ public class MainActivity extends AppCompatActivity {
       con_pass = CON_PASS.getText().toString();
       email = EMAIL.getText().toString();
       String regex = "\\d+(?:\\.\\d+)?";
-        UserEntity userEntity= new UserEntity();
-
-      //cigsPerDay = (EditText)R.serverId.cigsPerDayInput ;
 
       DatabaseOperations dbAuth = new DatabaseOperations(ctx);
-      Cursor cr = dbAuth.getUserAuth(dbAuth);
-      boolean exist = false;
+      UserEntity userEntity = userService.getUserIfAuthorized(username, password);
 
       //check if username exists
-      if (cr != null && cr.moveToFirst()) {
-          do {
-              if (username.equals(cr.getString(0))) {
-                  exist = true;
-              }
-          } while (cr.moveToNext());
-      }
-
-      if (exist == true) {
+      if (userEntity != null) {
           Toast.makeText(getBaseContext(), "Username already exists", Toast.LENGTH_LONG).show();
           return null;
       }
@@ -168,23 +157,36 @@ public class MainActivity extends AppCompatActivity {
           Toast.makeText(getBaseContext(), "num years smoked must be a number.", Toast.LENGTH_LONG).show();
           return null;
       }
-
+        userEntity = new UserEntity();
           //valid username & password
-          userEntity.setUsername(username);
+
+        userEntity.setUsername(username);
         userEntity.setPassword(password);
         userEntity.setEmail(email);
-        userEntity.setPricePerPack(pricePerPack);
         userEntity.setCigsPerDay(cigsPerDay);
+        userEntity.setPricePerPack(pricePerPack);
         userEntity.setNumYearsSmoked(numYearsSmoked);
+        userEntity.setLongestStreak(0);
+        userEntity.setCurrentStreak(0);
+        userEntity.setTotalDaysFree(0);
+        userEntity.setNumCravings(0);
+        userEntity.setCravsRes(0);
+        userEntity.setNumCigsSmoked(0);
+        userEntity.setMoneySaved(0);
+        userEntity.setLifeRegained(0);
           Log.d("Next Button", "initialized username, password, email");
 
           //add user to db
-          DatabaseOperations db = new DatabaseOperations(ctx);
-          db.addUserAuth(db, username, password, email);
+         // DatabaseOperations db = new DatabaseOperations(ctx);
+         // db.addUserAuth(db, username, password, email);
+        userService.addUserCredentials(username,password, email);
+        int id = userService.saveUserEntity(userEntity);
 
-      cr.close();
-      dbAuth.close();
-      return userEntity;
+        SharedPreferences preference = getSharedPreferences( getApplicationContext().getPackageName() , 1 );
+        SharedPreferences.Editor editor = preference.edit();
+        editor.putInt(MainActivity.CURRENT_USER_ID ,id);
+        editor.commit();
+        return userEntity;
     /*done checking authentification information*/
   }
 }

@@ -17,9 +17,34 @@ public class UserService {
     }
 
     public UserEntity getUserEntityWithPrimaryId(int primaryId){
-
         Cursor cr = UserDAO.getUserWithPrimaryId(UserDAO, primaryId);
-        //map object
+        UserEntity entity=convertRowToUserEntity(cr);
+        return entity;
+    }
+
+    public int saveUserEntity(UserEntity entity){
+        String time= UserDAO.getCurrTime();
+        Log.d("Finish Button", "initialized user stats");
+        entity = UserDAO.addUserStats(UserDAO, entity);
+        return entity.getID();
+    }
+
+    public UserEntity getUserIfAuthorized(String username, String password){
+        int authId = UserDAO.isUserAuthorized(UserDAO, username, password);
+        if (authId == -1){
+            return null;
+        }
+        Cursor cr = UserDAO.getUserStats(UserDAO, username);
+        UserEntity entity = convertRowToUserEntity(cr);
+        return entity;
+    }
+
+    public int addUserCredentials(String username, String password, String email){
+        int id = UserDAO.addUserAuth(UserDAO, username, password, email);
+        return id;
+    }
+
+    private UserEntity convertRowToUserEntity(Cursor cr){
         UserEntity entity=null;
 
         if (cr != null && cr.moveToFirst()) {
@@ -59,22 +84,7 @@ public class UserService {
         return entity;
     }
 
-    public int saveUserEntity(UserEntity entity){
-        String time= UserDAO.getCurrTime();
-        Log.d("Finish Button", "initialized user stats");
-        entity = UserDAO.addUserStats(UserDAO, entity);
-        return entity.getID();
+    public void updateUser(UserEntity userEntity) {
+        UserDAO.updateUser(UserDAO, userEntity);
     }
-
-    public UserEntity getUserIfAuthorized(String username, String password){
-        //call to the dao
-        int authId = UserDAO.isUserAuthorized(UserDAO,username,password);
-        Cursor cr = UserDAO.getUserStats(UserDAO,username);
-        UserEntity entity = new UserEntity();
-        return entity;
-    }
-
-
-
-
 }

@@ -50,20 +50,15 @@ public class SignUp extends AppCompatActivity {
         email = EMAIL.getText().toString();
 
 
-        DatabaseOperations dbAuth = new DatabaseOperations(ctx);
-        Cursor cr = dbAuth.getUserAuth(dbAuth);
-        boolean exist = false;
+        //DatabaseOperations dbAuth = new DatabaseOperations(ctx);
+        //Cursor cr = dbAuth.getUserAuth(dbAuth);
+        //boolean exist = false;
+
+        UserEntity user = userService.getUserIfAuthorized(username,password);
 
         //check if username exists
-        if (cr != null && cr.moveToFirst()) {
-            do {
-                if (username.equals(cr.getString(0))) {
-                    exist = true;
-                }
-            } while (cr.moveToNext());
-        }
 
-        if (exist == true) {
+        if (user != null) {
             Toast.makeText(getBaseContext(), "Username already exists", Toast.LENGTH_LONG).show();
         }
         else if (username.equals("")) {
@@ -103,6 +98,13 @@ public class SignUp extends AppCompatActivity {
             userEntity.setCigsPerDay(cigsPerDay);
             userEntity.setPricePerPack(pricePerPack);
             userEntity.setNumYearsSmoked(numYearsSmoked);
+            userEntity.setLongestStreak(0);
+            userEntity.setCurrentStreak(0);
+            userEntity.setTotalDaysFree(0);
+            userEntity.setNumCravings(0);
+            userEntity.setCravsRes(0);
+            userEntity.setNumCigsSmoked(0);
+            userEntity.setMoneySaved(0);
 
             Log.d("Next Button", "initialized username, password, email");
             //save user entity
@@ -121,8 +123,6 @@ public class SignUp extends AppCompatActivity {
             Intent intent = new Intent (this, MainActivity.class);
             startActivity(intent);
         }
-        cr.close();
-        dbAuth.close();
     }
 
 }

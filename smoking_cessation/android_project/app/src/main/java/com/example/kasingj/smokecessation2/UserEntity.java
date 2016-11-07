@@ -168,8 +168,8 @@ public class UserEntity {
             return NUM_CRAVINGS;
         }
 
-        protected String getCravingsResisted() {
-            return CRAVINGS_RESISTED;
+        protected int getCravingsResisted() {
+            return Integer.parseInt(CRAVINGS_RESISTED);
         }
 
         protected String getNumCigsSmoked() {
