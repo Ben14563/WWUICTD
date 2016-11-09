@@ -1,6 +1,7 @@
 package com.example.kasingj.smokecessation2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,10 +19,16 @@ import org.json.JSONException;
 
 public class Friends extends AppCompatActivity {
 
-    private final UserService userService = new UserService(this);
+
+    UserService userService;
+    UserEntity userEntity;
+    SharedPreferences preferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        UserService userService = new UserService(this);
+        preferences = getSharedPreferences(getApplicationContext().getPackageName(), 1);
+        int id = preferences.getInt(MainActivity.CURRENT_USER_ID, -1);
+        userService = new UserService(this);
+        userEntity = userService.getUserEntityWithPrimaryId(id);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -50,7 +57,6 @@ public class Friends extends AppCompatActivity {
     }
 
     public void getBuddies() {
-        final UserEntity entity = userService.getUserEntityWithPrimaryId(1);
         try {
             AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
                 @Override
@@ -58,7 +64,7 @@ public class Friends extends AppCompatActivity {
                     //result is the json string of the request. might be null
 
                     HttpRunner runner = new HttpRunner();
-                    String result = runner.getAllBuddies(entity.getServerId() + "");
+                    String result = runner.getAllBuddies(userEntity.getServerId() + "");
                     if (result == null) {
                         return "NULL";
                     }
@@ -80,7 +86,7 @@ public class Friends extends AppCompatActivity {
                             TextView tv = (TextView) child.findViewById(R.id.name);
                             String name = arr.getString(i);
                             tv.setText(name);
-                            if(!name.equals(entity.getUsername())) {
+                            if(!name.equals(userEntity.getUsername())) {
                                 holder.addView(child);
                             }
                         }

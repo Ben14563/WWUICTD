@@ -153,7 +153,11 @@ public class Dashboard extends AppCompatActivity {
         //numSmokes += 1;
         userEntity = userService.getUserEntityWithPrimaryId(userEntity.getID() );
         userEntity.setNumCigsSmoked( Integer.parseInt(userEntity.getNumCigsSmoked() ) + 1);
-        incrementFieldOnServer("cigs_smoked", userEntity);
+        if( userEntity.getServerId() > 0)   {
+            incrementFieldOnServer("cigs_smoked",userEntity);
+        }else{
+            httpServices.addUserToServer(userEntity);
+        }
 
         //userService.saveUserEntity(userEntity);
         userService.updateUser(userEntity);
@@ -312,6 +316,7 @@ public class Dashboard extends AppCompatActivity {
                             Log.d("htt:add:postExecute", "********** feed: " + description);
                             posts[i] = new FeedPost(feedid, date, description, likes, dislikes);
                             View child = getLayoutInflater().inflate(R.layout.post, null);
+
                             TextView tv = (TextView)child.findViewById(R.id.description);
                             tv.setText(description);
                             tv = (TextView)child.findViewById(R.id.time);

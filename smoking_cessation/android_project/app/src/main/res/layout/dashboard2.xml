@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_above="@+id/toolbar"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
         <LinearLayout
             android:layout_width="0dp"
@@ -23,7 +25,7 @@
                 <ImageView
                     android:id="@+id/imageView"
                     android:layout_width="wrap_content"
-                    android:layout_height="160dp"
+                    android:layout_height="140dp"
                     android:layout_gravity="center"
                     android:cropToPadding="false"
                     android:scaleType="fitCenter"
@@ -53,42 +55,9 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="20sp"
                 android:textStyle="bold" />
-            <!--<FrameLayout-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-
-                <!--android:orientation="horizontal">-->
-                <!--<ImageButton-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="70dp"-->
-                    <!--android:id="@+id/craveButton"-->
-                    <!--android:background="@drawable/shadow_4266"-->
-                    <!--android:src="@drawable/craving"-->
-                    <!--android:onClick="imCraving"-->
-                    <!--android:cropToPadding="false"-->
-                    <!--android:adjustViewBounds="true"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:scaleType="centerCrop"-->
-                    <!--android:paddingLeft="5dp"-->
-                    <!--android:paddingTop="10dp"-->
-                    <!--android:paddingRight="130dp"-->
-                    <!--android:paddingBottom="10dp"-->
-                    <!--android:allowUndo="false" />-->
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-                    <!--android:text="I&apos;m Craving"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:layout_marginLeft="30dp"-->
-                    <!--android:id="@+id/textView3"-->
-                    <!--android:singleLine="true"-->
-
-                    <!--/>-->
-            <!--</FrameLayout>-->
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="84dp"
+        android:layout_height="60dp"
         android:orientation="horizontal"
         android:gravity="center"
         android:background="@drawable/shadow_4266"
@@ -102,9 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="craving"
-            android:textSize="18sp"
-
-            />
+            android:textSize="18sp"/>
 
     </LinearLayout>
 
@@ -124,7 +91,7 @@
                 <ImageView
 
                     android:layout_width="wrap_content"
-                    android:layout_height="160dp"
+                    android:layout_height="140dp"
                     android:layout_gravity="center"
                     android:cropToPadding="false"
                     android:scaleType="fitCenter"
@@ -157,7 +124,7 @@
                 android:textStyle="bold" />
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="84dp"
+                android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:background="@drawable/shadow_4254"
@@ -192,7 +159,7 @@
                 <ImageView
 
                     android:layout_width="wrap_content"
-                    android:layout_height="160dp"
+                    android:layout_height="140dp"
                     android:layout_gravity="center"
                     android:cropToPadding="false"
                     android:scaleType="fitCenter"
@@ -224,7 +191,7 @@
                 android:textStyle="bold" />
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="84dp"
+                android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:background="@drawable/shadow_42145"
@@ -284,7 +251,7 @@
         <ImageButton
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="70dp"
+            android:layout_height="60dp"
             android:id="@+id/dashButton"
             android:background="@drawable/shadow_42145"
             android:src="@drawable/dashboard"
@@ -301,7 +268,7 @@
         <ImageButton
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="70dp"
+            android:layout_height="60dp"
             android:id="@+id/friendsButton"
             android:background="@drawable/shadow_42927"
             android:src="@drawable/buddies"
@@ -318,7 +285,7 @@
         <ImageButton
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="70dp"
+            android:layout_height="60dp"
             android:id="@+id/statsButton"
             android:background="@drawable/shadow_42927"
             android:src="@drawable/stats"
