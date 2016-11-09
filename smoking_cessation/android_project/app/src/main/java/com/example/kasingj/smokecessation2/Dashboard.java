@@ -88,10 +88,11 @@ public class Dashboard extends AppCompatActivity {
 
     // Crave Button
     public void imCraving(View view) {
-        int id = preferences.getInt(MainActivity.CURRENT_USER_ID, -1);
-        userEntity = userService.getUserEntityWithPrimaryId(id);
+        //int id = preferences.getInt(MainActivity.CURRENT_USER_ID, -1);
+        //int id = (userEntity !=null) ? userEntity.getID() : preferences.getInt(MainActivity.CURRENT_USER_ID, -1);
+        userEntity = userService.getUserEntityWithPrimaryId(userEntity.getID());
         time = DatabaseOperations.getCurrTime();
-        userEntity.setNumCravings(1 + userEntity.getCravingsResisted());
+        userEntity.setNumCravings(1 + Integer.parseInt(userEntity.getNumCravings()) );
 
         if( userEntity.getServerId() > 0)   {
             incrementFieldOnServer("cravings",userEntity);

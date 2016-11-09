@@ -77,6 +77,7 @@ public class UserService {
             entity.setPricePerPack(pricePerPack);
             entity.setNumYearsSmoked(numYearsSmoked);
             entity.setServerId(serverId);
+            entity.setUsername(username);
 
             Log.d("Entered Dashboard", "User object updated");
         }
