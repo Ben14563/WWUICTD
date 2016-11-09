@@ -23,7 +23,7 @@
                 <ImageView
                     android:id="@+id/imageView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="160dp"
                     android:layout_gravity="center"
                     android:cropToPadding="false"
                     android:scaleType="fitCenter"
@@ -37,7 +37,7 @@
                     android:paddingTop="20dp"
                     android:singleLine="true"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="40sp"
+                    android:textSize="30sp"
                     android:textStyle="bold"
 
                     />
@@ -51,7 +51,7 @@
                 android:paddingBottom="15dp"
                 android:text="Saved"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="28sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
             <!--<FrameLayout-->
                 <!--android:layout_width="wrap_content"-->
@@ -92,10 +92,11 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:background="@drawable/shadow_4266"
-        android:id="@+id/craveButton">
+        android:id="@+id/craveButton"
+        android:onClick="imCraving">
         <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:src="@drawable/craving" />
         <TextView
             android:layout_width="wrap_content"
@@ -123,7 +124,7 @@
                 <ImageView
 
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="160dp"
                     android:layout_gravity="center"
                     android:cropToPadding="false"
                     android:scaleType="fitCenter"
@@ -138,7 +139,7 @@
                     android:paddingTop="20dp"
                     android:singleLine="true"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="40sp"
+                    android:textSize="30sp"
                     android:textStyle="bold"
 
                     />
@@ -150,25 +151,26 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/imageView"
                 android:paddingBottom="15dp"
-                android:text="Saved"
+                android:text="Not Smoked"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="28sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="84dp"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:background="@drawable/shadow_4266"
-                android:id="@+id/resistButton">
+                android:background="@drawable/shadow_4254"
+                android:id="@+id/resistButton"
+                android:onClick="resistCraving">
                 <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:src="@drawable/craving" />
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/no_smoking" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="craving"
+                    android:text="Resisted"
                     android:textSize="18sp"
 
                     />
@@ -190,7 +192,7 @@
                 <ImageView
 
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="160dp"
                     android:layout_gravity="center"
                     android:cropToPadding="false"
                     android:scaleType="fitCenter"
@@ -204,7 +206,7 @@
                     android:paddingTop="20dp"
                     android:singleLine="true"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="40sp"
+                    android:textSize="30sp"
                     android:textStyle="bold"
 
                     />
@@ -216,25 +218,26 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/imageView"
                 android:paddingBottom="15dp"
-                android:text="Saved"
+                android:text="Life Regained"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="28sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="84dp"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:background="@drawable/shadow_4266"
-                android:id="@+id/smokedButton">
+                android:background="@drawable/shadow_42145"
+                android:id="@+id/smokedButton"
+                android:onClick="smoked">
                 <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:src="@drawable/craving" />
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/smoking" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="craving"
+                    android:text="smoked"
                     android:textSize="18sp"
 
                     />
