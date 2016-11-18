@@ -180,7 +180,7 @@ public class Dashboard extends AppCompatActivity {
     }
 
     public void goToStatistics (View view) {
-        Intent intent = new Intent (this, Statistics.class);
+        Intent intent = new Intent (this, Stats.class);
         startActivity(intent);
     }
 
