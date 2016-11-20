@@ -5,10 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
+
+
 
 public class Stats extends AppCompatActivity {
 
@@ -31,7 +36,11 @@ public class Stats extends AppCompatActivity {
 
         barChart = (BarChart) findViewById(R.id.bargraph);
 
+
+
         createRandomGraph("2016/11/01", "2016/11/18");
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setValueFormatter(new MyXValueFormatter(dates));
 
 //        ArrayList<String> months = new ArrayList<>();
 //        months.add("January");
@@ -76,7 +85,7 @@ public class Stats extends AppCompatActivity {
             for (int i = 0; i < dates.size(); i++) {
                 max = 100f;
                 value = random.nextFloat() * max;
-                entries.add(new BarEntry(value, i));
+                entries.add(new BarEntry(i, value));
             }
         } catch(ParseException e) {
             e.printStackTrace();
@@ -84,6 +93,7 @@ public class Stats extends AppCompatActivity {
         BarDataSet dataSet = new BarDataSet(entries, "Cigarettes Smoked");
         BarData data = new BarData(dataSet);
         barChart.setData(data);
+
 
         Description description = new Description();
         description.setText("Testing Bar Chart");
@@ -111,6 +121,25 @@ public class Stats extends AppCompatActivity {
         }
         return currentDate;
     }
+
+    public class MyXValueFormatter implements IAxisValueFormatter {
+        ArrayList<String> dates = new ArrayList<>();
+
+        public MyXValueFormatter (ArrayList<String> dates) {
+            this.dates = dates;
+        }
+
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            return dates.get((int) value);
+        }
+
+        @Override
+        public int getDecimalDigits() {
+            return 0;
+        }
+    }
+
 }
 
 
