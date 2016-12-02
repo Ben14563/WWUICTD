@@ -4,26 +4,44 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Friends extends AppCompatActivity {
 
+    ArrayList<FriendEntity> buddies = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friends);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getBuddies();
+        setContentView(R.layout.friends_list);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+
+        //pull buddies from db
+        for(int i = 0; i< 12; i++){
+            //create friendsObjects
+            FriendEntity friend = new FriendEntity();
+            friend.setEmail("John@Gmail.com");
+            buddies.add(friend);
+        }
+
+        DataItemAdapter adapter = new DataItemAdapter(this,buddies);
+        RecyclerView recyclerView = (RecyclerView) findViewById( R.id.rvItems);
+        recyclerView.setAdapter(adapter);
+        //getBuddies();
     }
 
     public void goToInvite (View view) {

@@ -11,19 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.example.android.data.model.DataItem;
-
+import com.example.kasingj.smokecessation2.friendObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
 public class DataItemAdapter extends RecyclerView.Adapter<DataItemAdapter.ViewHolder> {
 
-    private List<DataItem> mItems;
+    private List<FriendEntity> mItems;
     private Context mContext;
 
-    public DataItemAdapter(Context context, List<DataItem> items) {
+    public DataItemAdapter(Context context, List<FriendEntity> items) {
+        //super(context,R.layout.friends_list_item,items);
         this.mContext = context;
         this.mItems = items;
     }
@@ -31,22 +30,23 @@ public class DataItemAdapter extends RecyclerView.Adapter<DataItemAdapter.ViewHo
     @Override
     public DataItemAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View itemView = inflater.inflate(R.layout.list_item, parent, false);
+        View itemView = inflater.inflate(R.layout.friends_list_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(itemView);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(DataItemAdapter.ViewHolder holder, int position) {
-        DataItem item = mItems.get(position);
+        FriendEntity item = mItems.get(position);
 
         try {
-            holder.tvName.setText(item.getItemName());
-            String imageFile = item.getImage();
-            InputStream inputStream = mContext.getAssets().open(imageFile);
-            Drawable d = Drawable.createFromStream(inputStream, null);
-            holder.imageView.setImageDrawable(d);
-        } catch (IOException e) {
+            holder.tvName.setText( (item.getEmail() == null) ? "Unknown Friend" : item.getEmail() );
+            //String imageFile = item.getImage();
+            //InputStream inputStream = mContext.getAssets().open(imageFile);
+            //Drawable d = Drawable.createFromPath(R.drawable.no_smoking);
+            holder.imageView.setImageResource(R.drawable.no_smoking);
+            //item.getID();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -63,8 +63,8 @@ public class DataItemAdapter extends RecyclerView.Adapter<DataItemAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
 
-            tvName = (TextView) itemView.findViewById(R.id.itemNameText);
-            imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            tvName = (TextView) itemView.findViewById(R.id.itemText);
+            imageView = (ImageView) itemView.findViewById(R.id.imageView7);
         }
     }
 }
