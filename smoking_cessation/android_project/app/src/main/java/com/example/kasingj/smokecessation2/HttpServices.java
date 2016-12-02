@@ -37,17 +37,19 @@ public class HttpServices {
 * add user to server
 * */
 
+    //int result = preference.getInt(MainActivity.CURRENT_USER_ID,-1);
 
-    public void addUserToServer() {
+    public void addUserToServer(final UserEntity entity){
+
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("http")
                 .authority(ENDPOINT)
                 .appendPath("user")
                 .appendPath("add")
-                .appendQueryParameter("name", User.getInstance().getUsername())
-                .appendQueryParameter("email", User.getInstance().getEmail())
-                .appendQueryParameter("cigs_per_day", User.getInstance().getCigsPerDay())
-                .appendQueryParameter("price_per_pack", User.getInstance().getPricePerPack());
+                .appendQueryParameter("name", entity.getUsername())
+                .appendQueryParameter("email", entity.getEmail())
+                .appendQueryParameter("cigs_per_day", entity.getCigsPerDay())
+                .appendQueryParameter("price_per_pack", entity.getPricePerPack());
 
         String url = builder.build().toString();
 
@@ -55,11 +57,9 @@ public class HttpServices {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String serverId) {
-                        // Result handling
-                        User.getInstance().setServerId(Integer.parseInt(serverId)); //result may be json so need to parse.
+                        //result may be json so need to parse.
                         DatabaseOperations db = new DatabaseOperations(context);
-                        db.updateServerIdForUser(db, serverId);
-                        //db.addUserStats(db, username, serverId, time, "0", "0", "0", "0", "0", "0", "0.00", "0" , cigsPerDay,pricePerPack, numYearsSmoked);
+                        db.updateServerIdForUser(db, serverId, entity.getID() );
                         Toast.makeText(context, "Server ID: " + serverId, Toast.LENGTH_LONG).show();
                         db.close();
                         //go to dashboard
@@ -81,7 +81,7 @@ public class HttpServices {
     * add buddy to user
     * */
 
-    public void addBuddyToUser(String friendId, String email) {
+    public void addBuddyToUser(String friendId, String email, final UserEntity entity) {
         String url = ENDPOINT + "/" + friendId + "/add/" + email;
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -106,11 +106,11 @@ public class HttpServices {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 // the POST parameters:
-                User user = User.getInstance();
-                params.put("name", user.getUsername());
-                params.put("email", user.getEmail());
-                params.put("cigs_per_day", user.getCigsPerDay());
-                params.put("price_per_pack", user.getPricePerPack());
+
+                params.put("name", entity.getUsername());
+                params.put("email", entity.getEmail());
+                params.put("cigs_per_day", entity.getCigsPerDay());
+                params.put("price_per_pack", entity.getPricePerPack());
                 return params;
             }
         };
@@ -122,7 +122,7 @@ public class HttpServices {
 * get user stats
 * */
 
-    public void getUserStats(String id) {
+    public void getUserStats(int id) {
         String url = ENDPOINT + "/user/" + id;
 
         JsonObjectRequest jsonRequest = new JsonObjectRequest
@@ -152,21 +152,21 @@ public class HttpServices {
 
         queue.add(jsonRequest);
     }
-}
+
 /*
 * increment field on server
 * */
-/*
-    public void incrementFieldOnServer(final String field) {
+
+    public void incrementFieldOnServer(final String field, final UserEntity entity) {
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("http")
                 .authority(ENDPOINT)
                 .appendPath("user")
                 .appendPath("add")
-                .appendQueryParameter("name", User.getInstance().getUsername())
-                .appendQueryParameter("email", User.getInstance().getEmail())
-                .appendQueryParameter("cigs_per_day", User.getInstance().getCigsPerDay())
-                .appendQueryParameter("price_per_pack", User.getInstance().getPricePerPack());
+                .appendQueryParameter("name", entity.getUsername())
+                .appendQueryParameter("email", entity.getEmail())
+                .appendQueryParameter("cigs_per_day", entity.getCigsPerDay())
+                .appendQueryParameter("price_per_pack", entity.getPricePerPack());
 
         String url = builder.build().toString();
 
@@ -177,7 +177,7 @@ public class HttpServices {
                         // Result handling
                         Log.d("htt:add:postExecute", "**********  updated field: " + result);
                     //userService.updateUser();
-                    if(User.getInstance().getServerId() != -1 ){
+                    if(entity.getServerId() != -1 ){
                         //getFeed();
                     }else {
                         //userService.updateUser();
@@ -193,7 +193,7 @@ public class HttpServices {
         });
         queue.add(stringRequest);
     }
-/*
+
 
 }
 

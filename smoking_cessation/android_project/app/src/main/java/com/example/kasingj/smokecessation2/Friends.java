@@ -1,6 +1,7 @@
 package com.example.kasingj.smokecessation2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -23,8 +25,16 @@ import java.util.List;
 public class Friends extends AppCompatActivity {
 
     ArrayList<FriendEntity> buddies = new ArrayList<>();
+
+    UserService userService;
+    UserEntity userEntity;
+    SharedPreferences preferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        preferences = getSharedPreferences(getApplicationContext().getPackageName(), 1);
+        int id = preferences.getInt(MainActivity.CURRENT_USER_ID, -1);
+        userService = new UserService(this);
+        userEntity = userService.getUserEntityWithPrimaryId(id);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friends_list);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -70,8 +80,9 @@ public class Friends extends AppCompatActivity {
                 @Override
                 protected String doInBackground(String... params) {
                     //result is the json string of the request. might be null
+
                     HttpRunner runner = new HttpRunner();
-                    String result = runner.getAllBuddies(User.getInstance().getServerId() + "");
+                    String result = runner.getAllBuddies(userEntity.getServerId() + "");
                     if (result == null) {
                         return "NULL";
                     }
@@ -93,7 +104,7 @@ public class Friends extends AppCompatActivity {
                             TextView tv = (TextView) child.findViewById(R.id.name);
                             String name = arr.getString(i);
                             tv.setText(name);
-                            if(!name.equals(User.getInstance().getUsername())) {
+                            if(!name.equals(userEntity.getUsername())) {
                                 holder.addView(child);
                             }
                         }
