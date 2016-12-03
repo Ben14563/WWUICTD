@@ -41,10 +41,10 @@ public class Friends extends AppCompatActivity {
         //setSupportActionBar(toolbar);
 
         //pull buddies from db
-        for(int i = 0; i< 12; i++){
+        for(int i = 0; i< 60; i++){
             //create friendsObjects
             FriendEntity friend = new FriendEntity();
-            friend.setEmail("John@Gmail.com");
+            friend.setEmail("John@Gmail.com" + i);
             buddies.add(friend);
         }
 

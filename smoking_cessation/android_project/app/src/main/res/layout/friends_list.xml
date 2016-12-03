@@ -5,6 +5,32 @@
                 android:id="@+id/friends_list"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@color/colorPrimaryDark">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/imageView7"
+            android:src="@drawable/smoking"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/imageView7"
+            android:layout_toRightOf="@id/imageView7"
+            android:text="FriendsList"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:textSize="30sp"
+            android:id="@+id/itemText" />
+
+    </LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvItems"
         android:layout_width="match_parent"
@@ -14,9 +40,59 @@
 
     </android.support.v7.widget.RecyclerView>
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="60dp"
+            android:id="@+id/dashButton"
+            android:background="@drawable/shadow_42145"
+            android:src="@drawable/dashboard"
+            android:onClick="goToDashboard"
+            android:cropToPadding="false"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:paddingLeft="55dp"
+            android:paddingTop="10dp"
+            android:paddingRight="55dp"
+            android:paddingBottom="10dp"
+            android:allowUndo="false" />
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="60dp"
+            android:id="@+id/friendsButton"
+            android:background="@drawable/shadow_42927"
+            android:src="@drawable/buddies"
+            android:onClick="goToFriends"
+            android:cropToPadding="false"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:paddingLeft="50dp"
+            android:paddingTop="10dp"
+            android:paddingRight="50dp"
+            android:paddingBottom="10dp"
+            android:clickable="true" />
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="60dp"
+            android:id="@+id/statsButton"
+            android:background="@drawable/shadow_42927"
+            android:src="@drawable/stats"
+            android:onClick="goToStatistics"
+            android:cropToPadding="false"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:paddingLeft="55dp"
+            android:paddingTop="10dp"
+            android:paddingRight="55dp"
+            android:paddingBottom="10dp"
+            android:clickable="true" />
 
     </LinearLayout>
 

@@ -1,26 +1,29 @@
 package com.example.kasingj.smokecessation2;
 
+import java.util.UUID;
+
 /**
  * Created by kasingj on 3/3/16.
  */
 public class FriendEntity {
     /* ALL OF THE FRIEND FIELDS*/
-    private static String FRIEND_NAME="";
-    private static String TIME="";
-    private static String FRIEND_ID ="";
-    private static String EMAIL="";
-    private static String TOTAL_DAYS_FREE="";
-    private static String LONGEST_STREAK="";
-    private static String CURRENT_STREAK="";
-    private static String NUM_CRAVINGS="";
-    private static String CRAVINGS_RESISTED="";
-    private static String NUM_CIGS_SMOKED="";
-    private static String MONEY_SAVED="";
-    private static String LIFE_REGAINED="";
+    private String FRIEND_NAME="";
+    private String TIME="";
+    private String FRIEND_ID ="";
+    private String EMAIL="";
+    private String TOTAL_DAYS_FREE="";
+    private String LONGEST_STREAK="";
+    private String CURRENT_STREAK="";
+    private String NUM_CRAVINGS="";
+    private String CRAVINGS_RESISTED="";
+    private String NUM_CIGS_SMOKED="";
+    private String MONEY_SAVED="";
+    private String LIFE_REGAINED="";
 
     //constructor
     public FriendEntity() {
         //do nothing
+        FRIEND_ID = UUID.randomUUID().toString();
     }
 
     public void setFriendObject(String friend_name,String time, String total_days_free, String longest_streak, String current_streak, String num_cravings,
