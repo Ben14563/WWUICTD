@@ -56,10 +56,12 @@ public class FriendDAO extends DatabaseOperations {
 
     /* get all friends of current user */
 
-    public Cursor getAllFriends(DatabaseOperations dbop, int primaryId){
+    public Cursor getAllFriends(DatabaseOperations dbop, int friendOfId){
         SQLiteDatabase sq = dbop.getReadableDatabase();
         String[] columns = buildFriendColumns();
-        Cursor cr = sq.query(TableData.TableInfo.FRIENDS_TABLE_NAME, columns, null, null, null, null, null);
+        String where = TableData.TableInfo.FRIEND_OF_ID+"= ?";
+        String[] whereArgs = new String[] {friendOfId+""};
+        Cursor cr = sq.query(TableData.TableInfo.FRIENDS_TABLE_NAME, columns, where, whereArgs, null, null, null);
         return cr;
     }
 
