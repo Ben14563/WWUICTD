@@ -93,24 +93,53 @@ public class Friends extends AppCompatActivity {
                 protected void onPostExecute(String result) {
                     //expecting the user id
                     Log.d("htt:add:postExecute", "**********  updated field: " + result);
-                    LinearLayout holder = (LinearLayout)findViewById(R.id.friendlist);
+
+
                     try {
+                        LinearLayout holder = (LinearLayout)findViewById(R.id.friendlist);
                         JSONArray arr = new JSONArray(result);
                         FeedPost[] posts = new FeedPost[arr.length()];
-                        holder.removeAllViews();
 
                         for (int i = 0; i < arr.length(); i++) {
-                            View child = getLayoutInflater().inflate(R.layout.friend, null);
-                            TextView tv = (TextView) child.findViewById(R.id.name);
                             String name = arr.getString(i);
-                            tv.setText(name);
+
                             if(!name.equals(userEntity.getUsername())) {
-                                holder.addView(child);
+                                //create friend entity add to list
+                                FriendEntity ent = new FriendEntity();
+                                ent.setEmail(arr.getString(i));
+                                buddies.add(ent);
                             }
                         }
-                    } catch (JSONException e) {
+
+                    } catch (JSONException e){
 
                     }
+
+
+
+
+
+
+
+
+//                    LinearLayout holder = (LinearLayout)findViewById(R.id.friendlist);
+//                    try {
+//                        JSONArray arr = new JSONArray(result);
+//                        FeedPost[] posts = new FeedPost[arr.length()];
+//                        holder.removeAllViews();
+//
+//                        for (int i = 0; i < arr.length(); i++) {
+//                            View child = getLayoutInflater().inflate(R.layout.friend, null);
+//                            TextView tv = (TextView) child.findViewById(R.id.name);
+//                            String name = arr.getString(i);
+//                            tv.setText(name);
+//                            if(!name.equals(userEntity.getUsername())) {
+//                                holder.addView(child);
+//                            }
+//                        }
+//                    } catch (JSONException e) {
+//
+//                    }
                 }
             };
 
