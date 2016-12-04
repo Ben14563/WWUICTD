@@ -57,7 +57,7 @@ public class DataItemAdapter extends RecyclerView.Adapter<DataItemAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 Toast.makeText(mContext, "You Selected " + item.getEmail(), Toast.LENGTH_SHORT ).show();
-                String itemId = item.getID();
+                String itemId = ""+item.getID();
                 Intent intent = new Intent(mContext, FriendDetail.class);
                 intent.putExtra(ITEM_ID_KEY,itemId);
                 mContext.startActivity(intent);

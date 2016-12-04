@@ -28,6 +28,7 @@ public class Friends extends AppCompatActivity {
 
     UserService userService;
     UserEntity userEntity;
+    FriendService friendService;
     SharedPreferences preferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,18 +42,22 @@ public class Friends extends AppCompatActivity {
         //setSupportActionBar(toolbar);
 
         //pull buddies from db
-        for(int i = 0; i< 60; i++){
-            //create friendsObjects
-            FriendEntity friend = new FriendEntity();
-            friend.setEmail("John@Gmail.com" + i);
-            buddies.add(friend);
-        }
+        friendService = new FriendService(this);
+        buddies = friendService.getAllFriends(userEntity.getID());
+
+//        for(int i = 0; i< 60; i++){
+//            //create friendsObjects
+//            FriendEntity friend = new FriendEntity();
+//            friend.setEmail("John@Gmail.com" + i);
+//            buddies.add(friend);
+//        }
 
         DataItemAdapter adapter = new DataItemAdapter(this,buddies);
         RecyclerView recyclerView = (RecyclerView) findViewById( R.id.rvItems);
         recyclerView.setAdapter(adapter);
         //getBuddies();
     }
+
 
     public void goToInvite (View view) {
         Intent intent = new Intent (this, Invite.class);
@@ -94,26 +99,62 @@ public class Friends extends AppCompatActivity {
                     //expecting the user id
                     Log.d("htt:add:postExecute", "**********  updated field: " + result);
 
-
                     try {
                         LinearLayout holder = (LinearLayout)findViewById(R.id.friendlist);
                         JSONArray arr = new JSONArray(result);
                         FeedPost[] posts = new FeedPost[arr.length()];
 
-                        for (int i = 0; i < arr.length(); i++) {
-                            String name = arr.getString(i);
 
-                            if(!name.equals(userEntity.getUsername())) {
-                                //create friend entity add to list
-                                FriendEntity ent = new FriendEntity();
-                                ent.setEmail(arr.getString(i));
-                                buddies.add(ent);
+                        for (int i = 0; i < arr.length(); i++) {
+                            String name = arr.getJSONObject(i).getString("name");
+
+                            if(!name.equals(userEntity.getUsername()) ) {
+                                String time = arr.getJSONObject(i).getString("time");
+                                String total_days_free = arr.getJSONObject(i).getString("days_free");
+                                String money_saved = arr.getJSONObject(i).getString("money_saved");
+                                String life_regained = arr.getJSONObject(i).getString("life_regained");
+                                String cigs_per_day = arr.getJSONObject(i).getString("cigs_per_day");
+                                String email = arr.getJSONObject(i).getString("email");
+
+                                //not on jsonobject
+                                String current_streak = "0";
+                                String longest_streak = "0";
+                                String num_cravings = "0";
+                                String cravings_resisted = "0";
+                                String num_cigs_smoked = "0";
+
+                                FriendEntity friend = new FriendEntity();
+
+                                friend.setFriendObject(name,email, time, total_days_free, longest_streak, current_streak, num_cravings, cravings_resisted, num_cigs_smoked, money_saved, life_regained);
+                                FriendDAO dbop = new FriendDAO(getApplicationContext());
+                                friend.setParentId(userEntity.getID());
+
+                                dbop.addFriendStats(dbop, friend);
                             }
                         }
 
                     } catch (JSONException e){
 
                     }
+//                    try {
+//                        LinearLayout holder = (LinearLayout)findViewById(R.id.friendlist);
+//                        JSONArray arr = new JSONArray(result);
+//                        FeedPost[] posts = new FeedPost[arr.length()];
+//
+//                        for (int i = 0; i < arr.length(); i++) {
+//                            String name = arr.getString(i);
+//
+//                            if(!name.equals(userEntity.getUsername())) {
+//                                //create friend entity add to list
+//                                FriendEntity ent = new FriendEntity();
+//                                ent.setEmail(arr.getString(i));
+//                                buddies.add(ent);
+//                            }
+//                        }
+//
+//                    } catch (JSONException e){
+//
+//                    }
 
 
 

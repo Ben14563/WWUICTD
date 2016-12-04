@@ -12,8 +12,10 @@ public class FriendDetail extends AppCompatActivity {
         setContentView(R.layout.activity_friend_detail);
         String itemId = getIntent().getExtras().getString(DataItemAdapter.ITEM_ID_KEY);
         //get friend data from db
+        FriendService friendService = new FriendService(getApplicationContext());
+        FriendEntity  entity = friendService.getFriendById(Integer.parseInt(itemId));
         TextView tv = (TextView) findViewById(R.id.detail);
-        tv.setText("" + itemId);
+        tv.setText("buddyId: " + entity.getID() +" buddy email "+ entity.getEmail() +" parentId: "+ entity.getParentId() +" money saved:"+ entity.getMoneySaved() ) ;
 
     }
 }
