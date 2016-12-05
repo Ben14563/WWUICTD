@@ -80,11 +80,14 @@
         <activity
             android:name=".Invite"
             android:label="@string/title_activity_invite"
-            android:theme="@style/AppTheme"
+            android:theme="@style/AppTheme" />
         <activity android:name=".FriendDetail"
             android:parentActivityName=".Friends">
             <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".Friends"
             android:windowSoftInputMode="stateHidden" />
+        </activity>
         <activity android:name=".Stats"></activity>
     </application>
 
