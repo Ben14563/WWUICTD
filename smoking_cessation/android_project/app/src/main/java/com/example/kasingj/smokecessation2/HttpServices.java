@@ -29,10 +29,13 @@ public class HttpServices {
     private static final String ENDPOINT = "198.199.67.166";
     private static Context context;
     private RequestQueue queue;
+    private FriendService friendService;
+
 
     public HttpServices(Context ctx) {
         context = ctx;
         queue = NetworkQueue.getInstance(context).getRequestQueue();
+        friendService = new FriendService(context);
     }
 
 
@@ -246,11 +249,11 @@ public class HttpServices {
 
                                 FriendEntity friend = new FriendEntity();
 
-                                friend.setFriendObject(name,email, time, total_days_free, longest_streak, current_streak, num_cravings, cravings_resisted, num_cigs_smoked, money_saved, life_regained);
-                                FriendDAO dbop = new FriendDAO(context);
+                                friend.setFriendObject(name, email, time, total_days_free, longest_streak, current_streak, num_cravings, cravings_resisted, num_cigs_smoked, money_saved, life_regained);
+
                                 friend.setParentId(userEntity.getID());
 
-                                dbop.addFriendStats(dbop, friend);
+                                friendService.addFriendStats(friend, userEntity.getID());
                             }
                         }
 

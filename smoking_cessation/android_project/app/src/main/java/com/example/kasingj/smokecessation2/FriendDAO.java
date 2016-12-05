@@ -77,7 +77,7 @@ public class FriendDAO extends DatabaseOperations {
     current_streak TEXT,num_cravings TEXT,cravings_resisted TEXT,num_cigs_smoked TEXT,money_saved TEXT,life_regained TEXT,user_server_id INTEGER,friend_of_id INTEGER);*/
     /* add friend to friend table */
 
-    public FriendEntity addFriendStats(DatabaseOperations dbop,FriendEntity entity){
+    public FriendEntity addFriendStats(DatabaseOperations dbop,FriendEntity entity, int parentId){
         long result = (long)-1;
         SQLiteDatabase sq = dbop.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -95,8 +95,11 @@ public class FriendDAO extends DatabaseOperations {
         cv.put(TableData.TableInfo.FRIEND_OF_ID, entity.getParentId());
         cv.put(TableData.TableInfo.EMAIL, entity.getEmail());
 
-        String whereClause = "email='" + entity.getEmail()+"'" ;
-        int update = sq.update(TableData.TableInfo.FRIENDS_TABLE_NAME, cv, whereClause, null);
+        //String whereClause = "email='" + entity.getEmail()+"'" "and " ;
+
+        String where = TableData.TableInfo.EMAIL + " = ? AND " + TableData.TableInfo.FRIEND_OF_ID +" = ?";
+        String[] whereArgs = new String[] {entity.getEmail()+"",parentId+""};
+        int update = sq.update(TableData.TableInfo.FRIENDS_TABLE_NAME, cv, where,whereArgs);
 
         if(update == 0){
             result = sq.insert(TableData.TableInfo.FRIENDS_TABLE_NAME, null, cv);

@@ -16,8 +16,8 @@ public class FriendService {
         DAO = new FriendDAO(context);
     }
 
-    public FriendEntity addFriendStats(DatabaseOperations dbop,FriendEntity entity){
-        return DAO.addFriendStats(dbop,entity);
+    public FriendEntity addFriendStats(FriendEntity entity, int parentId){
+        return DAO.addFriendStats(DAO,entity, parentId);
     }
 
     public ArrayList<FriendEntity> getAllFriends(int primaryId){

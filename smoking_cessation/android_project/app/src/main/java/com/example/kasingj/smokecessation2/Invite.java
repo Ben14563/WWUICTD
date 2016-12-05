@@ -17,9 +17,11 @@ public class Invite extends AppCompatActivity {
 
     EditText EMAIL;
     String email;
+    //HttpServices mHttpServices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //mHttpServices = new HttpServices(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -61,6 +63,8 @@ public class Invite extends AppCompatActivity {
                     Log.d("htt:add:postExecute", "**********  updated field: " + result);
                     if (result == "false") {
                         Toast.makeText(getBaseContext(), "Friend not found", Toast.LENGTH_LONG).show();
+                    }else{
+                        //mHttpServices.getBuddies(user);
                     }
                 }
             };

@@ -51,7 +51,7 @@ public class Friends extends AppCompatActivity {
         DataItemAdapter adapter = new DataItemAdapter(this,buddies);
         RecyclerView recyclerView = (RecyclerView) findViewById( R.id.rvItems);
         recyclerView.setAdapter(adapter);
-        //httpServices.getBuddies(userEntity);
+        httpServices.getBuddies(userEntity);
     }
 
 
