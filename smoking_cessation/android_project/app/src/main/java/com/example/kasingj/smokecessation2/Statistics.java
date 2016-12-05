@@ -75,16 +75,19 @@ public class Statistics extends AppCompatActivity {
     public void goToDashboard (View view) {
         Intent intent = new Intent (this, Dashboard.class);
         startActivity(intent);
+        finish();
     }
 
     public void goToFriends (View view) {
         Intent intent = new Intent(this, Friends.class);
         startActivity(intent);
+        finish();
     }
 
     public void goToStatistics (View view) {
         Intent intent = new Intent (this, Statistics.class);
         startActivity(intent);
+        finish();
     }
 
 }

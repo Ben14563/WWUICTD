@@ -53,12 +53,16 @@ public class login extends AppCompatActivity {
             ConnectivityManager connMgr = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
-            if(userEntity.getServerId() ==-1 && networkInfo != null && networkInfo.isConnected()){
-                HttpServices services = new HttpServices(this);
-                services.addUserToServer(userEntity);
+            if(  networkInfo != null && networkInfo.isConnected()){
+                HttpServices services = new HttpServices(getApplicationContext());
+                if(userEntity.getServerId() ==-1){
+                    services.addUserToServer(userEntity);
+                }else{
+                    services.getBuddies(userEntity);
+                }
             }
 
-            SharedPreferences preference = getSharedPreferences( getApplicationContext().getPackageName() , 1 );
+            SharedPreferences preference = getSharedPreferences(getApplicationContext().getPackageName() , 1 );
             SharedPreferences.Editor editor = preference.edit();
             editor.putInt(MainActivity.CURRENT_USER_ID ,userEntity.getID());
             editor.commit();
@@ -80,6 +84,7 @@ public class login extends AppCompatActivity {
     public void goToSignUp (View view) {
         Intent intent = new Intent (this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
 

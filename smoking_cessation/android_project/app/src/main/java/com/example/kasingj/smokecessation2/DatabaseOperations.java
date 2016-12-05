@@ -242,31 +242,6 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         return entity;
     }
 
-    // adding to friends_stats Table
-    public void addFriendStats(DatabaseOperations dbop, String username, String friendName, String friendID, String email, String time, String totDaysFree,
-                               String longStreak, String currStreak, String numCraves, String cravesRes, String numCigsSmoked, String moneySaved, String lifeReg) {
-
-        SQLiteDatabase sq = dbop.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-
-        cv.put(TableData.TableInfo.USER_NAME, username);
-        cv.put(TableData.TableInfo.FRIEND_NAME, friendName);
-        cv.put(TableData.TableInfo.FRIEND_ID, friendID);
-        cv.put(TableData.TableInfo.EMAIL, email);
-        cv.put(TableData.TableInfo.TIME, time);
-        cv.put(TableData.TableInfo.TOTAL_DAYS_FREE, totDaysFree);
-        cv.put(TableData.TableInfo.LONGEST_STREAK, longStreak);
-        cv.put(TableData.TableInfo.CURRENT_STREAK, currStreak);
-        cv.put(TableData.TableInfo.NUM_CRAVINGS, numCraves);
-        cv.put(TableData.TableInfo.CRAVINGS_RESISTED, cravesRes);
-        cv.put(TableData.TableInfo.NUM_CIGS_SMOKED, numCigsSmoked);
-        cv.put(TableData.TableInfo.MONEY_SAVED, moneySaved);
-        cv.put(TableData.TableInfo.LIFE_REGAINED, lifeReg);
-
-        sq.insert(TableData.TableInfo.FRIENDS_TABLE_NAME, null, cv);
-        Log.d("Database Operations", "One row inserted into friends_stats Table");
-    }
-
     public void updateServerIdForUser(DatabaseOperations dbop, String serverId, int userId) {
         SQLiteDatabase sq = dbop.getWritableDatabase();
         ContentValues cv = new ContentValues();
