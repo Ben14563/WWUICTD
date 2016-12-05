@@ -1,5 +1,6 @@
 package com.example.kasingj.smokecessation2;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -79,6 +80,7 @@ public class Dashboard extends AppCompatActivity {
         // update total life regained
         TextView lifeRegText = (TextView) findViewById(R.id.lifeRegText);
         lifeRegText.setText(userEntity.getLifeRegained());
+
 
         userEntity = userService.getUserEntityWithPrimaryId(id);
         if(userEntity.getServerId() != -1 ){
@@ -170,18 +172,23 @@ public class Dashboard extends AppCompatActivity {
 
     // Navigation Buttons
     public void goToDashboard (View view) {
-        Intent intent = new Intent (this, Dashboard.class);
-        startActivity(intent);
+        if(getClass() != Dashboard.class) {
+            Intent intent = new Intent(this, Dashboard.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     public void goToFriends (View view) {
         Intent intent = new Intent(this, Friends.class);
         startActivity(intent);
+        finish();
     }
 
     public void goToStatistics (View view) {
         Intent intent = new Intent (this, Statistics.class);
         startActivity(intent);
+        finish();
     }
 
 

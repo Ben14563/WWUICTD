@@ -2,7 +2,9 @@ package com.example.kasingj.smokecessation2;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -12,6 +14,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,10 +29,13 @@ public class HttpServices {
     private static final String ENDPOINT = "198.199.67.166";
     private static Context context;
     private RequestQueue queue;
+    private FriendService friendService;
+
 
     public HttpServices(Context ctx) {
         context = ctx;
         queue = NetworkQueue.getInstance(context).getRequestQueue();
+        friendService = new FriendService(context);
     }
 
 
@@ -195,7 +201,78 @@ public class HttpServices {
     }
 
 
+    /* get buddies for user*/
+
+    public void getBuddies(final UserEntity userEntity) {
+        try {
+            AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
+                @Override
+                protected String doInBackground(String... params) {
+                    //result is the json string of the request. might be null
+
+                    HttpRunner runner = new HttpRunner();
+                    String result = runner.getAllBuddies(userEntity.getServerId() + "");
+                    if (result == null) {
+                        return "NULL";
+                    }
+                    return result;
+                }
+
+                @Override
+                protected void onPostExecute(String result) {
+                    //expecting the user id
+                    Log.d("htt:add:postExecute", "**********  updated field: " + result);
+
+                    try {
+                        JSONArray arr = new JSONArray(result);
+                        FeedPost[] posts = new FeedPost[arr.length()];
+
+
+                        for (int i = 0; i < arr.length(); i++) {
+                            String name = arr.getJSONObject(i).getString("name");
+
+                            if(!name.equals(userEntity.getUsername()) ) {
+                                JSONObject json = arr.getJSONObject(i);
+                                String time = !json.isNull("time") ? json.getString("time"):"";
+                                String total_days_free = !json.isNull("days_free") ? json.getString("days_free"):"";
+                                String money_saved = !json.isNull("money_saved") ? json.getString("money_saved"):"";
+                                String life_regained = !json.isNull("life_regained") ? json.getString("life_regained"):"";
+                                String cigs_per_day = !json.isNull("cigs_per_day") ? json.getString("cigs_per_day"):"";
+                                String email = !json.isNull("email") ? json.getString("email"):"";
+
+                                //not on jsonobject
+                                String current_streak = "0";
+                                String longest_streak = "0";
+                                String num_cravings = "0";
+                                String cravings_resisted = "0";
+                                String num_cigs_smoked = "0";
+
+                                FriendEntity friend = new FriendEntity();
+
+                                friend.setFriendObject(name, email, time, total_days_free, longest_streak, current_streak, num_cravings, cravings_resisted, num_cigs_smoked, money_saved, life_regained);
+
+                                friend.setParentId(userEntity.getID());
+
+                                friendService.addFriendStats(friend, userEntity.getID());
+                            }
+                        }
+
+                    } catch (JSONException e){
+
+                    }
+                }
+            };
+
+            task.execute("param");
+        } finally {
+            Log.d("Main:addTaskfail", "async failed, or main failed");
+        }
+
+    }
 }
+
+
+
 
 
 /* template get request

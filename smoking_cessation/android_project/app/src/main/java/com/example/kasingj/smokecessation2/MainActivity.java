@@ -74,11 +74,13 @@ public class MainActivity extends AppCompatActivity {
     public void goToFriends(View view) {
         Intent intent = new Intent(this, Friends.class);
         startActivity(intent);
+        finish();
     }
 
     public void goToStatistics(View view) {
         Intent intent = new Intent(this, Statistics.class);
         startActivity(intent);
+        finish();
     }
 
 
