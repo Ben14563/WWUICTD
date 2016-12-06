@@ -1,8 +1,10 @@
 package com.example.kasingj.smokecessation2;
 
+import android.content.Intent;
 import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -24,7 +26,8 @@ import java.util.Random;
 
 public class Stats extends AppCompatActivity {
 
-    BarChart barChart;
+    BarChart cigarettesSmokedChart;
+    BarChart cravingsResistedChart;
     Random random;
     ArrayList<String> dates;
     ArrayList<BarEntry> entries;
@@ -34,13 +37,17 @@ public class Stats extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
-        barChart = (BarChart) findViewById(R.id.bargraph);
+        cigarettesSmokedChart = (BarChart) findViewById(R.id.cigarettesSmokedChart);
+        createCigarettesSmokedChart("2016/11/01", "2016/11/18");
+        XAxis smokedXAxis = cigarettesSmokedChart.getXAxis();
+        smokedXAxis.setValueFormatter(new MyXValueFormatter(dates));
+        cigarettesSmokedChart.animateXY(0, 2000);
 
-
-
-        createRandomGraph("2016/11/01", "2016/11/18");
-        XAxis xAxis = barChart.getXAxis();
-        xAxis.setValueFormatter(new MyXValueFormatter(dates));
+//        cravingsResistedChart = (BarChart) findViewById(R.id.cravingsResistedChart);
+//        createCravingsResistedChart("2016/11/01", "2016/11/18");
+//        XAxis cravingsXAxis = cravingsResistedChart.getXAxis();
+//        cravingsXAxis.setValueFormatter(new MyXValueFormatter(dates));
+//        cravingsResistedChart.animateXY(0, 2000);
 
 //        ArrayList<String> months = new ArrayList<>();
 //        months.add("January");
@@ -59,7 +66,7 @@ public class Stats extends AppCompatActivity {
         // https://www.youtube.com/watch?v=H6QxMBI2QH4#t=263.901119
     }
 
-    public void createRandomGraph (String startDate, String endDate) {
+    public void createCigarettesSmokedChart (String startDate, String endDate) {
 
         SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
 
@@ -79,25 +86,64 @@ public class Stats extends AppCompatActivity {
             dates = getList(mStart, mEnd);
 
             entries = new ArrayList<>();
-            float max = 0f;
+            float max = 30f;
             float value = 0f;
             random = new Random();
             for (int i = 0; i < dates.size(); i++) {
-                max = 100f;
+                max = 30f;
                 value = random.nextFloat() * max;
-                entries.add(new BarEntry(i, value));
+                entries.add(new BarEntry(i, (int) value));
             }
         } catch(ParseException e) {
             e.printStackTrace();
         }
         BarDataSet dataSet = new BarDataSet(entries, "Cigarettes Smoked");
         BarData data = new BarData(dataSet);
-        barChart.setData(data);
-
+        cigarettesSmokedChart.setData(data);
 
         Description description = new Description();
-        description.setText("Testing Bar Chart");
-        barChart.setDescription(description);
+        description.setText("");
+        cigarettesSmokedChart.setDescription(description);
+    }
+
+    public void createCravingsResistedChart (String startDate, String endDate) {
+
+        SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
+
+        try {
+            Date start = date.parse(startDate);
+            Date end = date.parse(endDate);
+
+            Calendar mStart = Calendar.getInstance();
+            Calendar mEnd = Calendar.getInstance();
+            mStart.clear();
+            mEnd.clear();
+
+            mStart.setTime(start);
+            mEnd.setTime(end);
+
+            dates = new ArrayList<>();
+            dates = getList(mStart, mEnd);
+
+            entries = new ArrayList<>();
+            float max = 30f;
+            float value = 0f;
+            random = new Random();
+            for (int i = 0; i < dates.size(); i++) {
+                max = 30f;
+                value = random.nextFloat() * max;
+                entries.add(new BarEntry(i, (int) value));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        BarDataSet dataSet = new BarDataSet(entries, "Cravings Resisted");
+        BarData data = new BarData(dataSet);
+        cravingsResistedChart.setData(data);
+
+        Description description = new Description();
+        description.setText("");
+        cravingsResistedChart.setDescription(description);
     }
 
     public ArrayList<String> getList (Calendar startDate, Calendar endDate) {
@@ -138,6 +184,25 @@ public class Stats extends AppCompatActivity {
         public int getDecimalDigits() {
             return 0;
         }
+    }
+
+    // Navigation Buttons
+    public void goToDashboard (View view) {
+        Intent intent = new Intent(this, Dashboard.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void goToFriends (View view) {
+        Intent intent = new Intent(this, Friends.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void goToStatistics (View view) {
+        Intent intent = new Intent (this, Stats.class);
+        startActivity(intent);
+        finish();
     }
 
 }
