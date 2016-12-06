@@ -1,6 +1,9 @@
 package com.example.kasingj.smokecessation2;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -32,6 +35,20 @@ public class Friends extends AppCompatActivity {
     UserEntity userEntity;
     FriendService friendService;
     SharedPreferences preferences;
+    DataItemAdapter adapter;
+    RecyclerView recyclerView;
+
+    private final BroadcastReceiver Updated= new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            buddies = friendService.getAllFriends(userEntity.getID());
+            adapter.notifyItemRangeChanged(0, adapter.getItemCount());
+
+        }
+    };
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         preferences = getSharedPreferences(getApplicationContext().getPackageName(), 1);
@@ -48,11 +65,16 @@ public class Friends extends AppCompatActivity {
         friendService = new FriendService(this);
         buddies = friendService.getAllFriends(userEntity.getID());
 
-        DataItemAdapter adapter = new DataItemAdapter(this,buddies);
-        RecyclerView recyclerView = (RecyclerView) findViewById( R.id.rvItems);
+        adapter = new DataItemAdapter(this,buddies);
+        recyclerView = (RecyclerView) findViewById( R.id.rvItems);
         recyclerView.setAdapter(adapter);
         httpServices.getBuddies(userEntity);
+
+        //register observer to update list items
+        registerReceiver(Updated, new IntentFilter("data_inserted"));
+
     }
+
 
 
     public void goToInvite (View view) {

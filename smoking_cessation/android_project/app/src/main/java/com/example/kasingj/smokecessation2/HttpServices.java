@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by kasingj on 10/13/16.
@@ -30,6 +31,7 @@ public class HttpServices {
     private static Context context;
     private RequestQueue queue;
     private FriendService friendService;
+    Random mRandomGenerator = new Random();
 
 
     public HttpServices(Context ctx) {
@@ -241,11 +243,12 @@ public class HttpServices {
                                 String email = !json.isNull("email") ? json.getString("email"):"";
 
                                 //not on jsonobject
-                                String current_streak = "0";
-                                String longest_streak = "0";
-                                String num_cravings = "0";
-                                String cravings_resisted = "0";
-                                String num_cigs_smoked = "0";
+                                String current_streak = ""+mRandomGenerator.nextInt(15);
+                                String longest_streak = (Integer.parseInt(current_streak) + mRandomGenerator.nextInt(40)) +"";
+                                String num_cravings = ""+mRandomGenerator.nextInt(100);
+                                String cravings_resisted = ""+mRandomGenerator.nextInt(100);
+                                String num_cigs_smoked = ""+mRandomGenerator.nextInt(30);
+                                life_regained = "" + mRandomGenerator.nextInt(200);
 
                                 FriendEntity friend = new FriendEntity();
 
