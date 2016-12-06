@@ -101,7 +101,7 @@
                    android:layout_width="wrap_content"
                    android:layout_height="match_parent"
                    android:layout_weight="1"
-                   android:src="@drawable/no_smoking"
+                   android:src="@drawable/xmark"
                    android:id="@+id/money_saved_img_user" />
                <TextView
                    android:layout_width="0dp"
@@ -115,7 +115,7 @@
                    android:layout_width="wrap_content"
                    android:layout_height="match_parent"
                    android:layout_weight="1"
-                   android:src="@drawable/no_smoking"
+                   android:src="@drawable/xmark"
                    android:id="@+id/money_saved_img_buddy" />
            </LinearLayout>
 
@@ -142,7 +142,7 @@
                    android:layout_width="wrap_content"
                    android:layout_height="match_parent"
                    android:layout_weight="1"
-                   android:src="@drawable/no_smoking"
+                   android:src="@drawable/xmark"
                    android:id="@+id/life_regained_img_user" />
                <TextView
                    android:layout_width="0dp"
@@ -156,7 +156,7 @@
                    android:layout_width="wrap_content"
                    android:layout_height="match_parent"
                    android:layout_weight="1"
-                   android:src="@drawable/no_smoking"
+                   android:src="@drawable/xmark"
                    android:id="@+id/life_regained_img_buddy" />
            </LinearLayout>
            <LinearLayout
@@ -182,7 +182,7 @@
                    android:layout_width="wrap_content"
                    android:layout_height="match_parent"
                    android:layout_weight="1"
-                   android:src="@drawable/no_smoking"
+                   android:src="@drawable/xmark"
                    android:id="@+id/current_streak_img_user" />
                <TextView
                    android:layout_width="0dp"
@@ -196,7 +196,7 @@
                    android:layout_width="wrap_content"
                    android:layout_height="match_parent"
                    android:layout_weight="1"
-                   android:src="@drawable/no_smoking"
+                   android:src="@drawable/xmark"
                    android:id="@+id/current_streak_img_buddy" />
            </LinearLayout>
            <LinearLayout
@@ -222,7 +222,7 @@
                    android:layout_width="wrap_content"
                    android:layout_height="match_parent"
                    android:layout_weight="1"
-                   android:src="@drawable/no_smoking"
+                   android:src="@drawable/xmark"
                    android:id="@+id/longest_streak_img_user" />
                <TextView
                    android:layout_width="0dp"
@@ -236,7 +236,7 @@
                    android:layout_width="wrap_content"
                    android:layout_height="match_parent"
                    android:layout_weight="1"
-                   android:src="@drawable/no_smoking"
+                   android:src="@drawable/xmark"
                    android:id="@+id/longest_streak_img_buddy" />
            </LinearLayout>
 
