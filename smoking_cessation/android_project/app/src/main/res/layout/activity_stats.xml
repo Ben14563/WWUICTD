@@ -11,8 +11,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/scrollView2"
+        android:layout_height="400dp"
+        android:id="@+id/graphScroll"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
@@ -31,14 +31,217 @@
                 android:layout_height="400dp">
             </com.github.mikephil.charting.charts.BarChart>
 
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/cravingsResistedChart"
-                android:layout_width="match_parent"
-                android:layout_height="400dp">
-            </com.github.mikephil.charting.charts.BarChart>
+            <!--<com.github.mikephil.charting.charts.BarChart-->
+                <!--android:id="@+id/cravingsResistedChart"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="400dp">-->
+            <!--</com.github.mikephil.charting.charts.BarChart>-->
 
         </LinearLayout>
 
     </ScrollView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:id="@+id/statsScroll"
+        android:layout_below="@+id/graphScroll">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/scrollView3">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Total days free: "
+                android:id="@+id/stat1"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="0 Days"
+                android:id="@+id/data1"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="91dp"
+                android:layout_marginStart="91dp"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="250dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Current Streak: "
+                android:id="@+id/stat2"
+                android:textSize="30sp"
+                android:layout_below="@+id/stat1"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="1 Day"
+                android:id="@+id/data2"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="91dp"
+                android:layout_marginStart="91dp"
+                android:layout_below="@+id/data1"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="250dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Longest Streak: "
+                android:id="@+id/stat3"
+                android:textSize="30sp"
+                android:layout_below="@+id/stat2"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="0 Days"
+                android:id="@+id/data3"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="91dp"
+                android:layout_marginStart="91dp"
+                android:layout_below="@+id/data2"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="250dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Cravings Resisted: "
+                android:id="@+id/stat4"
+                android:textSize="30sp"
+                android:layout_below="@+id/stat3"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="25"
+                android:id="@+id/data4"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="91dp"
+                android:layout_marginStart="91dp"
+                android:layout_below="@+id/data3"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="250dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Cigarettes Smoked: "
+                android:id="@+id/stat5"
+                android:textSize="30sp"
+                android:layout_below="@+id/stat4"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="48"
+                android:id="@+id/data5"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="91dp"
+                android:layout_marginStart="91dp"
+                android:layout_below="@+id/data4"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="250dp" />
+
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="60dp"
+            android:id="@+id/dashButton"
+            android:background="@drawable/shadow_42145"
+            android:src="@drawable/dashboard"
+            android:onClick="goToDashboard"
+            android:cropToPadding="false"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:paddingLeft="55dp"
+            android:paddingTop="10dp"
+            android:paddingRight="55dp"
+            android:paddingBottom="10dp"
+            android:allowUndo="false" />
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="60dp"
+            android:id="@+id/friendsButton"
+            android:background="@drawable/shadow_42927"
+            android:src="@drawable/buddies"
+            android:onClick="goToFriends"
+            android:cropToPadding="false"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:paddingLeft="50dp"
+            android:paddingTop="10dp"
+            android:paddingRight="50dp"
+            android:paddingBottom="10dp"
+            android:clickable="true" />
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="60dp"
+            android:id="@+id/statsButton"
+            android:background="@drawable/shadow_42927"
+            android:src="@drawable/stats"
+            android:onClick="goToStatistics"
+            android:cropToPadding="false"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:paddingLeft="55dp"
+            android:paddingTop="10dp"
+            android:paddingRight="55dp"
+            android:paddingBottom="10dp"
+            android:clickable="true" />
+
+    </LinearLayout>
 
 </RelativeLayout>

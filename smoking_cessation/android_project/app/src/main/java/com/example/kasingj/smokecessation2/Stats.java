@@ -1,8 +1,10 @@
 package com.example.kasingj.smokecessation2;
 
+import android.content.Intent;
 import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -41,11 +43,11 @@ public class Stats extends AppCompatActivity {
         smokedXAxis.setValueFormatter(new MyXValueFormatter(dates));
         cigarettesSmokedChart.animateXY(0, 2000);
 
-        cravingsResistedChart = (BarChart) findViewById(R.id.cravingsResistedChart);
-        createCravingsResistedChart("2016/11/01", "2016/11/18");
-        XAxis cravingsXAxis = cravingsResistedChart.getXAxis();
-        cravingsXAxis.setValueFormatter(new MyXValueFormatter(dates));
-        cravingsResistedChart.animateXY(0, 2000);
+//        cravingsResistedChart = (BarChart) findViewById(R.id.cravingsResistedChart);
+//        createCravingsResistedChart("2016/11/01", "2016/11/18");
+//        XAxis cravingsXAxis = cravingsResistedChart.getXAxis();
+//        cravingsXAxis.setValueFormatter(new MyXValueFormatter(dates));
+//        cravingsResistedChart.animateXY(0, 2000);
 
 //        ArrayList<String> months = new ArrayList<>();
 //        months.add("January");
@@ -182,6 +184,25 @@ public class Stats extends AppCompatActivity {
         public int getDecimalDigits() {
             return 0;
         }
+    }
+
+    // Navigation Buttons
+    public void goToDashboard (View view) {
+        Intent intent = new Intent(this, Dashboard.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void goToFriends (View view) {
+        Intent intent = new Intent(this, Friends.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void goToStatistics (View view) {
+        Intent intent = new Intent (this, Stats.class);
+        startActivity(intent);
+        finish();
     }
 
 }
