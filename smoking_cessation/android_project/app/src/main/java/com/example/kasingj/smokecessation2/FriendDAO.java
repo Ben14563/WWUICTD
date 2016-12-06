@@ -2,6 +2,7 @@ package com.example.kasingj.smokecessation2;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
@@ -11,9 +12,11 @@ import android.util.Log;
  * Created by kasingj on 12/3/16.
  */
 public class FriendDAO extends DatabaseOperations {
+    private Context mContext;
 
     public FriendDAO(Context context) {
         super(context);
+        mContext = context;
     }
 
     /* database methods fore adding to the friend table */
@@ -103,7 +106,11 @@ public class FriendDAO extends DatabaseOperations {
 
         if(update == 0){
             result = sq.insert(TableData.TableInfo.FRIENDS_TABLE_NAME, null, cv);
+            Intent intent = new Intent("data_inserted");
+            mContext.sendBroadcast(intent);
         }
+
+
 
         Log.d("Database Operations", "One row inserted into user_stats Table");
         entity.setID( (int) result);

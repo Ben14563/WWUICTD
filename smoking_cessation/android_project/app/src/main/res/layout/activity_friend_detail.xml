@@ -74,6 +74,7 @@
                    android:layout_height="match_parent"
                    android:layout_weight="4"
                    android:text="your buddy"
+                   android:id="@+id/buddyName"
                    android:textSize="18sp"
                    android:gravity="center_vertical"/>
            </LinearLayout>

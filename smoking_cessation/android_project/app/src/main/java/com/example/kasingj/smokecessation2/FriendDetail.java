@@ -19,11 +19,15 @@ public class FriendDetail extends AppCompatActivity {
         UserService userService = new UserService(this);
         UserEntity user = userService.getCurrentUser(getApplicationContext());
 
+        //buddy name
+        TextView buddyName = (TextView) findViewById(R.id.buddyName);
+        buddyName.setText( friend.getEmail() == null ? "buddy":friend.getEmail() );
+
         //row money saved
         TextView userMoneySaved = (TextView) findViewById(R.id.money_saved_user);
         TextView buddyMoneySaved = (TextView) findViewById(R.id.money_saved_buddy);
-        userMoneySaved.setText( user.getMoneySaved() == null ? "-1" : user.getMoneySaved()+"" );
-        buddyMoneySaved.setText( friend.getMoneySaved() == null ? "-1" : friend.getMoneySaved()+"" );
+        userMoneySaved.setText( user.getMoneySaved() == null ? "-1" : "$"+user.getMoneySaved() );
+        buddyMoneySaved.setText( friend.getMoneySaved() == null ? "-1" : "$"+friend.getMoneySaved() );
 
         TextView userLifeRegained = (TextView) findViewById(R.id.life_regained_user);
         TextView buddyLifeRegained= (TextView) findViewById(R.id.life_regained_buddy);
@@ -32,13 +36,13 @@ public class FriendDetail extends AppCompatActivity {
 
         TextView userCurrentStreak = (TextView) findViewById(R.id.current_streak_user);
         TextView buddyCurrentStreak = (TextView) findViewById(R.id.current_streak_buddy);
-        userCurrentStreak.setText( user.getCurrentStreak() == null ? "-1" : user.getCurrentStreak()+"" );
-        buddyCurrentStreak.setText( friend.getCurrentStreak() == null ? "-1" : friend.getCurrentStreak()+"" );
+        userCurrentStreak.setText( user.getCurrentStreak() == null ? "-1" : user.getCurrentStreak()+" days" );
+        buddyCurrentStreak.setText( friend.getCurrentStreak() == null ? "-1" : friend.getCurrentStreak()+" days" );
 
         TextView userLongestStreak = (TextView) findViewById(R.id.longest_streak_user);
         TextView buddyLongestStreak = (TextView) findViewById(R.id.longest_streak_buddy);
-        userLongestStreak.setText( user.getLongestStreak() == null ? "-1" : user.getLongestStreak()+"" );
-        buddyLongestStreak.setText(friend.getLongestStreak() == null ? "-1" : friend.getLongestStreak() + "");
+        userLongestStreak.setText( user.getLongestStreak() == null ? "-1" : user.getLongestStreak()+" days" );
+        buddyLongestStreak.setText(friend.getLongestStreak() == null ? "-1" : friend.getLongestStreak() + " days");
 
         ImageView userMoneySavedImage = (ImageView) findViewById(R.id.money_saved_img_user);
         ImageView buddyMoneySavedImage = (ImageView) findViewById(R.id.money_saved_img_buddy);
