@@ -55,7 +55,7 @@ public class FriendService {
         int cravsResisted = Integer.parseInt(cr.getString(7));
         int numCigsSmoked = Integer.parseInt(cr.getString(8));
         double moneySaved = Double.parseDouble(cr.getString(9));
-        //int lifeReg = Integer.parseInt(cr.getString(10));
+        int lifeReg = Integer.parseInt(cr.getString(10));
         //int userServerId = Integer.parseInt(cr.getString(11));
         int friendOfId = Integer.parseInt(cr.getString(12));
         String email = cr.getString(13);
@@ -71,7 +71,7 @@ public class FriendService {
         entity.setParentId(friendOfId);
         entity.setEmail(email);
         entity.setMoneySaved(moneySaved);
-        entity.setLifeRegained(0);
+        entity.setLifeRegained(lifeReg);
         entity.setUsername(username);
         return entity;
     }

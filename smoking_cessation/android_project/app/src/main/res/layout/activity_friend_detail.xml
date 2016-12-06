@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,11 +9,239 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.kasingj.smokecessation2.FriendDetail">
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="detail activity"
-        android:textSize="25sp"
-        android:id="@+id/detail"/>
+        android:layout_height="20dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="Overall Performance"
+            android:gravity="center"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-</RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="Current Snapshot"
+            android:gravity="center"/>
+    </LinearLayout>
+   <ScrollView
+       android:layout_width="match_parent"
+       android:layout_height="0dp"
+       android:layout_weight="1">
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="0dp"
+           android:layout_weight="1"
+           android:orientation="vertical">
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="50dp"
+               android:orientation="horizontal">
+
+           </LinearLayout>
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="50dp"
+               android:orientation="horizontal">
+
+               <TextView
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="3"
+                   android:text="Field"
+                   android:textSize="18sp"
+                   android:gravity="center_vertical"/>
+               <TextView
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="4"
+                   android:text="You"
+                   android:textSize="18sp"
+                   android:gravity="center_vertical"/>
+               <TextView
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="4"
+                   android:text="your buddy"
+                   android:id="@+id/buddyName"
+                   android:textSize="18sp"
+                   android:gravity="center_vertical"/>
+           </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="50dp"
+               android:orientation="horizontal">
+               <TextView
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="4"
+                   android:text="Money Saved"
+                   android:textSize="14sp"
+                   android:gravity="center"/>
+               <TextView
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="4"
+                   android:text="0"
+                   android:textSize="18sp"
+                   android:gravity="right"
+                   android:id="@+id/money_saved_user" />
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_weight="1"
+                   android:src="@drawable/xmark"
+                   android:id="@+id/money_saved_img_user" />
+               <TextView
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="4"
+                   android:text="0"
+                   android:textSize="14sp"
+                   android:gravity="right"
+                   android:id="@+id/money_saved_buddy" />
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_weight="1"
+                   android:src="@drawable/xmark"
+                   android:id="@+id/money_saved_img_buddy" />
+           </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="50dp"
+               android:orientation="horizontal">
+               <TextView
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="4"
+                   android:text="Life Regained"
+                   android:textSize="14sp"
+                   android:gravity="center"/>
+               <TextView
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="4"
+                   android:text="0"
+                   android:textSize="14sp"
+                   android:gravity="right"
+                   android:id="@+id/life_regained_user" />
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_weight="1"
+                   android:src="@drawable/xmark"
+                   android:id="@+id/life_regained_img_user" />
+               <TextView
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="4"
+                   android:text="0"
+                   android:textSize="14sp"
+                   android:gravity="right"
+                   android:id="@+id/life_regained_buddy" />
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_weight="1"
+                   android:src="@drawable/xmark"
+                   android:id="@+id/life_regained_img_buddy" />
+           </LinearLayout>
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="50dp"
+               android:orientation="horizontal">
+               <TextView
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="4"
+                   android:text="Current Streak"
+                   android:textSize="14sp"
+                   android:gravity="center"/>
+               <TextView
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="4"
+                   android:text="0"
+                   android:textSize="14sp"
+                   android:gravity="right"
+                   android:id="@+id/current_streak_user" />
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_weight="1"
+                   android:src="@drawable/xmark"
+                   android:id="@+id/current_streak_img_user" />
+               <TextView
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="4"
+                   android:text="0"
+                   android:textSize="14sp"
+                   android:gravity="right"
+                   android:id="@+id/current_streak_buddy" />
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_weight="1"
+                   android:src="@drawable/xmark"
+                   android:id="@+id/current_streak_img_buddy" />
+           </LinearLayout>
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="50dp"
+               android:orientation="horizontal">
+               <TextView
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="4"
+                   android:text="Longest Streak"
+                   android:textSize="14sp"
+                   android:gravity="center"/>
+               <TextView
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="4"
+                   android:text="0"
+                   android:textSize="14sp"
+                   android:gravity="right"
+                   android:id="@+id/longest_streak_user" />
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_weight="1"
+                   android:src="@drawable/xmark"
+                   android:id="@+id/longest_streak_img_user" />
+               <TextView
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="4"
+                   android:text="0"
+                   android:textSize="14sp"
+                   android:gravity="right"
+                   android:id="@+id/longest_streak_buddy" />
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_weight="1"
+                   android:src="@drawable/xmark"
+                   android:id="@+id/longest_streak_img_buddy" />
+           </LinearLayout>
+
+       </LinearLayout>
+   </ScrollView>
+
+</LinearLayout>
