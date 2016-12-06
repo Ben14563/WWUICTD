@@ -35,8 +35,7 @@ public class FriendEntity {
 
     //constructor
     public FriendEntity() {
-        //do nothing
-        //FRIEND_ID = UUID.randomUUID().toString();
+
     }
 
     public void setFriendObject(String friend_name, String email ,String time, String total_days_free, String longest_streak, String current_streak, String num_cravings,

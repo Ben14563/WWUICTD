@@ -22,6 +22,12 @@ public class UserService {
         return entity;
     }
 
+    public UserEntity getCurrentUser(Context ctx){
+        SharedPreferences preference = ctx.getSharedPreferences(ctx.getApplicationContext().getPackageName() , 1 );
+        int id = preference.getInt(MainActivity.CURRENT_USER_ID, -1);
+        return id==-1 ? null:getUserEntityWithPrimaryId(id);
+    }
+
     public int saveUserEntity(UserEntity entity){
         String time= UserDAO.getCurrTime();
         Log.d("Finish Button", "initialized user stats");
