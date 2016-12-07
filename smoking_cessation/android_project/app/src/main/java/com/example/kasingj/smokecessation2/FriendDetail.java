@@ -1,11 +1,25 @@
 package com.example.kasingj.smokecessation2;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
+import java.util.ArrayList;
+
 public class FriendDetail extends AppCompatActivity {
+
+    LineChart compareChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +99,121 @@ public class FriendDetail extends AppCompatActivity {
                 ? userLongestStreakImage : buddyLongestStreakImage;
         win4.setImageResource(R.drawable.checkmark);
 
+        // Setting up and loading graph
+        compareChart = (LineChart) findViewById(R.id.compareChart);
 
+        // no description text
+        compareChart.getDescription().setEnabled(false);
 
+        // enable touch gestures
+        compareChart.setTouchEnabled(true);
+
+        compareChart.setDragDecelerationFrictionCoef(0.9f);
+
+        // enable scaling and dragging
+        compareChart.setDragEnabled(true);
+        compareChart.setScaleEnabled(true);
+        compareChart.setDrawGridBackground(false);
+        compareChart.setHighlightPerDragEnabled(true);
+
+        // if disabled, scaling can be done on x- and y-axis separately
+        compareChart.setPinchZoom(true);
+
+        // set an alternative background color
+        compareChart.setBackgroundColor(Color.LTGRAY);
+
+        // add data
+        setData(20, 30);
+
+        compareChart.animateX(2500);
+
+        // get the legend (only possible after setting data)
+        Legend l = compareChart.getLegend();
+
+        // modify the legend ...
+        l.setForm(Legend.LegendForm.LINE);
+//        l.setTypeface(mTfLight);
+        l.setTextSize(11f);
+        l.setTextColor(Color.WHITE);
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        l.setDrawInside(false);
+
+        XAxis xAxis = compareChart.getXAxis();
+//        xAxis.setTypeface(mTfLight);
+        xAxis.setTextSize(11f);
+        xAxis.setTextColor(Color.WHITE);
+        xAxis.setDrawGridLines(false);
+        xAxis.setDrawAxisLine(false);
+
+        YAxis leftAxis = compareChart.getAxisLeft();
+//        leftAxis.setTypeface(mTfLight);
+        leftAxis.setTextColor(ColorTemplate.getHoloBlue());
+        leftAxis.setAxisMaximum(200f);
+        leftAxis.setAxisMinimum(0f);
+        leftAxis.setDrawGridLines(true);
+        leftAxis.setGranularityEnabled(true);
+
+    }
+
+    private void setData(int count, float range) {
+        ArrayList<Entry> friend1YVals = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            float mult = range / 2f;
+            float val = (float) (Math.random() * mult);
+            friend1YVals.add(new Entry(i, val));
+        }
+
+        ArrayList<Entry> friend2YVals = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            float mult = range / 2f;
+            float val = (float) (Math.random() * mult);
+            friend2YVals.add(new Entry(i, val));
+        }
+
+        LineDataSet set1, set2;
+
+        if (compareChart.getData() != null &&
+                compareChart.getData().getDataSetCount() > 0) {
+            set1 = (LineDataSet) compareChart.getData().getDataSetByIndex(0);
+            set2 = (LineDataSet) compareChart.getData().getDataSetByIndex(1);
+            set1.setValues(friend1YVals);
+            set2.setValues(friend2YVals);
+            compareChart.getData().notifyDataChanged();
+            compareChart.notifyDataSetChanged();
+        }
+        else {
+            // create a data set and give it a type
+            set1 = new LineDataSet(friend1YVals, "You");
+            set1.setAxisDependency(YAxis.AxisDependency.LEFT);
+            set1.setColor(ColorTemplate.getHoloBlue());
+            set1.setCircleColor(Color.WHITE);
+            set1.setLineWidth(2f);
+            set1.setCircleRadius(3f);
+            set1.setFillAlpha(65);
+            set1.setFillColor(ColorTemplate.getHoloBlue());
+            set1.setHighLightColor(Color.rgb(244, 117, 117));
+            set1.setDrawCircleHole(false);
+
+            set2 = new LineDataSet(friend2YVals, "Friend");
+            set2.setAxisDependency(YAxis.AxisDependency.RIGHT);
+            set2.setColor(Color.RED);
+            set2.setCircleColor(Color.WHITE);
+            set2.setLineWidth(2f);
+            set2.setCircleRadius(3f);
+            set2.setFillAlpha(65);
+            set2.setFillColor(Color.RED);
+            set2.setDrawCircleHole(false);
+            set2.setHighLightColor(Color.rgb(244, 117, 117));
+
+            // create a data object with the datasets
+            LineData data = new LineData(set1, set2);
+            data.setValueTextColor(Color.WHITE);
+            data.setValueTextSize(9f);
+
+            // set data
+            compareChart.setData(data);
+        }
     }
 }

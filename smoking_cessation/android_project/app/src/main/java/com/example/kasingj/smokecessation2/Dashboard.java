@@ -104,7 +104,7 @@ public class Dashboard extends AppCompatActivity {
 
         userService.updateUser(userEntity);
         Log.d("Crave Button", "Logged 1 craving");
-        Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
+//        Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
         Log.d("********TEST: ", userEntity.getUsername() + "'s Crave count: " + userEntity.getNumCravings() + " ************");
     }
 
@@ -133,7 +133,7 @@ public class Dashboard extends AppCompatActivity {
         userService.updateUser(userEntity);
 
         Log.d("Resist Craving Button", "Logged 1 craving resisted");
-        Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
+//        Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
         Log.d("********TEST: ", userEntity.getUsername() + "'s Crave Resist count: " + userEntity.getCravingsResisted() + " ************");
 
         TextView moneySavedAmount = (TextView) findViewById(R.id.moneySavedAmount);
@@ -164,7 +164,7 @@ public class Dashboard extends AppCompatActivity {
         //userService.saveUserEntity(userEntity);
         userService.updateUser(userEntity);
         Log.d("Smoked Button", "Logged 1 smoked cigarette");
-        Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
+//        Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
         Log.d("********TEST: ", userEntity.getUsername() + "'s Smoke count: " + userEntity.getNumCigsSmoked() + " ************");
 
 
