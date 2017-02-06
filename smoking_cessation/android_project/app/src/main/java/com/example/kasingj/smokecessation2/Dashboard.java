@@ -23,6 +23,7 @@ import org.w3c.dom.Text;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 
 public class Dashboard extends AppCompatActivity {
 
@@ -54,7 +55,7 @@ public class Dashboard extends AppCompatActivity {
     private HttpServices httpServices;
     private SharedPreferences preferences;
     private UserEntity userEntity;
-
+    private LinkedList<Integer> reactedPostList = new LinkedList<Integer>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -224,16 +225,25 @@ public class Dashboard extends AppCompatActivity {
 
     }
 
-    public void incrementLikesOnPost(final int postid) {
+    public void incrementLikesOnPost(final int postid, final FeedPost thisPost) {
         try {
+
             AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
                 @Override
                 protected String doInBackground(String... params) {
                     //result is the json string of the request. might be null
                     HttpRunner runner = new HttpRunner();
-                    String result = runner.incrementLikes(postid);
+                    String result;
+                    if (!(reactedPostList.contains(postid))) {
+                        result = runner.incrementLikes(postid);
+                    } else {
+                        result = "true"; //BRETT: What is result?
+                    }
                     if (result == null) {
                         return "NULL";
+                    }
+                    if (!(reactedPostList.contains(postid))) {
+                        reactedPostList.add(postid);
                     }
                     return result;
                 }
@@ -247,6 +257,7 @@ public class Dashboard extends AppCompatActivity {
                         getFeed(userEntity);
                     }
                 }
+
             };
 
             task.execute("param");
@@ -257,16 +268,25 @@ public class Dashboard extends AppCompatActivity {
     }
 
 
-    public void incrementDislikesOnPost(final int postid) {
+    public void incrementDislikesOnPost(final int postid, final FeedPost thisPost) {
         try {
+            thisPost.setReaction(true);
             AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
                 @Override
                 protected String doInBackground(String... params) {
                     //result is the json string of the request. might be null
                     HttpRunner runner = new HttpRunner();
-                    String result = runner.incrementDislikes(postid);
+                    String result;
+                    if (!(reactedPostList.contains(postid))) {
+                        result = runner.incrementDislikes(postid);
+                    } else {
+                        result = "true"; //BRETT: What is result?
+                    }
                     if (result == null) {
                         return "NULL";
+                    }
+                    if (!(reactedPostList.contains(postid))) {
+                        reactedPostList.add(postid);
                     }
                     return result;
                 }
@@ -321,7 +341,7 @@ public class Dashboard extends AppCompatActivity {
                             int feedid = arr.getJSONObject(i).getInt("feedid");
                             String description = arr.getJSONObject(i).getString("description");
                             Log.d("htt:add:postExecute", "********** feed: " + description);
-                            posts[i] = new FeedPost(feedid, date, description, likes, dislikes);
+                            posts[i] = new FeedPost(feedid, date, description, likes, dislikes, false);
                             View child = getLayoutInflater().inflate(R.layout.post, null);
 
                             TextView tv = (TextView)child.findViewById(R.id.description);
@@ -349,21 +369,12 @@ public class Dashboard extends AppCompatActivity {
                                 likebtn.setText(likes + " Likes");
                             }
                             likebtn.setTag(feedid);
-                            likebtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    incrementLikesOnPost((int) ((Button) v).getTag());
-                                }
-                            });
+                            setOnClick(likebtn, posts[i]);
+
 
                             Button dislikebtn = (Button)child.findViewById(R.id.dislikes);
                             dislikebtn.setTag(feedid);
-                            dislikebtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    incrementDislikesOnPost((int) ((Button) v).getTag());
-                                }
-                            });
+                            setDisOnClick(dislikebtn, posts[i]);
                             if (dislikes == 1) {
                                 dislikebtn.setText(dislikes + " Dislike");
                             } else {
@@ -385,5 +396,21 @@ public class Dashboard extends AppCompatActivity {
         }
 
     }
-    
+
+    private void setOnClick(final Button btn, final FeedPost thisPost){
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incrementLikesOnPost((int) ((Button) v).getTag(), thisPost);
+            }
+        });
+    }
+    private void setDisOnClick(final Button btn, final FeedPost thisPost){
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incrementDislikesOnPost((int) ((Button) v).getTag(), thisPost);
+            }
+        });
+    }
 }
