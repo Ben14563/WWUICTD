@@ -1,0 +1,6 @@
+
+
+# 02/08/2017
+Going to start on fixing the back button. As of right now, the back button exits out of the app.
+
+- Dillon
