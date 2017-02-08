@@ -1,0 +1,2 @@
+# activity functions (onRestart, etc.)
+https://developer.android.com/reference/android/app/Activity.html
