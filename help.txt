@@ -1,2 +1,12 @@
 # activity functions (onRestart, etc.)
 https://developer.android.com/reference/android/app/Activity.html
+
+# handlers for refreshing
+http://stackoverflow.com/questions/6134832/auto-refresh-the-activity
+http://stackoverflow.com/questions/4311097/how-can-i-refresh-the-activity
+http://stackoverflow.com/questions/17113526/android-auto-refresh-after-a-certain-time
+http://stackoverflow.com/questions/29524628/how-to-refresh-a-view-in-android
+http://stackoverflow.com/questions/18080135/refresh-current-activity-without-delay
+http://stackoverflow.com/questions/3053761/reload-activity-in-android
+https://developer.android.com/reference/android/os/Handler.html
+
