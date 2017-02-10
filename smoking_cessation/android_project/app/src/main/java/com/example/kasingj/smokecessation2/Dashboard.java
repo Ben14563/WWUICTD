@@ -51,6 +51,7 @@ public class Dashboard extends AppCompatActivity {
 
 
     Context ctx = this;
+    DatabaseOperations UserDAO = new DatabaseOperations(ctx);
     private UserService userService;
     private HttpServices httpServices;
     private SharedPreferences preferences;
@@ -234,7 +235,8 @@ public class Dashboard extends AppCompatActivity {
                     //result is the json string of the request. might be null
                     HttpRunner runner = new HttpRunner();
                     String result;
-                    if (!(reactedPostList.contains(postid))) {
+                    String reaction = convertReactionTableToResult(UserDAO.getUserReaction(UserDAO, userEntity.getID(), postid), postid);
+                    if (reaction.equals("")) { // || .equals("dislike") -> when decrementLikes is written
                         result = runner.incrementLikes(postid);
                     } else {
                         result = "true"; //BRETT: What is result?
@@ -242,8 +244,10 @@ public class Dashboard extends AppCompatActivity {
                     if (result == null) {
                         return "NULL";
                     }
-                    if (!(reactedPostList.contains(postid))) {
-                        reactedPostList.add(postid);
+                    if (reaction.equals("")) {
+                        UserDAO.addUserReaction(UserDAO, userEntity.getID(), postid, "like");
+                    } else if (reaction.equals("dislike")) {
+                        //when decrementLikes is written
                     }
                     return result;
                 }
@@ -277,7 +281,8 @@ public class Dashboard extends AppCompatActivity {
                     //result is the json string of the request. might be null
                     HttpRunner runner = new HttpRunner();
                     String result;
-                    if (!(reactedPostList.contains(postid))) {
+                    String reaction = convertReactionTableToResult(UserDAO.getUserReaction(UserDAO, userEntity.getID(), postid), postid);
+                    if (reaction.equals("")) { // || .equals("like") -> when decrementDislikes is written
                         result = runner.incrementDislikes(postid);
                     } else {
                         result = "true"; //BRETT: What is result?
@@ -285,8 +290,10 @@ public class Dashboard extends AppCompatActivity {
                     if (result == null) {
                         return "NULL";
                     }
-                    if (!(reactedPostList.contains(postid))) {
-                        reactedPostList.add(postid);
+                    if (reaction.equals("")) {
+                        UserDAO.addUserReaction(UserDAO, userEntity.getID(), postid, "dislike");
+                    } else if (reaction.equals("like")) {
+                        //when decrementDislikes is written
                     }
                     return result;
                 }
@@ -395,6 +402,22 @@ public class Dashboard extends AppCompatActivity {
             Log.d("Main:addTaskfail", "async failed, or main failed");
         }
 
+    }
+    private String convertReactionTableToResult(Cursor cr, int postid){
+
+        if (cr != null && cr.moveToFirst()) {
+            while (!cr.isAfterLast()) {
+                if (postid == cr.getInt(1)) {
+                    Log.d("convertReaction:success", "User has already " + cr.getString(2) + "d this post.");
+                    return cr.getString(2);
+                }
+            }
+        } else {
+            Log.d("Possible problem?", "empty DB");
+        }
+        cr.close();
+        Log.d("convertReaction:success", "User has not yet reacted to this post.");
+        return "";
     }
 
     private void setOnClick(final Button btn, final FeedPost thisPost){

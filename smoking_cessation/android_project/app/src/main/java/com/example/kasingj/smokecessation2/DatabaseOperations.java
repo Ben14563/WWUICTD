@@ -15,7 +15,7 @@ import java.util.Date;
  */
 public class DatabaseOperations extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 3;
 
 
     // UserDemo Query String
@@ -68,6 +68,10 @@ public class DatabaseOperations extends SQLiteOpenHelper{
             TableData.TableInfo.CRAVINGS_ON_DATE + " TEXT," +
             TableData.TableInfo.USER_NAME + " TEXT);";
 
+    //Reaction "Query string"
+    public String CREATE_USER_REACTION_TABLE = "CREATE TABLE " + TableData.TableInfo.USER_REACTION_TABLE_NAME + "(" +
+            TableData.TableInfo.ID + " INTEGER PRIMARY KEY," + TableData.TableInfo.FEED_ID + " INTEGER," + TableData.TableInfo.USER_REACTION + " TEXT);";
+
     // Create Database
     public DatabaseOperations(Context context) {
         super(context, TableData.TableInfo.DATABASE_NAME, null, DATABASE_VERSION);
@@ -102,6 +106,11 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         sdb.execSQL(CREATE_USER_FEED_QUERY);
         Log.d("Database Operations", "friends_stats table created");
 
+        // Create user_reaction Table
+        Log.d("Database Operations", "creating user_reaction table");
+        sdb.execSQL(CREATE_USER_REACTION_TABLE);
+        Log.d("Database Operations", "user_reaction table created");
+
         sdb.execSQL(CREATE_DAY_STATS);
         Log.d(" Database Operations", "day stats table created ");
     }
@@ -110,9 +119,15 @@ public class DatabaseOperations extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase sdb, int oldVersion, int newVersion) {
 
         // Create friends_stats Table
-        Log.d("Database Operations", "creating friends_stats table");
-        sdb.execSQL(CREATE_FRIENDS_STATS_QUERY);
-        Log.d("Database Operations", "friends_stats table created");
+//        Log.d("Database Operations", "creating friends_stats table");
+//        sdb.execSQL(CREATE_FRIENDS_STATS_QUERY);
+//        Log.d("Database Operations", "friends_stats table created");
+
+
+        // Create user_reaction Table
+        Log.d("Database Operations", "creating user_reaction table");
+        sdb.execSQL(CREATE_USER_REACTION_TABLE);
+        Log.d("Database Operations", "user_reaction table created");
     }
 
     // get current time
@@ -189,6 +204,32 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         String[] columns = {TableData.TableInfo.ID, TableData.TableInfo.USER_NAME, TableData.TableInfo.PASSWORD};
         String where = "";
         Cursor cr = sq.query(TableData.TableInfo.USER_AUTH_TABLE_NAME, columns, null, null, null, null, null);
+        return cr;
+    }
+    // adding to user_auth Table
+    public int addUserReaction(DatabaseOperations dbop, int userid, int postid, String reaction) {
+
+        SQLiteDatabase sq = dbop.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(TableData.TableInfo.ID, userid);
+        cv.put(TableData.TableInfo.FEED_ID, postid);
+        cv.put(TableData.TableInfo.USER_REACTION, reaction);
+
+        long id = sq.insert(TableData.TableInfo.USER_REACTION_TABLE_NAME, null, cv);
+        Log.d("Database Operations", "One row inserted into user_reaction table");
+        return (int)id;
+    }
+
+    // pulling user authentication data
+    public Cursor getUserReaction(DatabaseOperations dbop, int userid, int postid) {
+
+        String strUserid = Integer.toString(userid);
+        SQLiteDatabase sq = dbop.getReadableDatabase();
+        String[] columns = {TableData.TableInfo.ID, TableData.TableInfo.FEED_ID, TableData.TableInfo.USER_REACTION} ;
+        String where = TableData.TableInfo.ID + " = ?";
+        String[] whereArgs = new String[] {strUserid};
+        Cursor cr = sq.query(TableData.TableInfo.USER_REACTION_TABLE_NAME, columns, where, whereArgs, null, null, null);
         return cr;
     }
 
