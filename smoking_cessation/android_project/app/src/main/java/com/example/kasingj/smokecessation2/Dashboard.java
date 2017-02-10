@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -59,6 +60,11 @@ public class Dashboard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        // Using a handler for auto refresh
+        //Handler refreshHandler = new Handler();
+
+
         userService = new UserService(this);
         httpServices = new HttpServices(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -174,21 +180,26 @@ public class Dashboard extends AppCompatActivity {
     public void goToDashboard (View view) {
         if(getClass() != Dashboard.class) {
             Intent intent = new Intent(this, Dashboard.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            //finish();
             startActivity(intent);
-            finish();
         }
     }
 
     public void goToFriends (View view) {
         Intent intent = new Intent(this, Friends.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        //startActivity(intent);
+        //finish();
         startActivity(intent);
-        finish();
     }
 
     public void goToStatistics (View view) {
         Intent intent = new Intent (this, Stats.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        //startActivity(intent);
+        //finish();
         startActivity(intent);
-        finish();
     }
 
 

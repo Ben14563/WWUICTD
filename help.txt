@@ -10,3 +10,5 @@ http://stackoverflow.com/questions/18080135/refresh-current-activity-without-del
 http://stackoverflow.com/questions/3053761/reload-activity-in-android
 https://developer.android.com/reference/android/os/Handler.html
 
+# proper back navigation
+https://developer.android.com/training/implementing-navigation/temporal.html

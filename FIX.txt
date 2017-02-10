@@ -1,8 +1,10 @@
+### 02/10/2017 ###
+$ Dashboard - goTo... (lines 180+)
+	
 
-
-# 02/08/2017
+### 02/08/2017 ###
 Going to start on fixing the back button. As of right now, the back button exits out of the app.
 - finish(): ending the activity; also ties in to refreshing the page
 
 
-- Dillon
+Dillon
