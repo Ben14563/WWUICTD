@@ -56,7 +56,6 @@ public class Dashboard extends AppCompatActivity {
     private HttpServices httpServices;
     private SharedPreferences preferences;
     private UserEntity userEntity;
-    private LinkedList<Integer> reactedPostList = new LinkedList<Integer>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -274,7 +273,6 @@ public class Dashboard extends AppCompatActivity {
 
     public void incrementDislikesOnPost(final int postid, final FeedPost thisPost) {
         try {
-            thisPost.setReaction(true);
             AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
                 @Override
                 protected String doInBackground(String... params) {
@@ -291,7 +289,7 @@ public class Dashboard extends AppCompatActivity {
                         return "NULL";
                     }
                     if (reaction.equals("")) {
-                        UserDAO.addUserReaction(UserDAO, userEntity.getID(), postid, "dislike");
+                        int returned = UserDAO.addUserReaction(UserDAO, userEntity.getID(), postid, "dislike");
                     } else if (reaction.equals("like")) {
                         //when decrementDislikes is written
                     }
@@ -411,10 +409,11 @@ public class Dashboard extends AppCompatActivity {
                     Log.d("convertReaction:success", "User has already " + cr.getString(2) + "d this post.");
                     return cr.getString(2);
                 }
+                cr.moveToNext();
             }
-        } else {
-            Log.d("Possible problem?", "empty DB");
-        }
+        } //else {
+            //Log.d("Possible problem?", "empty DB");
+        //}
         cr.close();
         Log.d("convertReaction:success", "User has not yet reacted to this post.");
         return "";
