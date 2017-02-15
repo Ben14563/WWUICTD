@@ -167,6 +167,18 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         return cr;
     }
 
+    // getting number of cigarettes smoked by user from user stats table
+    public Cursor getUserCigsSmoked (DatabaseOperations dbop, String username) {
+
+        SQLiteDatabase sq = dbop.getReadableDatabase();
+        String[] columns = {TableData.TableInfo.NUM_CIGS_SMOKED, TableData.TableInfo.TIME};
+        String where = TableData.TableInfo.USER_NAME + " = ?";
+        String[] whereArgs = new String[] {username};
+        String orderBy = TableData.TableInfo.TIME + " DESC";
+        Cursor cr = sq.query(TableData.TableInfo.USER_TABLE_NAME, columns, where, whereArgs, null, null, orderBy);
+        return cr;
+    }
+
     // adding to user_auth Table
     public int addUserAuth(DatabaseOperations dbop, String username, String password, String email) {
 

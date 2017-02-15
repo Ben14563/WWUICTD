@@ -66,6 +66,16 @@ public class Stats extends AppCompatActivity {
         // https://www.youtube.com/watch?v=H6QxMBI2QH4#t=263.901119
     }
 
+    // get cigs smoked data for main graph and set dates
+    public ArrayList<Integer> getCigsSmokedData (String username) {
+
+        ArrayList<Integer> data = new ArrayList<>();
+
+
+
+        return data;
+    }
+
     public void createCigarettesSmokedChart (String startDate, String endDate) {
 
         SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
