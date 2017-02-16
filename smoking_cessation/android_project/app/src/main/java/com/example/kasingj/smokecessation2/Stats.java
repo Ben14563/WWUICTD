@@ -120,6 +120,7 @@ public class Stats extends AppCompatActivity {
                 Date temp = oldDate.parse(cr.getString(1));
 //                Date endDate = newDate.format(temp);
                 end = newDate.format(temp);
+                Log.d("********TEST: ", "1st try ************");
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -128,21 +129,25 @@ public class Stats extends AppCompatActivity {
             // get rest of days
             while (cr.moveToNext()) {
                 // compare dates and loop through each day, adding total cigs smoked per day
+                Log.d("********TEST: ", "in while loop ************");
                 try {
 //                    Date day = date.parse(cr.getString(1));
                     Date temp = oldDate.parse(cr.getString(1));
                     dayCheck = newDate.format(temp);
+                    Log.d("********TEST: ", "2nd try ************");
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 cig = cr.getString(0);
                 if (currentDay.equals(dayCheck)) {
                     cigsPerDay += Integer.parseInt(cig);
+                    Log.d("********TEST: ", "days equal ************");
                 }
                 else {
                     cigData.add(cigsPerDay);
                     currentDay = dayCheck;
                     cigsPerDay = Integer.parseInt(cig);
+                    Log.d("********TEST: ", "days diff ************");
                 }
             }
 
@@ -152,6 +157,7 @@ public class Stats extends AppCompatActivity {
                 Date temp = oldDate.parse(cr.getString(1));
 //                Date startDate = oldDate.parse(cr.getString(1));
                 start = newDate.format(temp);
+                Log.d("********TEST: ", "3rd try ************");
             } catch (ParseException e) {
                 e.printStackTrace();
             }
