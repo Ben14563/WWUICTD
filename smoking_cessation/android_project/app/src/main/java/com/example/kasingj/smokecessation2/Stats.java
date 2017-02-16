@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -32,12 +33,13 @@ public class Stats extends AppCompatActivity {
     BarChart cigarettesSmokedChart;
     BarChart cravingsResistedChart;
     Random random;
+    String[] dateArgs = new String[2];
     ArrayList<String> dates;
     ArrayList<BarEntry> entries;
 
-    private SharedPreferences preferences;
-    private UserEntity userEntity;
-    private UserService userService;
+//    private SharedPreferences preferences;
+//    private UserEntity userEntity;
+//    private UserService userService;
     Context ctx = this;
 
     @Override
@@ -45,12 +47,19 @@ public class Stats extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
-        preferences = getSharedPreferences(getApplicationContext().getPackageName(), 1);
-        int id = preferences.getInt(MainActivity.CURRENT_USER_ID, -1);
-        userEntity = userService.getUserEntityWithPrimaryId(id);
+//        preferences = getSharedPreferences(getApplicationContext().getPackageName(), 1);
+//        int id = preferences.getInt(MainActivity.CURRENT_USER_ID, -1);
+//        userEntity = userService.getUserEntityWithPrimaryId(id);
+
+        UserService userService = new UserService(this);
+        UserEntity user = userService.getCurrentUser(getApplicationContext());
+
+        getCigsSmokedData(user);
 
         cigarettesSmokedChart = (BarChart) findViewById(R.id.cigarettesSmokedChart);
-        createCigarettesSmokedChart("2016/11/01", "2016/11/18");
+//        createCigarettesSmokedChart("11/01/2016", "11/18/2016");
+        createCigarettesSmokedChart(dateArgs[0], dateArgs[1]);
+
         XAxis smokedXAxis = cigarettesSmokedChart.getXAxis();
         smokedXAxis.setValueFormatter(new MyXValueFormatter(dates));
         cigarettesSmokedChart.animateXY(0, 2000);
@@ -79,28 +88,89 @@ public class Stats extends AppCompatActivity {
     }
 
     // get cigs smoked data for main graph and set dates
-    public ArrayList<Integer> getCigsSmokedData (String username) {
+    public ArrayList<Integer> getCigsSmokedData (UserEntity username) {
 
-        userEntity = userService.getUserEntityWithPrimaryId(userEntity.getID());
-        ArrayList<Integer> data = new ArrayList<>();
+        SimpleDateFormat oldDate = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss.SSS a");
+        SimpleDateFormat newDate = new SimpleDateFormat("MM/dd/yyyy");
+
+//        **** Problem with parsing dates ****
+
+//        userEntity = userService.getUserEntityWithPrimaryId(userEntity.getID());
+        ArrayList<Integer> cigData = new ArrayList<>();
         DatabaseOperations db = new DatabaseOperations(ctx);
-        Cursor cr = db.getUserCigsSmoked(db, userEntity.getUsername());
+//        Cursor cr = db.getUserCigsSmoked(db, userEntity.getUsername());
+        Cursor cr = db.getUserCigsSmoked(db, username.getUsername());
 
-
+        int cigsPerDay = 0;
+        String cig;
+//        Date startDate;
+//        Date endDate;
+        String currentDay;
+//        Date day;
+        String start = "";
+        String end = "";
+        String dayCheck = "";
 
         if (cr != null && cr.moveToFirst()) {
+
+            // get first day of data descending order
+            cig = cr.getString(0);
+            cigsPerDay += Integer.parseInt(cig);
+            try {
+                Date temp = oldDate.parse(cr.getString(1));
+//                Date endDate = newDate.format(temp);
+                end = newDate.format(temp);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            currentDay = end;
+
+            // get rest of days
             while (cr.moveToNext()) {
                 // compare dates and loop through each day, adding total cigs smoked per day
-                
+                try {
+//                    Date day = date.parse(cr.getString(1));
+                    Date temp = oldDate.parse(cr.getString(1));
+                    dayCheck = newDate.format(temp);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                cig = cr.getString(0);
+                if (currentDay.equals(dayCheck)) {
+                    cigsPerDay += Integer.parseInt(cig);
+                }
+                else {
+                    cigData.add(cigsPerDay);
+                    currentDay = dayCheck;
+                    cigsPerDay = Integer.parseInt(cig);
+                }
+            }
+
+            // get last start date (last date from cursor)
+            cr.moveToLast();
+            try {
+                Date temp = oldDate.parse(cr.getString(1));
+//                Date startDate = oldDate.parse(cr.getString(1));
+                start = newDate.format(temp);
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
         }
         cr.close();
-        return data;
+        // add dates to date array
+        dateArgs[0] = end;
+        dateArgs[1] = start;
+
+        Log.d("********TEST: User : ", username.getUsername() + " ************");
+        Log.d("********TEST: end : ", end + " ************");
+        Log.d("********TEST: start : ", start + " ************");
+
+        return cigData;
     }
 
     public void createCigarettesSmokedChart (String startDate, String endDate) {
 
-        SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy");
 
         try {
             Date start = date.parse(startDate);
