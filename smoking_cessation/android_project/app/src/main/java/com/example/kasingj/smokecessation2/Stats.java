@@ -1,6 +1,9 @@
 package com.example.kasingj.smokecessation2;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,10 +35,19 @@ public class Stats extends AppCompatActivity {
     ArrayList<String> dates;
     ArrayList<BarEntry> entries;
 
+    private SharedPreferences preferences;
+    private UserEntity userEntity;
+    private UserService userService;
+    Context ctx = this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
+
+        preferences = getSharedPreferences(getApplicationContext().getPackageName(), 1);
+        int id = preferences.getInt(MainActivity.CURRENT_USER_ID, -1);
+        userEntity = userService.getUserEntityWithPrimaryId(id);
 
         cigarettesSmokedChart = (BarChart) findViewById(R.id.cigarettesSmokedChart);
         createCigarettesSmokedChart("2016/11/01", "2016/11/18");
@@ -69,10 +81,20 @@ public class Stats extends AppCompatActivity {
     // get cigs smoked data for main graph and set dates
     public ArrayList<Integer> getCigsSmokedData (String username) {
 
+        userEntity = userService.getUserEntityWithPrimaryId(userEntity.getID());
         ArrayList<Integer> data = new ArrayList<>();
+        DatabaseOperations db = new DatabaseOperations(ctx);
+        Cursor cr = db.getUserCigsSmoked(db, userEntity.getUsername());
 
 
 
+        if (cr != null && cr.moveToFirst()) {
+            while (cr.moveToNext()) {
+                // compare dates and loop through each day, adding total cigs smoked per day
+                
+            }
+        }
+        cr.close();
         return data;
     }
 
