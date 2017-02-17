@@ -45,6 +45,10 @@ public class TableData {
         public static final String USER_SERVER_ID = "user_server_id";
         public static final String USER_AUTH_ID = "user_auth_id";
         public static final String FRIEND_OF_ID = "friend_of_id";
+        public static final String USER_HISTORY_TABLE_NAME = "user_history";
+        public static final String SMOKED = "smoked";
+        public static final String CRAVING = "craving";
+        public static final String RESISTED = "resisted";
 
         //User Feed
         public static final String USER_FEED_TABLE_NAME="user_feed";
