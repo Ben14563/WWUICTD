@@ -16,7 +16,7 @@ import java.util.Date;
  */
 public class DatabaseOperations extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     // UserHistory Query String
     public String CREATE_USER_HISTORY_QUERY = "CREATE TABLE " + TableData.TableInfo.USER_HISTORY_TABLE_NAME + "(" +

@@ -54,6 +54,7 @@ public class Dashboard extends AppCompatActivity {
     private HttpServices httpServices;
     private SharedPreferences preferences;
     private UserEntity userEntity;
+    private DatabaseOperations db = new DatabaseOperations(ctx);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +104,8 @@ public class Dashboard extends AppCompatActivity {
         }
 
         userService.updateUser(userEntity);
+        userService.addUserHist(userEntity, 0, 1, 0);
+
         Log.d("Crave Button", "Logged 1 craving");
 //        Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
         Log.d("********TEST: ", userEntity.getUsername() + "'s Crave count: " + userEntity.getNumCravings() + " ************");
