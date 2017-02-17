@@ -1,4 +1,7 @@
 ### 02/17/2017 ###
+$ edited res/layout/activity_main.xml -> added a nested ListView
+$ MainActivity.java -> following tutorial (bignerdranch and androidAPI)
+
 
 ### 02/10/2017 ###
 $ Dashboard - goTo... (lines 180+)

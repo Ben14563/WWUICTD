@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import android.net.ConnectivityManager;
@@ -38,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
     HttpServices httpServices;
     UserService userService;
 
+    // testing swipe to refresh
+    ListView mListView;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +50,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.content_main);
         httpServices = new HttpServices(this);
         userService = new UserService(this);
+
+        // create the refresh tools
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+        mListView = (ListView) findViewById(R.id.list);
+
     }
+
+    /* Refresh when the user swipes down
+    mSwipeRefreshLayout.setOnRefreshListener(
+      new SwipeRefreshLayout.onRefreshListener() {
+        @Override
+        public void onRefresh() {
+          Log.i(LOG_TAG, "onRefresh called from SwipeFreshLayout");
+
+        }
+
+      }
+    );
+    */
 
     public void goToDashboard(View view) {
         //before going to dashboard  sanitize data

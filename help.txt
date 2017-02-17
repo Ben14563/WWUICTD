@@ -12,3 +12,8 @@ https://developer.android.com/reference/android/os/Handler.html
 
 # proper back navigation
 https://developer.android.com/training/implementing-navigation/temporal.html
+
+# swipe up to fresh
+https://www.bignerdranch.com/blog/implementing-swipe-to-refresh/
+https://developer.android.com/training/swipe/add-swipe-interface.html#AddSwipeWidget
+
