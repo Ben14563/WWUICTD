@@ -181,7 +181,7 @@ public class Dashboard extends AppCompatActivity {
         if(getClass() != Dashboard.class) {
             Intent intent = new Intent(this, Dashboard.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            //finish();
+            finish();
             startActivity(intent);
         }
     }
@@ -191,6 +191,7 @@ public class Dashboard extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         //startActivity(intent);
         //finish();
+        finish();
         startActivity(intent);
     }
 
@@ -199,6 +200,7 @@ public class Dashboard extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         //startActivity(intent);
         //finish();
+        finish();
         startActivity(intent);
     }
 
