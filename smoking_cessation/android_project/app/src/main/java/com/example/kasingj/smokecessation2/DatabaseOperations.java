@@ -15,7 +15,7 @@ import java.util.Date;
  */
 public class DatabaseOperations extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
 
 
     // UserDemo Query String
@@ -70,7 +70,7 @@ public class DatabaseOperations extends SQLiteOpenHelper{
 
     //Reaction "Query string"
     public String CREATE_USER_REACTION_TABLE = "CREATE TABLE " + TableData.TableInfo.USER_REACTION_TABLE_NAME + "(" +
-            TableData.TableInfo.ID + " INTEGER PRIMARY KEY," + TableData.TableInfo.FEED_ID + " INTEGER," + TableData.TableInfo.USER_REACTION + " TEXT);";
+            TableData.TableInfo.ID + " INTEGER," + TableData.TableInfo.FEED_ID + " INTEGER," + TableData.TableInfo.USER_REACTION + " TEXT);";
 
     // Create Database
     public DatabaseOperations(Context context) {
@@ -107,9 +107,9 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         Log.d("Database Operations", "friends_stats table created");
 
         // Create user_reaction Table
-        Log.d("Database Operations", "creating user_reaction table");
+        Log.d("Database Operations", "creating user_reaction2 table");
         sdb.execSQL(CREATE_USER_REACTION_TABLE);
-        Log.d("Database Operations", "user_reaction table created");
+        Log.d("Database Operations", "user_reaction2 table created");
 
         sdb.execSQL(CREATE_DAY_STATS);
         Log.d(" Database Operations", "day stats table created ");
@@ -125,9 +125,9 @@ public class DatabaseOperations extends SQLiteOpenHelper{
 
 
         // Create user_reaction Table
-        Log.d("Database Operations", "creating user_reaction table");
+        Log.d("Database Operations", "creating user_reaction2 table");
         sdb.execSQL(CREATE_USER_REACTION_TABLE);
-        Log.d("Database Operations", "user_reaction table created");
+        Log.d("Database Operations", "user_reaction2 table created");
     }
 
     // get current time

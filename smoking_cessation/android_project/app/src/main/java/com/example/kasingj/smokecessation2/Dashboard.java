@@ -402,18 +402,21 @@ public class Dashboard extends AppCompatActivity {
 
     }
     private String convertReactionTableToResult(Cursor cr, int postid){
-
-        if (cr != null && cr.moveToFirst()) {
-            while (!cr.isAfterLast()) {
+        if(cr.moveToFirst()){
+            do {
                 if (postid == cr.getInt(1)) {
                     Log.d("convertReaction:success", "User has already " + cr.getString(2) + "d this post.");
                     return cr.getString(2);
                 }
-                cr.moveToNext();
-            }
-        } //else {
-            //Log.d("Possible problem?", "empty DB");
-        //}
+            } while(cr.moveToNext());
+        }
+//        while (cr.moveToNext()) {
+//            if (postid == cr.getInt(1)) {
+//                Log.d("convertReaction:success", "User has already " + cr.getString(2) + "d this post.");
+//                return cr.getString(2);
+//            }
+//        }
+
         cr.close();
         Log.d("convertReaction:success", "User has not yet reacted to this post.");
         return "";
