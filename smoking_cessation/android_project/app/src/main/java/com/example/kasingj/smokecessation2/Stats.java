@@ -91,15 +91,6 @@ public class Stats extends AppCompatActivity {
     // get cigs smoked data for main graph and set dates
     public void getCigsSmokedData (UserEntity user) {
 
-        SimpleDateFormat oldDate = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss.SSS a");
-        SimpleDateFormat newDate = new SimpleDateFormat("MM/dd/yyyy");
-
-//        **** Problem with parsing dates ****
-
-//        userEntity = userService.getUserEntityWithPrimaryId(userEntity.getID());
-//        ArrayList<Integer> cigData = new ArrayList<>();
-//        DatabaseOperations db = new DatabaseOperations(ctx);
-//        Cursor cr = db.getUserCigsSmoked(db, userEntity.getUsername());
         Cursor cr = userService.getUserSmokedHist(user.getUsername());
 
         int cigsPerDay = 0;
@@ -116,14 +107,6 @@ public class Stats extends AppCompatActivity {
             cig = cr.getString(1);
             cigsPerDay += Integer.parseInt(cig);
             end = cr.getString(0);
-//            try {
-//                Date temp = oldDate.parse(cr.getString(1));
-////                Date endDate = newDate.format(temp);
-//                end = newDate.format(temp);
-//                Log.d("********TEST: ", "1st try ************");
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
             currentDay = end;
 
             // get rest of days
@@ -142,41 +125,12 @@ public class Stats extends AppCompatActivity {
                     cigsPerDay = Integer.parseInt(cig);
                     Log.d("********TEST: ", "diff day ************");
                 }
-
-//                try {
-////                    Date day = date.parse(cr.getString(1));
-//                    Date temp = oldDate.parse(cr.getString(1));
-//                    dayCheck = newDate.format(temp);
-//                    Log.d("********TEST: ", "2nd try ************");
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//                cig = cr.getString(0);
-//                if (currentDay.equals(dayCheck)) {
-//                    cigsPerDay += Integer.parseInt(cig);
-//                    Log.d("********TEST: ", "days equal ************");
-//                }
-//                else {
-//                    cigData.add(cigsPerDay);
-//                    currentDay = dayCheck;
-//                    cigsPerDay = Integer.parseInt(cig);
-//                    Log.d("********TEST: ", "days diff ************");
-//                }
             }
             cigData.add(cigsPerDay);
 
             // get last start date (last date from cursor)
             cr.moveToLast();
             start = cr.getString(0);
-
-//            try {
-//                Date temp = oldDate.parse(cr.getString(1));
-////                Date startDate = oldDate.parse(cr.getString(1));
-//                start = newDate.format(temp);
-//                Log.d("********TEST: ", "3rd try ************");
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
         }
         cr.close();
         // add dates to date array
@@ -187,8 +141,6 @@ public class Stats extends AppCompatActivity {
         Log.d("********TEST: end : ", end + " ************");
         Log.d("********TEST: start : ", start + " ************");
         Log.d("****TEST: cigsPerDay : ", cigsPerDay + " ************");
-
-//        return cigData;
     }
 
     public void createCigarettesSmokedChart (String startDate, String endDate) {
@@ -212,13 +164,11 @@ public class Stats extends AppCompatActivity {
 
             entries = new ArrayList<>();
             float max = 30f;
-            float value = 0f;
-//            random = new Random();
+            int value = 0;
             for (int i = 0; i < dates.size(); i++) {
 //                max = 30f;
-//                value = random.nextFloat() * max;
                 value = cigData.get(i);
-                entries.add(new BarEntry(i, (int) value));
+                entries.add(new BarEntry(i, value));
             }
         } catch(ParseException e) {
             e.printStackTrace();
