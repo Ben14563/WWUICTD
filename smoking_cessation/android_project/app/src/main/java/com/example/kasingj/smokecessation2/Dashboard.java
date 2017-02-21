@@ -5,11 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -263,6 +266,9 @@ public class Dashboard extends AppCompatActivity {
 
             };
 
+            View child = getLayoutInflater().inflate(R.layout.post, null);
+            Button likebtn = (Button)child.findViewById(R.id.likes);
+            likebtn.setTypeface(null, Typeface.ITALIC);
             task.execute("param");
         } finally {
             Log.d("Main:addTaskfail", "async failed, or main failed");
@@ -273,6 +279,7 @@ public class Dashboard extends AppCompatActivity {
 
     public void incrementDislikesOnPost(final int postid, final FeedPost thisPost) {
         try {
+
             AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
                 @Override
                 protected String doInBackground(String... params) {
@@ -311,7 +318,12 @@ public class Dashboard extends AppCompatActivity {
         } finally {
             Log.d("Main:addTaskfail", "async failed, or main failed");
         }
-
+//        //TODO: Create feedback for reacting to a post
+//        View child = LayoutInflater.from(ctx).inflate(R.layout.post, null);
+//        //View child = getLayoutInflater().inflate(R.layout.post, null);
+//        Button dislikebtn = (Button)child.findViewById(R.id.dislikes);
+//        dislikebtn.setTypeface(null, Typeface.BOLD); //Does nothing
+//        dislikebtn.setBackgroundColor(Color.BLACK); //Just making sure im not blind to the bold
     }
 
     public void getFeed(final UserEntity entity) {
@@ -357,7 +369,7 @@ public class Dashboard extends AppCompatActivity {
 
                             if (description.indexOf("resisted") > -1) {
                                 img.setImageResource(R.drawable.no_smoking);
-                                Log.d("ASDf","resisited");
+                                Log.d("ASDf","resisted");
                             } else if(description.indexOf("craving") > -1) {
                                 img.setImageResource(R.drawable.craving);
 
@@ -410,18 +422,12 @@ public class Dashboard extends AppCompatActivity {
                 }
             } while(cr.moveToNext());
         }
-//        while (cr.moveToNext()) {
-//            if (postid == cr.getInt(1)) {
-//                Log.d("convertReaction:success", "User has already " + cr.getString(2) + "d this post.");
-//                return cr.getString(2);
-//            }
-//        }
-
         cr.close();
         Log.d("convertReaction:success", "User has not yet reacted to this post.");
         return "";
     }
 
+    /* Wrappers for passing additional parameters */
     private void setOnClick(final Button btn, final FeedPost thisPost){
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
