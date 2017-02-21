@@ -16,11 +16,11 @@ import java.util.Date;
  */
 public class DatabaseOperations extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
 
     // UserHistory Query String
     public String CREATE_USER_HISTORY_QUERY = "CREATE TABLE " + TableData.TableInfo.USER_HISTORY_TABLE_NAME + "(" +
-            TableData.TableInfo.ID + " INTEGER PRIMARY KEY," + TableData.TableInfo.TIME + " INTEGER PRIMARY KEY," +
+            TableData.TableInfo.ID + " INTEGER SUPER KEY," + TableData.TableInfo.TIME + " INTEGER PRIMARY KEY," +
             TableData.TableInfo.USER_NAME + " TEXT," + TableData.TableInfo.DATE + " TEXT," + TableData.TableInfo.SMOKED + " TEXT," +
             TableData.TableInfo.CRAVING + " TEXT," + TableData.TableInfo.RESISTED + " TEXT);";
 
