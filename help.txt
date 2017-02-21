@@ -13,7 +13,18 @@ https://developer.android.com/reference/android/os/Handler.html
 # proper back navigation
 https://developer.android.com/training/implementing-navigation/temporal.html
 
-# swipe up to fresh
+# swipe down to fresh
 https://www.bignerdranch.com/blog/implementing-swipe-to-refresh/
 https://developer.android.com/training/swipe/add-swipe-interface.html#AddSwipeWidget
 
+http://stackoverflow.com/questions/3053761/reload-activity-in-android
+http://stackoverflow.com/questions/6547969/android-refresh-current-activity
+http://blog.nkdroidsolutions.com/refresh-current-activity-in-android-app/
+http://appglobe.com/restart-an-activity-android/
+http://stackoverflow.com/questions/23117731/android-listview-pull-down-to-refresh
+http://antonioleiva.com/swiperefreshlayout/
+http://www.androidhive.info/2015/05/android-swipe-down-to-refresh-listview-tutorial/
+http://sapandiwakar.in/pull-to-refresh-for-android-recyclerview-or-any-other-vertically-scrolling-view/
+
+# use a lot of this execpt newHandler()... etc
+http://stackoverflow.com/questions/32156711/can-i-use-pull-to-refresh-without-using-scrollview-listview

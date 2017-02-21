@@ -1,3 +1,7 @@
+### 02/21/17 ###
+$ Made every page (dash, friends, stats, add friends) refresh its activity without having to
+	display the start of every activity. [Still don't have pull down to refresh]
+
 ### 02/17/2017 ###
 $ edited res/layout/activity_main.xml -> added a nested ListView
 $ MainActivity.java -> following tutorial (bignerdranch and androidAPI)
