@@ -39,7 +39,7 @@ public class Stats extends AppCompatActivity {
 
 //    private SharedPreferences preferences;
 //    private UserEntity userEntity;
-//    private UserService userService;
+    private UserService userService;
     Context ctx = this;
 
     @Override
@@ -51,7 +51,7 @@ public class Stats extends AppCompatActivity {
 //        int id = preferences.getInt(MainActivity.CURRENT_USER_ID, -1);
 //        userEntity = userService.getUserEntityWithPrimaryId(id);
 
-        UserService userService = new UserService(this);
+        userService = new UserService(this);
         UserEntity user = userService.getCurrentUser(getApplicationContext());
 
         getCigsSmokedData(user);
@@ -88,7 +88,7 @@ public class Stats extends AppCompatActivity {
     }
 
     // get cigs smoked data for main graph and set dates
-    public ArrayList<Integer> getCigsSmokedData (UserEntity username) {
+    public ArrayList<Integer> getCigsSmokedData (UserEntity user) {
 
         SimpleDateFormat oldDate = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss.SSS a");
         SimpleDateFormat newDate = new SimpleDateFormat("MM/dd/yyyy");
@@ -97,77 +97,90 @@ public class Stats extends AppCompatActivity {
 
 //        userEntity = userService.getUserEntityWithPrimaryId(userEntity.getID());
         ArrayList<Integer> cigData = new ArrayList<>();
-        DatabaseOperations db = new DatabaseOperations(ctx);
+//        DatabaseOperations db = new DatabaseOperations(ctx);
 //        Cursor cr = db.getUserCigsSmoked(db, userEntity.getUsername());
-        Cursor cr = db.getUserCigsSmoked(db, username.getUsername());
+        Cursor cr = userService.getUserSmokedHist(user.getUsername());
 
         int cigsPerDay = 0;
         String cig;
-//        Date startDate;
-//        Date endDate;
         String currentDay;
-//        Date day;
         String start = "";
         String end = "";
-        String dayCheck = "";
+        String dayCheck;
 
         if (cr != null && cr.moveToFirst()) {
 
             // get first day of data descending order
-            cig = cr.getString(0);
+            cig = cr.getString(1);
             cigsPerDay += Integer.parseInt(cig);
-            try {
-                Date temp = oldDate.parse(cr.getString(1));
-//                Date endDate = newDate.format(temp);
-                end = newDate.format(temp);
-                Log.d("********TEST: ", "1st try ************");
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            end = cr.getString(0);
+//            try {
+//                Date temp = oldDate.parse(cr.getString(1));
+////                Date endDate = newDate.format(temp);
+//                end = newDate.format(temp);
+//                Log.d("********TEST: ", "1st try ************");
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
             currentDay = end;
 
             // get rest of days
             while (cr.moveToNext()) {
                 // compare dates and loop through each day, adding total cigs smoked per day
                 Log.d("********TEST: ", "in while loop ************");
-                try {
-//                    Date day = date.parse(cr.getString(1));
-                    Date temp = oldDate.parse(cr.getString(1));
-                    dayCheck = newDate.format(temp);
-                    Log.d("********TEST: ", "2nd try ************");
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                cig = cr.getString(0);
+                dayCheck = cr.getString(0);
+                cig = cr.getString(1);
                 if (currentDay.equals(dayCheck)) {
                     cigsPerDay += Integer.parseInt(cig);
-                    Log.d("********TEST: ", "days equal ************");
+                    Log.d("********TEST: ", "same day ************");
                 }
                 else {
                     cigData.add(cigsPerDay);
                     currentDay = dayCheck;
                     cigsPerDay = Integer.parseInt(cig);
-                    Log.d("********TEST: ", "days diff ************");
+                    Log.d("********TEST: ", "diff day ************");
                 }
+
+//                try {
+////                    Date day = date.parse(cr.getString(1));
+//                    Date temp = oldDate.parse(cr.getString(1));
+//                    dayCheck = newDate.format(temp);
+//                    Log.d("********TEST: ", "2nd try ************");
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//                cig = cr.getString(0);
+//                if (currentDay.equals(dayCheck)) {
+//                    cigsPerDay += Integer.parseInt(cig);
+//                    Log.d("********TEST: ", "days equal ************");
+//                }
+//                else {
+//                    cigData.add(cigsPerDay);
+//                    currentDay = dayCheck;
+//                    cigsPerDay = Integer.parseInt(cig);
+//                    Log.d("********TEST: ", "days diff ************");
+//                }
             }
 
             // get last start date (last date from cursor)
             cr.moveToLast();
-            try {
-                Date temp = oldDate.parse(cr.getString(1));
-//                Date startDate = oldDate.parse(cr.getString(1));
-                start = newDate.format(temp);
-                Log.d("********TEST: ", "3rd try ************");
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            start = cr.getString(0);
+
+//            try {
+//                Date temp = oldDate.parse(cr.getString(1));
+////                Date startDate = oldDate.parse(cr.getString(1));
+//                start = newDate.format(temp);
+//                Log.d("********TEST: ", "3rd try ************");
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
         }
         cr.close();
         // add dates to date array
         dateArgs[0] = end;
         dateArgs[1] = start;
 
-        Log.d("********TEST: User : ", username.getUsername() + " ************");
+        Log.d("********TEST: User : ", user.getUsername() + " ************");
         Log.d("********TEST: end : ", end + " ************");
         Log.d("********TEST: start : ", start + " ************");
 
