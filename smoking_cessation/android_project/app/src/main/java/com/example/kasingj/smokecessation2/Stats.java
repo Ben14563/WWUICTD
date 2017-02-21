@@ -34,6 +34,7 @@ public class Stats extends AppCompatActivity {
     BarChart cravingsResistedChart;
     Random random;
     String[] dateArgs = new String[2];
+    ArrayList<Integer> cigData;
     ArrayList<String> dates;
     ArrayList<BarEntry> entries;
 
@@ -88,7 +89,7 @@ public class Stats extends AppCompatActivity {
     }
 
     // get cigs smoked data for main graph and set dates
-    public ArrayList<Integer> getCigsSmokedData (UserEntity user) {
+    public void getCigsSmokedData (UserEntity user) {
 
         SimpleDateFormat oldDate = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss.SSS a");
         SimpleDateFormat newDate = new SimpleDateFormat("MM/dd/yyyy");
@@ -96,7 +97,7 @@ public class Stats extends AppCompatActivity {
 //        **** Problem with parsing dates ****
 
 //        userEntity = userService.getUserEntityWithPrimaryId(userEntity.getID());
-        ArrayList<Integer> cigData = new ArrayList<>();
+//        ArrayList<Integer> cigData = new ArrayList<>();
 //        DatabaseOperations db = new DatabaseOperations(ctx);
 //        Cursor cr = db.getUserCigsSmoked(db, userEntity.getUsername());
         Cursor cr = userService.getUserSmokedHist(user.getUsername());
@@ -107,6 +108,7 @@ public class Stats extends AppCompatActivity {
         String start = "";
         String end = "";
         String dayCheck;
+        cigData = new ArrayList<>();
 
         if (cr != null && cr.moveToFirst()) {
 
@@ -161,6 +163,7 @@ public class Stats extends AppCompatActivity {
 //                    Log.d("********TEST: ", "days diff ************");
 //                }
             }
+            cigData.add(cigsPerDay);
 
             // get last start date (last date from cursor)
             cr.moveToLast();
@@ -183,8 +186,9 @@ public class Stats extends AppCompatActivity {
         Log.d("********TEST: User : ", user.getUsername() + " ************");
         Log.d("********TEST: end : ", end + " ************");
         Log.d("********TEST: start : ", start + " ************");
+        Log.d("****TEST: cigsPerDay : ", cigsPerDay + " ************");
 
-        return cigData;
+//        return cigData;
     }
 
     public void createCigarettesSmokedChart (String startDate, String endDate) {
@@ -209,10 +213,11 @@ public class Stats extends AppCompatActivity {
             entries = new ArrayList<>();
             float max = 30f;
             float value = 0f;
-            random = new Random();
+//            random = new Random();
             for (int i = 0; i < dates.size(); i++) {
-                max = 30f;
-                value = random.nextFloat() * max;
+//                max = 30f;
+//                value = random.nextFloat() * max;
+                value = cigData.get(i);
                 entries.add(new BarEntry(i, (int) value));
             }
         } catch(ParseException e) {
@@ -249,10 +254,11 @@ public class Stats extends AppCompatActivity {
             entries = new ArrayList<>();
             float max = 30f;
             float value = 0f;
-            random = new Random();
+//            random = new Random();
             for (int i = 0; i < dates.size(); i++) {
-                max = 30f;
-                value = random.nextFloat() * max;
+//                max = 30f;
+//                value = random.nextFloat() * max;
+                value = cigData.get(i) * max;
                 entries.add(new BarEntry(i, (int) value));
             }
         } catch (ParseException e) {

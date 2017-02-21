@@ -190,6 +190,7 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         return cr;
     }
 
+    // ******* (might not need) *******
     // getting number of cigarettes smoked by user from user stats table
     public Cursor getUserCigsSmoked (DatabaseOperations dbop, String username) {
 
