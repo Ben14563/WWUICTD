@@ -59,6 +59,8 @@ public class Stats extends AppCompatActivity {
 
         cigarettesSmokedChart = (BarChart) findViewById(R.id.cigarettesSmokedChart);
 //        createCigarettesSmokedChart("11/01/2016", "11/18/2016");
+        Log.d("********TEST: date 1 : ", dateArgs[0] + " ************");
+        Log.d("********TEST: date 2 : ", dateArgs[1] + " ************");
         createCigarettesSmokedChart(dateArgs[0], dateArgs[1]);
 
         XAxis smokedXAxis = cigarettesSmokedChart.getXAxis();
@@ -98,7 +100,7 @@ public class Stats extends AppCompatActivity {
         String currentDay;
         String start = "";
         String end = "";
-        String dayCheck;
+        String newDay;
         cigData = new ArrayList<>();
 
         if (cr != null && cr.moveToFirst()) {
@@ -113,15 +115,15 @@ public class Stats extends AppCompatActivity {
             while (cr.moveToNext()) {
                 // compare dates and loop through each day, adding total cigs smoked per day
                 Log.d("********TEST: ", "in while loop ************");
-                dayCheck = cr.getString(0);
+                newDay = cr.getString(0);
                 cig = cr.getString(1);
-                if (currentDay.equals(dayCheck)) {
+                if (currentDay.equals(newDay)) {
                     cigsPerDay += Integer.parseInt(cig);
                     Log.d("********TEST: ", "same day ************");
                 }
                 else {
                     cigData.add(cigsPerDay);
-                    currentDay = dayCheck;
+                    currentDay = newDay;
                     cigsPerDay = Integer.parseInt(cig);
                     Log.d("********TEST: ", "diff day ************");
                 }
@@ -141,6 +143,8 @@ public class Stats extends AppCompatActivity {
         Log.d("********TEST: end : ", end + " ************");
         Log.d("********TEST: start : ", start + " ************");
         Log.d("****TEST: cigsPerDay : ", cigsPerDay + " ************");
+        Log.d("********TEST: day 1 : ", cigData.get(0) + " ************");
+//        Log.d("********TEST: day 2 : ", cigData.get(1) + " ************");
     }
 
     public void createCigarettesSmokedChart (String startDate, String endDate) {
@@ -161,6 +165,7 @@ public class Stats extends AppCompatActivity {
 
             dates = new ArrayList<>();
             dates = getList(mStart, mEnd);
+            Log.d("*****TEST: date size : ", dates.size() + " ************");
 
             entries = new ArrayList<>();
             float max = 30f;

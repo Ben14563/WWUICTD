@@ -210,7 +210,7 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         String[] columns = {TableData.TableInfo.DATE, TableData.TableInfo.SMOKED};
         String where = TableData.TableInfo.USER_NAME + " = ?";
         String[] whereArgs = new String[] {username};
-        String orderBy = TableData.TableInfo.DATE + " DESC";
+        String orderBy = TableData.TableInfo.DATE + " ASC";
         Cursor cr = sq.query(TableData.TableInfo.USER_HISTORY_TABLE_NAME, columns, where, whereArgs, null, null, orderBy);
         return cr;
     }
