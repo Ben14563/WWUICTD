@@ -266,9 +266,6 @@ public class Dashboard extends AppCompatActivity {
 
             };
 
-            View child = getLayoutInflater().inflate(R.layout.post, null);
-            Button likebtn = (Button)child.findViewById(R.id.likes);
-            likebtn.setTypeface(null, Typeface.ITALIC);
             task.execute("param");
         } finally {
             Log.d("Main:addTaskfail", "async failed, or main failed");
@@ -318,12 +315,6 @@ public class Dashboard extends AppCompatActivity {
         } finally {
             Log.d("Main:addTaskfail", "async failed, or main failed");
         }
-//        //TODO: Create feedback for reacting to a post
-//        View child = LayoutInflater.from(ctx).inflate(R.layout.post, null);
-//        //View child = getLayoutInflater().inflate(R.layout.post, null);
-//        Button dislikebtn = (Button)child.findViewById(R.id.dislikes);
-//        dislikebtn.setTypeface(null, Typeface.BOLD); //Does nothing
-//        dislikebtn.setBackgroundColor(Color.BLACK); //Just making sure im not blind to the bold
     }
 
     public void getFeed(final UserEntity entity) {
@@ -379,6 +370,7 @@ public class Dashboard extends AppCompatActivity {
 
                                 Log.d("ASDf","smoked");
                             }
+
                             Button likebtn = (Button)child.findViewById(R.id.likes);
                             if (likes == 1) {
                                 likebtn.setText(likes + " Like");
@@ -397,6 +389,16 @@ public class Dashboard extends AppCompatActivity {
                             } else {
                                 dislikebtn.setText(dislikes + " Dislikes");
                             }
+                            /* TODO: Test Bold to make sure it doesn't cause issues with the button size (>99 likes) */
+                            String reaction = convertReactionTableToResult(UserDAO.getUserReaction(UserDAO, userEntity.getID(), feedid), feedid);
+                            if (reaction.equals("like")) {
+                                likebtn.setTextColor(Color.BLUE);
+                                likebtn.setTypeface(null, Typeface.BOLD);
+                            } else if (reaction.equals("dislike")) {
+                                dislikebtn.setTextColor(Color.RED);
+                                dislikebtn.setTypeface(null, Typeface.BOLD);
+                            }
+
                             holder.addView(child);
                         }
 
