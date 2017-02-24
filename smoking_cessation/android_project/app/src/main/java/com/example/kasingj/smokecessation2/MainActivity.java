@@ -117,7 +117,14 @@ public class MainActivity extends AppCompatActivity {
       con_pass = CON_PASS.getText().toString();
       email = EMAIL.getText().toString();
       String regex = "\\d+(?:\\.\\d+)?";
-
+      String emailReg = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$";
+      String passwordReg = 	"^([a-zA-Z0-9@*#]{8,15})$";
+// BuildConfig.DEBUG Currently broken by google (always true): https://code.google.com/p/android/issues/detail?id=52962
+// Fix should be very soon though.
+//        if (BuildConfig.DEBUG) {
+//            emailReg = ".";
+//            passwordReg = ".";
+//        }
       DatabaseOperations dbAuth = new DatabaseOperations(ctx);
       UserEntity userEntity = userService.getUserIfAuthorized(username, password);
 
@@ -130,12 +137,12 @@ public class MainActivity extends AppCompatActivity {
           Toast.makeText(getBaseContext(), "Must enter valid username", Toast.LENGTH_LONG).show();
           return null;
       }
-      else if (email.equals("")) {
-          Toast.makeText(getBaseContext(), "Email required", Toast.LENGTH_LONG).show();
+      else if (!email.matches(emailReg)) {
+          Toast.makeText(getBaseContext(), "Valid email required", Toast.LENGTH_LONG).show();
           return null;
       }
-      else if (password.equals("")) {
-          Toast.makeText(getBaseContext(), "Password required", Toast.LENGTH_LONG).show();
+      else if (!password.matches(passwordReg)) {
+          Toast.makeText(getBaseContext(), "Password must consists of at least 8 characters and not more than 15 characters.", Toast.LENGTH_LONG).show();
           return null;
       }
       else if (con_pass.equals("")) {
