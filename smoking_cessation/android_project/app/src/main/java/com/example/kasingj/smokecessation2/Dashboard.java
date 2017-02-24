@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -25,7 +26,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Dashboard extends AppCompatActivity {
+public class Dashboard extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private String username;
     private String time;
@@ -56,14 +57,13 @@ public class Dashboard extends AppCompatActivity {
     private SharedPreferences preferences;
     private UserEntity userEntity;
 
+    // refresher
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-
-        // Using a handler for auto refresh
-        //Handler refreshHandler = new Handler();
-
 
         userService = new UserService(this);
         httpServices = new HttpServices(this);
@@ -92,7 +92,58 @@ public class Dashboard extends AppCompatActivity {
         if(userEntity.getServerId() != -1 ){
             getFeed(userEntity);
         }
+
+
+        // still need to init mSwipeRefreshLayout?
+        // find view by id, etc
+
+      /* set up a SwipeRefreshLayout.OnRefreshListener that is invoked
+       * when the user swipes down to refresh
+       */
+        mSwipeRefreshLayout.setOnRefreshListener(
+        new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // call your update function outside of refresh
+                //updateOperation();
+            }
+        }
+        );
     }
+
+    // swipe down to refresh
+    /*
+    @Override
+    public void onRefresh() {
+
+        Toast.makeText(this, "Refresh", Toast.LENGTH_SHORT).show();
+
+        new Thread(new Runnable() {
+            Intent intent = new Intent(this, Dashboard.class);
+            @Override
+            public void run() {
+                //Toast.makeText(this, "Refresh", Toast.LENGTH_SHORT).show();
+
+                if (getClass()  != Dashboard.class) {
+                    Intent intent = new Intent(this, Dashboard.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    finish();
+                    overridePendingTransition(0, 0);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                }
+
+                //new Handler(). postDelayed(new Runnable() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run () {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+                //}, 3000);
+            }
+        }).start();
+    } */
 
     // Crave Button
     public void imCraving(View view) {

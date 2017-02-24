@@ -28,3 +28,10 @@ http://sapandiwakar.in/pull-to-refresh-for-android-recyclerview-or-any-other-ver
 
 # use a lot of this execpt newHandler()... etc
 http://stackoverflow.com/questions/32156711/can-i-use-pull-to-refresh-without-using-scrollview-listview
+
+# refresh freezes all activity (thread problem?)
+http://stackoverflow.com/questions/32929982/swiperefreshlayout-animation-freezes-onrefresh
+https://developer.android.com/training/swipe/respond-refresh-request.html#RespondAction
+http://stackoverflow.com/questions/23014846/how-to-use-the-swiperefreshlayout
+http://www.tutecentral.com/android-pull-to-refresh/
+
