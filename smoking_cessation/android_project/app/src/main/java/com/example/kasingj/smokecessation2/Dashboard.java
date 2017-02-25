@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout;
@@ -57,8 +58,8 @@ public class Dashboard extends AppCompatActivity implements SwipeRefreshLayout.O
     private SharedPreferences preferences;
     private UserEntity userEntity;
 
-    // refresher
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    SwipeRefreshLayout mSwipeRefreshLayout; // swipe refresh layout
+    ListView mListView;                     // list view layout
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,57 +94,39 @@ public class Dashboard extends AppCompatActivity implements SwipeRefreshLayout.O
             getFeed(userEntity);
         }
 
-
-        // still need to init mSwipeRefreshLayout?
-        // find view by id, etc
-
-      /* set up a SwipeRefreshLayout.OnRefreshListener that is invoked
-       * when the user swipes down to refresh
-       */
+        // set up a SwipeRefreshLayout.OnRefreshListener that is invoked
+        // when the user swipes down to refresh
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         mSwipeRefreshLayout.setOnRefreshListener(
         new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // call your update function outside of refresh
-                //updateOperation();
-            }
-        }
-        );
-    }
-
-    // swipe down to refresh
-    /*
-    @Override
-    public void onRefresh() {
-
-        Toast.makeText(this, "Refresh", Toast.LENGTH_SHORT).show();
-
-        new Thread(new Runnable() {
-            Intent intent = new Intent(this, Dashboard.class);
-            @Override
-            public void run() {
-                //Toast.makeText(this, "Refresh", Toast.LENGTH_SHORT).show();
-
-                if (getClass()  != Dashboard.class) {
-                    Intent intent = new Intent(this, Dashboard.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    finish();
-                    overridePendingTransition(0, 0);
-                    startActivity(intent);
-                    overridePendingTransition(0, 0);
-                }
-
-                //new Handler(). postDelayed(new Runnable() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run () {
+                Runnable refresh = new Runnable() {
+                    public void run() {
+                        updateOperation();
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
-                });
-                //}, 3000);
+                };
+
+                Thread refreshThread = new Thread(refresh);
+                refreshThread.start();
             }
-        }).start();
-    } */
+        });
+    }
+
+    /* refresh gesture */
+    @Override
+    public void onRefresh() {}
+
+    /* update the current page */
+    void updateOperation() {
+      Intent intent = new Intent(this, Dashboard.class);
+      intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+      finish();
+      overridePendingTransition(0, 0);
+      startActivity(intent);
+      overridePendingTransition(0, 0);
+    }
 
     // Crave Button
     public void imCraving(View view) {

@@ -75,6 +75,13 @@ public class Friends extends AppCompatActivity {
 
     }
 
+    /* unregister the receiver */
+    @Override
+    protected void onStop() {
+      unregisterReceiver(Updated);
+      super.onStop();
+    }
+
 
     public void goToDashboard (View view) {
       Intent intent = new Intent(this, Dashboard.class);
