@@ -50,6 +50,15 @@ public class UserService {
         return id;
     }
 
+    public void addUserHist(UserEntity entity, int smoked, int crave, int resist) {
+        UserDAO.addUserHistory(UserDAO, entity, smoked, crave, resist);
+    }
+
+    public Cursor getUserSmokedHist(String username) {
+        Cursor cr = UserDAO.getUserSmokedHistory(UserDAO, username);
+        return cr;
+    }
+
     private UserEntity convertRowToUserEntity(Cursor cr){
         UserEntity entity=null;
 

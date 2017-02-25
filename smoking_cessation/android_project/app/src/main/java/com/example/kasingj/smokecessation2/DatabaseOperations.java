@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
@@ -15,8 +16,13 @@ import java.util.Date;
  */
 public class DatabaseOperations extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 5;
 
+    // UserHistory Query String
+    public String CREATE_USER_HISTORY_QUERY = "CREATE TABLE " + TableData.TableInfo.USER_HISTORY_TABLE_NAME + "(" +
+            TableData.TableInfo.ID + " INTEGER SUPER KEY," + TableData.TableInfo.TIME + " INTEGER PRIMARY KEY," +
+            TableData.TableInfo.USER_NAME + " TEXT," + TableData.TableInfo.DATE + " TEXT," + TableData.TableInfo.SMOKED + " TEXT," +
+            TableData.TableInfo.CRAVING + " TEXT," + TableData.TableInfo.RESISTED + " TEXT);";
 
     // UserDemo Query String
     public String CREATE_USER_DEMO_QUERY = "CREATE TABLE " + TableData.TableInfo.USER_DEMO_TABLE_NAME + "(" +
@@ -112,22 +118,30 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         Log.d("Database Operations", "user_reaction2 table created");
 
         sdb.execSQL(CREATE_DAY_STATS);
-        Log.d(" Database Operations", "day stats table created ");
+        Log.d("Database Operations", "day stats table created");
+
+        // Create user_history Table
+        sdb.execSQL(CREATE_USER_HISTORY_QUERY);
+        Log.d("Database Operations", "user_history table created");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sdb, int oldVersion, int newVersion) {
 
         // Create friends_stats Table
+
+        // Create user_history Table
+//        Log.d("Database Operations", "Creating user_history table");
+//        sdb.execSQL(CREATE_USER_HISTORY_QUERY);
+//        Log.d("Database Operations", "user_history table created");
+//
+//        // Create user_reaction Table
+//        Log.d("Database Operations", "creating user_reaction2 table");
+        sdb.execSQL(CREATE_USER_REACTION_TABLE);
+        Log.d("Database Operations", "user_reaction2 table created");
 //        Log.d("Database Operations", "creating friends_stats table");
 //        sdb.execSQL(CREATE_FRIENDS_STATS_QUERY);
 //        Log.d("Database Operations", "friends_stats table created");
-
-
-        // Create user_reaction Table
-        Log.d("Database Operations", "creating user_reaction2 table");
-        sdb.execSQL(CREATE_USER_REACTION_TABLE);
-        Log.d("Database Operations", "user_reaction2 table created");
     }
 
     // get current time
@@ -136,6 +150,14 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss.SSS a");
         String time = sdf.format(date).toString();
         return time;
+    }
+
+    // get current date
+    public static String getCurrDate() {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        String finalDate = sdf.format(date).toString();
+        return finalDate;
     }
 
     // pulling from user_demo table
@@ -179,6 +201,55 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         String[] whereArgs = new String[] {username};
         String orderBy = TableData.TableInfo.TIME + " DESC LIMIT 1";
         Cursor cr = sq.query(TableData.TableInfo.USER_TABLE_NAME, columns, where, whereArgs, null, null, orderBy);
+        return cr;
+    }
+
+    // ******* (might not need) *******
+    // getting number of cigarettes smoked by user from user stats table
+    public Cursor getUserCigsSmoked (DatabaseOperations dbop, String username) {
+
+        SQLiteDatabase sq = dbop.getReadableDatabase();
+        String[] columns = {TableData.TableInfo.NUM_CIGS_SMOKED, TableData.TableInfo.TIME};
+        String where = TableData.TableInfo.USER_NAME + " = ?";
+        String[] whereArgs = new String[] {username};
+        String orderBy = TableData.TableInfo.TIME + " DESC";
+        Cursor cr = sq.query(TableData.TableInfo.USER_TABLE_NAME, columns, where, whereArgs, null, null, orderBy);
+        return cr;
+    }
+
+    // get smoke history for user
+    public Cursor getUserSmokedHistory (DatabaseOperations dbop, String username) {
+
+        SQLiteDatabase sq = dbop.getReadableDatabase();
+        String[] columns = {TableData.TableInfo.DATE, TableData.TableInfo.SMOKED};
+        String where = TableData.TableInfo.USER_NAME + " = ?";
+        String[] whereArgs = new String[] {username};
+        String orderBy = TableData.TableInfo.DATE + " ASC";
+        Cursor cr = sq.query(TableData.TableInfo.USER_HISTORY_TABLE_NAME, columns, where, whereArgs, null, null, orderBy);
+        return cr;
+    }
+
+    // get craving history for user
+    public Cursor getUserCraveHistory (DatabaseOperations dbop, String username) {
+
+        SQLiteDatabase sq = dbop.getReadableDatabase();
+        String[] columns = {TableData.TableInfo.DATE, TableData.TableInfo.CRAVING};
+        String where = TableData.TableInfo.USER_NAME + " = ?";
+        String[] whereArgs = new String[] {username};
+        String orderBy = TableData.TableInfo.DATE + " DESC";
+        Cursor cr = sq.query(TableData.TableInfo.USER_HISTORY_TABLE_NAME, columns, where, whereArgs, null, null, orderBy);
+        return cr;
+    }
+
+    // get craving resisted history for user
+    public Cursor getUserResistHistory (DatabaseOperations dbop, String username) {
+
+        SQLiteDatabase sq = dbop.getReadableDatabase();
+        String[] columns = {TableData.TableInfo.DATE, TableData.TableInfo.RESISTED};
+        String where = TableData.TableInfo.USER_NAME + " = ?";
+        String[] whereArgs = new String[] {username};
+        String orderBy = TableData.TableInfo.DATE + " DESC";
+        Cursor cr = sq.query(TableData.TableInfo.USER_HISTORY_TABLE_NAME, columns, where, whereArgs, null, null, orderBy);
         return cr;
     }
 
@@ -254,6 +325,23 @@ public class DatabaseOperations extends SQLiteOpenHelper{
 
         sq.insert(TableData.TableInfo.USER_DEMO_TABLE_NAME, null, cv);
         Log.d("Database Operations", "One row inserted into user_demo Table");
+    }
+
+    // add new data point to user_history table
+    public void addUserHistory(DatabaseOperations dbop, UserEntity entity, int smoked, int craving, int resisted) {
+
+        SQLiteDatabase sq = dbop.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(TableData.TableInfo.ID, entity.getID());
+        cv.put(TableData.TableInfo.USER_NAME, entity.getUsername());
+        cv.put(TableData.TableInfo.DATE, getCurrDate());
+        cv.put(TableData.TableInfo.SMOKED, smoked);
+        cv.put(TableData.TableInfo.CRAVING, craving);
+        cv.put(TableData.TableInfo.RESISTED, resisted);
+
+        sq.insert(TableData.TableInfo.USER_HISTORY_TABLE_NAME, null, cv);
+        Log.d("Database Operations", "One row inserted into user_history Table");
     }
 
     // adding to user_stats Table
