@@ -33,15 +33,11 @@ public class Stats extends AppCompatActivity {
 
     BarChart cigarettesSmokedChart;
     BarChart cravingsResistedChart;
-    Random random;
     String[] dateArgs = new String[2];
-//    ArrayList<Integer> cigData;
     HashMap<String, Integer> cigData;
     ArrayList<String> dates;
     ArrayList<BarEntry> entries;
 
-//    private SharedPreferences preferences;
-//    private UserEntity userEntity;
     private UserService userService;
     Context ctx = this;
 
@@ -50,14 +46,11 @@ public class Stats extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
-//        preferences = getSharedPreferences(getApplicationContext().getPackageName(), 1);
-//        int id = preferences.getInt(MainActivity.CURRENT_USER_ID, -1);
-//        userEntity = userService.getUserEntityWithPrimaryId(id);
-
         userService = new UserService(this);
         UserEntity user = userService.getCurrentUser(getApplicationContext());
 
         getCigsSmokedData(user);
+//        fillDummyData();
 
         cigarettesSmokedChart = (BarChart) findViewById(R.id.cigarettesSmokedChart);
 //        createCigarettesSmokedChart("11/01/2016", "11/18/2016");
@@ -92,6 +85,19 @@ public class Stats extends AppCompatActivity {
         // https://www.youtube.com/watch?v=H6QxMBI2QH4#t=263.901119
     }
 
+    // fill with fake data
+    public void fillDummyData() {
+        cigData = new HashMap<>();
+
+        cigData.put("2017/02/20", 5);
+        cigData.put("2017/02/21", 7);
+        cigData.put("2017/02/23", 4);
+        cigData.put("2017/02/25", 8);
+
+        dateArgs[0] = "2017/02/20";
+        dateArgs[1] = "2017/02/25";
+    }
+
     // get cigs smoked data for main graph and set dates
     public void getCigsSmokedData (UserEntity user) {
 
@@ -104,6 +110,7 @@ public class Stats extends AppCompatActivity {
         String end = "";
         String newDay;
         cigData = new HashMap<>();
+
 
         if (cr != null && cr.moveToFirst()) {
 
@@ -145,8 +152,6 @@ public class Stats extends AppCompatActivity {
         Log.d("********TEST: end : ", end + " ************");
         Log.d("********TEST: start : ", start + " ************");
         Log.d("****TEST: cigsPerDay : ", cigsPerDay + " ************");
-//        Log.d("********TEST: day 1 : ", cigData.get(0) + " ************");
-//        Log.d("********TEST: day 2 : ", cigData.get(1) + " ************");
     }
 
     public void createCigarettesSmokedChart (String startDate, String endDate) {
@@ -174,7 +179,7 @@ public class Stats extends AppCompatActivity {
             int value = 0;
             for (int i = 0; i < dates.size(); i++) {
 //                max = 30f;
-                Log.d("***** TEST: dates : ", "Date " + i + " is " + dates.get(i) + "********");
+                Log.d("***** TEST: dates : ", "Date " + i + " is " + dates.get(i) + " ********");
                 if (cigData.containsKey(dates.get(i))) {
                     value = cigData.get(dates.get(i));
                 }
@@ -217,10 +222,7 @@ public class Stats extends AppCompatActivity {
             entries = new ArrayList<>();
             float max = 30f;
             float value = 0f;
-//            random = new Random();
             for (int i = 0; i < dates.size(); i++) {
-//                max = 30f;
-//                value = random.nextFloat() * max;
                 value = cigData.get(i) * max;
                 entries.add(new BarEntry(i, (int) value));
             }
