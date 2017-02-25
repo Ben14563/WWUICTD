@@ -5,11 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +26,7 @@ import org.w3c.dom.Text;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 
 public class Dashboard extends AppCompatActivity {
 
@@ -50,11 +54,11 @@ public class Dashboard extends AppCompatActivity {
 
 
     Context ctx = this;
+    DatabaseOperations UserDAO = new DatabaseOperations(ctx);
     private UserService userService;
     private HttpServices httpServices;
     private SharedPreferences preferences;
     private UserEntity userEntity;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -224,16 +228,28 @@ public class Dashboard extends AppCompatActivity {
 
     }
 
-    public void incrementLikesOnPost(final int postid) {
+    public void incrementLikesOnPost(final int postid, final FeedPost thisPost) {
         try {
+
             AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
                 @Override
                 protected String doInBackground(String... params) {
                     //result is the json string of the request. might be null
                     HttpRunner runner = new HttpRunner();
-                    String result = runner.incrementLikes(postid);
+                    String result;
+                    String reaction = convertReactionTableToResult(UserDAO.getUserReaction(UserDAO, userEntity.getID(), postid), postid);
+                    if (reaction.equals("")) { // || .equals("dislike") -> when decrementLikes is written
+                        result = runner.incrementLikes(postid);
+                    } else {
+                        result = "true"; //BRETT: What is result?
+                    }
                     if (result == null) {
                         return "NULL";
+                    }
+                    if (reaction.equals("")) {
+                        UserDAO.addUserReaction(UserDAO, userEntity.getID(), postid, "like");
+                    } else if (reaction.equals("dislike")) {
+                        //when decrementLikes is written
                     }
                     return result;
                 }
@@ -247,6 +263,7 @@ public class Dashboard extends AppCompatActivity {
                         getFeed(userEntity);
                     }
                 }
+
             };
 
             task.execute("param");
@@ -257,16 +274,28 @@ public class Dashboard extends AppCompatActivity {
     }
 
 
-    public void incrementDislikesOnPost(final int postid) {
+    public void incrementDislikesOnPost(final int postid, final FeedPost thisPost) {
         try {
+
             AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
                 @Override
                 protected String doInBackground(String... params) {
                     //result is the json string of the request. might be null
                     HttpRunner runner = new HttpRunner();
-                    String result = runner.incrementDislikes(postid);
+                    String result;
+                    String reaction = convertReactionTableToResult(UserDAO.getUserReaction(UserDAO, userEntity.getID(), postid), postid);
+                    if (reaction.equals("")) { // || .equals("like") -> when decrementDislikes is written
+                        result = runner.incrementDislikes(postid);
+                    } else {
+                        result = "true"; //BRETT: What is result?
+                    }
                     if (result == null) {
                         return "NULL";
+                    }
+                    if (reaction.equals("")) {
+                        int returned = UserDAO.addUserReaction(UserDAO, userEntity.getID(), postid, "dislike");
+                    } else if (reaction.equals("like")) {
+                        //when decrementDislikes is written
                     }
                     return result;
                 }
@@ -286,7 +315,6 @@ public class Dashboard extends AppCompatActivity {
         } finally {
             Log.d("Main:addTaskfail", "async failed, or main failed");
         }
-
     }
 
     public void getFeed(final UserEntity entity) {
@@ -321,7 +349,7 @@ public class Dashboard extends AppCompatActivity {
                             int feedid = arr.getJSONObject(i).getInt("feedid");
                             String description = arr.getJSONObject(i).getString("description");
                             Log.d("htt:add:postExecute", "********** feed: " + description);
-                            posts[i] = new FeedPost(feedid, date, description, likes, dislikes);
+                            posts[i] = new FeedPost(feedid, date, description, likes, dislikes, false);
                             View child = getLayoutInflater().inflate(R.layout.post, null);
 
                             TextView tv = (TextView)child.findViewById(R.id.description);
@@ -332,7 +360,7 @@ public class Dashboard extends AppCompatActivity {
 
                             if (description.indexOf("resisted") > -1) {
                                 img.setImageResource(R.drawable.no_smoking);
-                                Log.d("ASDf","resisited");
+                                Log.d("ASDf","resisted");
                             } else if(description.indexOf("craving") > -1) {
                                 img.setImageResource(R.drawable.craving);
 
@@ -342,6 +370,7 @@ public class Dashboard extends AppCompatActivity {
 
                                 Log.d("ASDf","smoked");
                             }
+
                             Button likebtn = (Button)child.findViewById(R.id.likes);
                             if (likes == 1) {
                                 likebtn.setText(likes + " Like");
@@ -349,26 +378,27 @@ public class Dashboard extends AppCompatActivity {
                                 likebtn.setText(likes + " Likes");
                             }
                             likebtn.setTag(feedid);
-                            likebtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    incrementLikesOnPost((int) ((Button) v).getTag());
-                                }
-                            });
+                            setOnClick(likebtn, posts[i]);
+
 
                             Button dislikebtn = (Button)child.findViewById(R.id.dislikes);
                             dislikebtn.setTag(feedid);
-                            dislikebtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    incrementDislikesOnPost((int) ((Button) v).getTag());
-                                }
-                            });
+                            setDisOnClick(dislikebtn, posts[i]);
                             if (dislikes == 1) {
                                 dislikebtn.setText(dislikes + " Dislike");
                             } else {
                                 dislikebtn.setText(dislikes + " Dislikes");
                             }
+                            /* TODO: Test Bold to make sure it doesn't cause issues with the button size (>99 likes) */
+                            String reaction = convertReactionTableToResult(UserDAO.getUserReaction(UserDAO, userEntity.getID(), feedid), feedid);
+                            if (reaction.equals("like")) {
+                                likebtn.setTextColor(Color.BLUE);
+                                likebtn.setTypeface(null, Typeface.BOLD);
+                            } else if (reaction.equals("dislike")) {
+                                dislikebtn.setTextColor(Color.RED);
+                                dislikebtn.setTypeface(null, Typeface.BOLD);
+                            }
+
                             holder.addView(child);
                         }
 
@@ -385,5 +415,35 @@ public class Dashboard extends AppCompatActivity {
         }
 
     }
-    
+    private String convertReactionTableToResult(Cursor cr, int postid){
+        if(cr.moveToFirst()){
+            do {
+                if (postid == cr.getInt(1)) {
+                    Log.d("convertReaction:success", "User has already " + cr.getString(2) + "d this post.");
+                    return cr.getString(2);
+                }
+            } while(cr.moveToNext());
+        }
+        cr.close();
+        Log.d("convertReaction:success", "User has not yet reacted to this post.");
+        return "";
+    }
+
+    /* Wrappers for passing additional parameters */
+    private void setOnClick(final Button btn, final FeedPost thisPost){
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incrementLikesOnPost((int) ((Button) v).getTag(), thisPost);
+            }
+        });
+    }
+    private void setDisOnClick(final Button btn, final FeedPost thisPost){
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incrementDislikesOnPost((int) ((Button) v).getTag(), thisPost);
+            }
+        });
+    }
 }
