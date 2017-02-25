@@ -122,8 +122,8 @@ public class MainActivity extends AppCompatActivity {
 // BuildConfig.DEBUG Currently broken by google (always true): https://code.google.com/p/android/issues/detail?id=52962
 // Fix should be very soon though.
 //        if (BuildConfig.DEBUG) {
-            emailReg = ".";
-            passwordReg = ".";
+//            emailReg = ".";
+//            passwordReg = ".";
 //        }
       DatabaseOperations dbAuth = new DatabaseOperations(ctx);
       UserEntity userEntity = userService.getUserIfAuthorized(username, password);
