@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Random;
 
 
@@ -34,7 +35,8 @@ public class Stats extends AppCompatActivity {
     BarChart cravingsResistedChart;
     Random random;
     String[] dateArgs = new String[2];
-    ArrayList<Integer> cigData;
+//    ArrayList<Integer> cigData;
+    HashMap<String, Integer> cigData;
     ArrayList<String> dates;
     ArrayList<BarEntry> entries;
 
@@ -101,7 +103,7 @@ public class Stats extends AppCompatActivity {
         String start = "";
         String end = "";
         String newDay;
-        cigData = new ArrayList<>();
+        cigData = new HashMap<>();
 
         if (cr != null && cr.moveToFirst()) {
 
@@ -122,13 +124,13 @@ public class Stats extends AppCompatActivity {
                     Log.d("********TEST: ", "same day ************");
                 }
                 else {
-                    cigData.add(cigsPerDay);
+                    cigData.put(currentDay, cigsPerDay);
                     currentDay = newDay;
                     cigsPerDay = Integer.parseInt(cig);
                     Log.d("********TEST: ", "diff day ************");
                 }
             }
-            cigData.add(cigsPerDay);
+            cigData.put(currentDay, cigsPerDay);
 
             // get last start date (last date from cursor)
             cr.moveToLast();
@@ -143,13 +145,13 @@ public class Stats extends AppCompatActivity {
         Log.d("********TEST: end : ", end + " ************");
         Log.d("********TEST: start : ", start + " ************");
         Log.d("****TEST: cigsPerDay : ", cigsPerDay + " ************");
-        Log.d("********TEST: day 1 : ", cigData.get(0) + " ************");
+//        Log.d("********TEST: day 1 : ", cigData.get(0) + " ************");
 //        Log.d("********TEST: day 2 : ", cigData.get(1) + " ************");
     }
 
     public void createCigarettesSmokedChart (String startDate, String endDate) {
 
-        SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
 
         try {
             Date start = date.parse(startDate);
@@ -172,7 +174,13 @@ public class Stats extends AppCompatActivity {
             int value = 0;
             for (int i = 0; i < dates.size(); i++) {
 //                max = 30f;
-                value = cigData.get(i);
+                Log.d("***** TEST: dates : ", "Date " + i + " is " + dates.get(i) + "********");
+                if (cigData.containsKey(dates.get(i))) {
+                    value = cigData.get(dates.get(i));
+                }
+                else {
+                    value = 0;
+                }
                 entries.add(new BarEntry(i, value));
             }
         } catch(ParseException e) {

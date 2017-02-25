@@ -141,7 +141,7 @@ public class DatabaseOperations extends SQLiteOpenHelper{
     // get current date
     public static String getCurrDate() {
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         String finalDate = sdf.format(date).toString();
         return finalDate;
     }
