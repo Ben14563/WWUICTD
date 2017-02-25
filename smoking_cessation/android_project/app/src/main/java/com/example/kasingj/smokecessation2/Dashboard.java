@@ -107,6 +107,8 @@ public class Dashboard extends AppCompatActivity {
         }
 
         userService.updateUser(userEntity);
+        userService.addUserHist(userEntity, 0, 1, 0);
+
         Log.d("Crave Button", "Logged 1 craving");
 //        Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
         Log.d("********TEST: ", userEntity.getUsername() + "'s Crave count: " + userEntity.getNumCravings() + " ************");
@@ -135,6 +137,7 @@ public class Dashboard extends AppCompatActivity {
 
 
         userService.updateUser(userEntity);
+        userService.addUserHist(userEntity, 0, 0, 1);
 
         Log.d("Resist Craving Button", "Logged 1 craving resisted");
 //        Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
@@ -167,6 +170,8 @@ public class Dashboard extends AppCompatActivity {
 
         //userService.saveUserEntity(userEntity);
         userService.updateUser(userEntity);
+        userService.addUserHist(userEntity, 1, 0, 0);
+
         Log.d("Smoked Button", "Logged 1 smoked cigarette");
 //        Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
         Log.d("********TEST: ", userEntity.getUsername() + "'s Smoke count: " + userEntity.getNumCigsSmoked() + " ************");

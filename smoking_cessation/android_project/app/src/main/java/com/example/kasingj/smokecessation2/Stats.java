@@ -1,9 +1,13 @@
 package com.example.kasingj.smokecessation2;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -20,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Random;
 
 
@@ -28,17 +33,31 @@ public class Stats extends AppCompatActivity {
 
     BarChart cigarettesSmokedChart;
     BarChart cravingsResistedChart;
-    Random random;
+    String[] dateArgs = new String[2];
+    HashMap<String, Integer> cigData;
     ArrayList<String> dates;
     ArrayList<BarEntry> entries;
+
+    private UserService userService;
+    Context ctx = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
+        userService = new UserService(this);
+        UserEntity user = userService.getCurrentUser(getApplicationContext());
+
+        getCigsSmokedData(user);
+//        fillDummyData();
+
         cigarettesSmokedChart = (BarChart) findViewById(R.id.cigarettesSmokedChart);
-        createCigarettesSmokedChart("2016/11/01", "2016/11/18");
+//        createCigarettesSmokedChart("11/01/2016", "11/18/2016");
+        Log.d("********TEST: date 1 : ", dateArgs[0] + " ************");
+        Log.d("********TEST: date 2 : ", dateArgs[1] + " ************");
+        createCigarettesSmokedChart(dateArgs[0], dateArgs[1]);
+
         XAxis smokedXAxis = cigarettesSmokedChart.getXAxis();
         smokedXAxis.setValueFormatter(new MyXValueFormatter(dates));
         cigarettesSmokedChart.animateXY(0, 2000);
@@ -66,6 +85,75 @@ public class Stats extends AppCompatActivity {
         // https://www.youtube.com/watch?v=H6QxMBI2QH4#t=263.901119
     }
 
+    // fill with fake data
+    public void fillDummyData() {
+        cigData = new HashMap<>();
+
+        cigData.put("2017/02/20", 5);
+        cigData.put("2017/02/21", 7);
+        cigData.put("2017/02/23", 4);
+        cigData.put("2017/02/25", 8);
+
+        dateArgs[0] = "2017/02/20";
+        dateArgs[1] = "2017/02/25";
+    }
+
+    // get cigs smoked data for main graph and set dates
+    public void getCigsSmokedData (UserEntity user) {
+
+        Cursor cr = userService.getUserSmokedHist(user.getUsername());
+
+        int cigsPerDay = 0;
+        String cig;
+        String currentDay;
+        String start = "";
+        String end = "";
+        String newDay;
+        cigData = new HashMap<>();
+
+
+        if (cr != null && cr.moveToFirst()) {
+
+            // get first day of data descending order
+            cig = cr.getString(1);
+            cigsPerDay += Integer.parseInt(cig);
+            end = cr.getString(0);
+            currentDay = end;
+
+            // get rest of days
+            while (cr.moveToNext()) {
+                // compare dates and loop through each day, adding total cigs smoked per day
+                Log.d("********TEST: ", "in while loop ************");
+                newDay = cr.getString(0);
+                cig = cr.getString(1);
+                if (currentDay.equals(newDay)) {
+                    cigsPerDay += Integer.parseInt(cig);
+                    Log.d("********TEST: ", "same day ************");
+                }
+                else {
+                    cigData.put(currentDay, cigsPerDay);
+                    currentDay = newDay;
+                    cigsPerDay = Integer.parseInt(cig);
+                    Log.d("********TEST: ", "diff day ************");
+                }
+            }
+            cigData.put(currentDay, cigsPerDay);
+
+            // get last start date (last date from cursor)
+            cr.moveToLast();
+            start = cr.getString(0);
+        }
+        cr.close();
+        // add dates to date array
+        dateArgs[0] = end;
+        dateArgs[1] = start;
+
+        Log.d("********TEST: User : ", user.getUsername() + " ************");
+        Log.d("********TEST: end : ", end + " ************");
+        Log.d("********TEST: start : ", start + " ************");
+        Log.d("****TEST: cigsPerDay : ", cigsPerDay + " ************");
+    }
+
     public void createCigarettesSmokedChart (String startDate, String endDate) {
 
         SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
@@ -84,15 +172,21 @@ public class Stats extends AppCompatActivity {
 
             dates = new ArrayList<>();
             dates = getList(mStart, mEnd);
+            Log.d("*****TEST: date size : ", dates.size() + " ************");
 
             entries = new ArrayList<>();
             float max = 30f;
-            float value = 0f;
-            random = new Random();
+            int value = 0;
             for (int i = 0; i < dates.size(); i++) {
-                max = 30f;
-                value = random.nextFloat() * max;
-                entries.add(new BarEntry(i, (int) value));
+//                max = 30f;
+                Log.d("***** TEST: dates : ", "Date " + i + " is " + dates.get(i) + " ********");
+                if (cigData.containsKey(dates.get(i))) {
+                    value = cigData.get(dates.get(i));
+                }
+                else {
+                    value = 0;
+                }
+                entries.add(new BarEntry(i, value));
             }
         } catch(ParseException e) {
             e.printStackTrace();
@@ -128,10 +222,8 @@ public class Stats extends AppCompatActivity {
             entries = new ArrayList<>();
             float max = 30f;
             float value = 0f;
-            random = new Random();
             for (int i = 0; i < dates.size(); i++) {
-                max = 30f;
-                value = random.nextFloat() * max;
+                value = cigData.get(i) * max;
                 entries.add(new BarEntry(i, (int) value));
             }
         } catch (ParseException e) {
