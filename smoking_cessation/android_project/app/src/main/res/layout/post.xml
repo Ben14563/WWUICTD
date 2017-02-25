@@ -49,7 +49,7 @@
             android:id="@+id/likes"
             android:layout_weight="0.08"
             style="?android:attr/borderlessButtonStyle"
-            android:textColor="#6ca0dd" />
+            android:textColor="#000000" />
 
         <Button
             android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
             android:id="@+id/dislikes"
             android:layout_weight="0.06"
             style="?android:attr/borderlessButtonStyle"
-            android:textColor="#cc5463" />
+            android:textColor="#000000" />
 
         <TextView
             android:layout_width="wrap_content"

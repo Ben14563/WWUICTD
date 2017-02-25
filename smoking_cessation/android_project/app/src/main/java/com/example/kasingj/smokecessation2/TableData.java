@@ -60,8 +60,9 @@ public class TableData {
         public static final String CRAVINGS_ON_DATE="cravings_on_date";
         public static final String CRAVINGS_RESISTED_ON_DATE="cravings_resisted_on_date";
 
-
-
+        //user_reaction
+        public static final String USER_REACTION_TABLE_NAME="reaction_table2";
+        public static final String USER_REACTION="reaction_type";
 
     }
 
