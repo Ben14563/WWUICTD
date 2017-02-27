@@ -17,127 +17,288 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView5">
+        <!--
+          ~ Copyright 2015 Google Inc.
+          ~
+          ~ Licensed under the Apache License, Version 2.0 (the "License");
+          ~ you may not use this file except in compliance with the License.
+          ~ You may obtain a copy of the License at
+          ~
+          ~      http://www.apache.org/licenses/LICENSE-2.0
+          ~
+          ~ Unless required by applicable law or agreed to in writing, software
+          ~ distributed under the License is distributed on an "AS IS" BASIS,
+          ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+          ~ See the License for the specific language governing permissions and
+          ~ limitations under the License.
+          -->
 
         <LinearLayout
-            android:orientation="vertical"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:weightSum="1">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:showIn="@layout/content_sign_up">
 
-            <EditText
+            <TextView
+                android:id="@+id/toolbar_sign_in"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:id="@+id/signUpUserInput"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:hint="Enter Username"
-                android:textAlignment="center"
-                android:singleLine="true"
-                android:background="#f0f0f0"
-                android:layout_margin="25dp" />
+                android:layout_height="?android:attr/actionBarSize"
+                style="@style/Topeka.TextAppearance.Title"
+                android:elevation="@dimen/elevation_header"
+                android:gravity="center_vertical"
+                android:text="@string/action_sign_in"
+                android:paddingEnd="@dimen/spacing_double"
+                android:paddingStart="@dimen/spacing_double"
+                android:clipToPadding="false"
+                tools:ignore="UnusedAttribute,NewApi" />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:id="@+id/signUpEmailInput"
-                android:layout_marginTop="25dp"
-                android:layout_below="@+id/signUpUserInput"
-                android:layout_centerHorizontal="true"
-                android:hint="Enter Email"
-                android:textAlignment="center"
-                android:singleLine="true"
-                android:inputType="textEmailAddress"
-                android:background="#f0f0f0"
-                android:layout_margin="25dp" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:id="@+id/signUpPassInput"
-                android:hint="Enter Password"
-                android:textAlignment="center"
-                android:singleLine="true"
-                android:inputType="textPassword"
-                android:layout_below="@+id/signUpEmailInput"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_margin="25dp"
-                android:background="#f0f0f0" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:id="@+id/signUpPassConfirm"
-                android:hint="Confirm Password"
-                android:textAlignment="center"
-                android:singleLine="true"
-                android:inputType="textPassword"
-                android:layout_below="@+id/signUpPassInput"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_margin="25dp"
-                android:background="#f0f0f0" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:id="@+id/signUpCigsPerDay"
-                android:hint="Cigs Per Day"
-                android:gravity="center"
-                android:layout_marginLeft="100dp"
-                android:layout_marginRight="100dp"
-                android:singleLine="true"
-                android:layout_marginTop="50dp"
-                android:layout_margin="25dp"
-                android:background="#f0f0f0"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="0"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:id="@+id/signUpPricePerPack"
-                android:hint="Cost Per Pack"
-                android:layout_margin="25dp"
-                android:gravity="center"
-                android:layout_marginLeft="100dp"
-                android:layout_marginRight="100dp"
-                android:singleLine="true"
-                android:layout_marginTop="50dp"
-                android:layout_marginBottom="50dp"
-                android:background="#f0f0f0"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:id="@+id/signUpNumYearsSmoked"
-                android:hint="Number of years smoking"
-                android:layout_margin="25dp"
-                android:gravity="center"
-                android:layout_marginLeft="100dp"
-                android:layout_marginRight="100dp"
-                android:singleLine="true"
-                android:layout_marginTop="100dp"
-                android:layout_marginBottom="10dp"
-                android:background="#f0f0f0"/>
-
-            <Button
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Next"
-                android:id="@+id/signUpNextButton"
-                android:onClick="goToMain"
-                android:layout_below="@+id/signUpPassConfirm"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="0dp"
-                android:layout_weight="0.20"
-                android:layout_marginLeft="240dp"
-                android:layout_marginBottom="20dp"
-                android:layout_gravity="center"
-                android:layout_margin="20dp" />
+                android:minHeight="?android:attr/actionBarSize"
+                android:paddingStart="@dimen/spacing_double"
+                android:paddingEnd="@dimen/spacing_double"
+                android:clipToPadding="false"
+                android:transitionGroup="true"
+                tools:ignore="UnusedAttribute,NewApi">
+                <EditText
+                    android:id="@+id/signUpUserInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_user"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapWords"
+                    android:textSize="@dimen/size_edit_text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?android:attr/actionBarSize"
+                android:paddingStart="@dimen/spacing_double"
+                android:paddingEnd="@dimen/spacing_double"
+                android:clipToPadding="false"
+                android:transitionGroup="true"
+                tools:ignore="UnusedAttribute,NewApi">
+                <EditText
+                    android:id="@+id/signUpEmailInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@+id/signUpEmailInput"
+                    android:imeOptions="actionDone"
+                    android:inputType="textNoSuggestions|textCapWords"
+                    android:maxLength="1"
+                    android:textSize="@dimen/size_edit_text" />
+            </android.support.design.widget.TextInputLayout>
+            <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/signUpPassInput"
+            android:hint="Enter Password"
+            android:textAlignment="center"
+            android:singleLine="true"
+            android:inputType="textPassword"
+            android:layout_below="@+id/signUpEmailInput"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_margin="25dp"
+            android:background="#f0f0f0" />
+
+            <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/signUpPassConfirm"
+            android:hint="Confirm Password"
+            android:textAlignment="center"
+            android:singleLine="true"
+            android:inputType="textPassword"
+            android:layout_below="@+id/signUpPassInput"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_margin="25dp"
+            android:background="#f0f0f0" />
+
+            <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/signUpCigsPerDay"
+            android:hint="Cigs Per Day"
+            android:gravity="center"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:singleLine="true"
+            android:layout_marginTop="50dp"
+            android:layout_margin="25dp"
+            android:background="#f0f0f0"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0"/>
+
+            <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/signUpPricePerPack"
+            android:hint="Cost Per Pack"
+            android:layout_margin="25dp"
+            android:gravity="center"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:singleLine="true"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="50dp"
+            android:background="#f0f0f0"/>
+
+            <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/signUpNumYearsSmoked"
+            android:hint="Number of years smoking"
+            android:layout_margin="25dp"
+            android:gravity="center"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:singleLine="true"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="10dp"
+            android:background="#f0f0f0"/>
+
+            <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:id="@+id/signUpNextButton"
+            android:onClick="goToMain"
+            android:layout_below="@+id/signUpPassConfirm"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:layout_weight="0.20"
+            android:layout_marginLeft="240dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center"
+            android:layout_margin="20dp" />
         </LinearLayout>
+
+        <!--<LinearLayout-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="#ffffff"-->
+            <!--android:weightSum="1">-->
+
+            <!--<EditText-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="40dp"-->
+                <!--&lt;!&ndash; android:id="@+id/signUpUserInput" &ndash;&gt;-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:hint="Enter Username"-->
+                <!--android:textAlignment="center"-->
+                <!--android:singleLine="true"-->
+                <!--android:background="#f0f0f0"-->
+                <!--android:layout_margin="25dp" />-->
+
+            <!--<EditText-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:id="@+id/signUpEmailInput"-->
+                <!--android:layout_marginTop="25dp"-->
+                <!--android:layout_below="@+id/signUpUserInput"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:hint="Enter Email"-->
+                <!--android:textAlignment="center"-->
+                <!--android:singleLine="true"-->
+                <!--android:inputType="textEmailAddress"-->
+                <!--android:background="#f0f0f0"-->
+                <!--android:layout_margin="25dp" />-->
+
+            <!--<EditText-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:id="@+id/signUpPassInput"-->
+                <!--android:hint="Enter Password"-->
+                <!--android:textAlignment="center"-->
+                <!--android:singleLine="true"-->
+                <!--android:inputType="textPassword"-->
+                <!--android:layout_below="@+id/signUpEmailInput"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:layout_margin="25dp"-->
+                <!--android:background="#f0f0f0" />-->
+
+            <!--<EditText-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:id="@+id/signUpPassConfirm"-->
+                <!--android:hint="Confirm Password"-->
+                <!--android:textAlignment="center"-->
+                <!--android:singleLine="true"-->
+                <!--android:inputType="textPassword"-->
+                <!--android:layout_below="@+id/signUpPassInput"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:layout_margin="25dp"-->
+                <!--android:background="#f0f0f0" />-->
+
+            <!--<EditText-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:id="@+id/signUpCigsPerDay"-->
+                <!--android:hint="Cigs Per Day"-->
+                <!--android:gravity="center"-->
+                <!--android:layout_marginLeft="100dp"-->
+                <!--android:layout_marginRight="100dp"-->
+                <!--android:singleLine="true"-->
+                <!--android:layout_marginTop="50dp"-->
+                <!--android:layout_margin="25dp"-->
+                <!--android:background="#f0f0f0"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:layout_weight="0"/>-->
+
+            <!--<EditText-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:id="@+id/signUpPricePerPack"-->
+                <!--android:hint="Cost Per Pack"-->
+                <!--android:layout_margin="25dp"-->
+                <!--android:gravity="center"-->
+                <!--android:layout_marginLeft="100dp"-->
+                <!--android:layout_marginRight="100dp"-->
+                <!--android:singleLine="true"-->
+                <!--android:layout_marginTop="50dp"-->
+                <!--android:layout_marginBottom="50dp"-->
+                <!--android:background="#f0f0f0"/>-->
+
+            <!--<EditText-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:id="@+id/signUpNumYearsSmoked"-->
+                <!--android:hint="Number of years smoking"-->
+                <!--android:layout_margin="25dp"-->
+                <!--android:gravity="center"-->
+                <!--android:layout_marginLeft="100dp"-->
+                <!--android:layout_marginRight="100dp"-->
+                <!--android:singleLine="true"-->
+                <!--android:layout_marginTop="100dp"-->
+                <!--android:layout_marginBottom="10dp"-->
+                <!--android:background="#f0f0f0"/>-->
+
+            <!--<Button-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Next"-->
+                <!--android:id="@+id/signUpNextButton"-->
+                <!--android:onClick="goToMain"-->
+                <!--android:layout_below="@+id/signUpPassConfirm"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="0dp"-->
+                <!--android:layout_weight="0.20"-->
+                <!--android:layout_marginLeft="240dp"-->
+                <!--android:layout_marginBottom="20dp"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_margin="20dp" />-->
+        <!--</LinearLayout>-->
     </ScrollView>
 
 </RelativeLayout>
