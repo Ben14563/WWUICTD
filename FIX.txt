@@ -1,3 +1,11 @@
+### 02/27/17 ###
+! Error when you keep pulling to refresh the main page
+! Scrolling down on the main screen scrolls all the way down
+	-> could this be an emulator problem?
+! Problem where the first swipe to refresh has no effect, however, the second refresh
+	is triggered when you try to scroll up at the beginning of the feedpost, which is
+	the desired effect
+
 ### 02/21/17 ###
 $ Made every page (dash, friends, stats, add friends) refresh its activity without having to
 	display the start of every activity. [Still don't have pull down to refresh]
