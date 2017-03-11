@@ -16,7 +16,7 @@ import java.util.Date;
  */
 public class DatabaseOperations extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 5;
+    public static final int DATABASE_VERSION = 6;
 
     // UserHistory Query String
     public String CREATE_USER_HISTORY_QUERY = "CREATE TABLE " + TableData.TableInfo.USER_HISTORY_TABLE_NAME + "(" +
@@ -131,14 +131,14 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         // Create friends_stats Table
 
         // Create user_history Table
-//        Log.d("Database Operations", "Creating user_history table");
-//        sdb.execSQL(CREATE_USER_HISTORY_QUERY);
-//        Log.d("Database Operations", "user_history table created");
+        Log.d("Database Operations", "Creating user_history table");
+        sdb.execSQL(CREATE_USER_HISTORY_QUERY);
+        Log.d("Database Operations", "user_history table created");
 //
 //        // Create user_reaction Table
 //        Log.d("Database Operations", "creating user_reaction2 table");
-        sdb.execSQL(CREATE_USER_REACTION_TABLE);
-        Log.d("Database Operations", "user_reaction2 table created");
+//        sdb.execSQL(CREATE_USER_REACTION_TABLE);
+//        Log.d("Database Operations", "user_reaction2 table created");
 //        Log.d("Database Operations", "creating friends_stats table");
 //        sdb.execSQL(CREATE_FRIENDS_STATS_QUERY);
 //        Log.d("Database Operations", "friends_stats table created");
