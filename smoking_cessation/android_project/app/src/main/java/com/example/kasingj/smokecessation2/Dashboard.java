@@ -101,15 +101,22 @@ public class Dashboard extends AppCompatActivity implements SwipeRefreshLayout.O
         new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Runnable refresh = new Runnable() {
-                    public void run() {
-                        updateOperation();
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
-                };
+                try {
+                    Runnable refresh = new Runnable() {
+                        public void run() {
+                            updateOperation();
+                            //mSwipeRefreshLayout.setRefreshing(false);
+                        }
+                    };
 
-                Thread refreshThread = new Thread(refresh);
-                refreshThread.start();
+                    Thread refreshThread = new Thread(refresh);
+                    refreshThread.start();
+                    mSwipeRefreshLayout.setRefreshing(false);
+
+                } catch (Exception e) {
+                    Toast.makeText(getBaseContext(), "Unable to refresh!", Toast.LENGTH_LONG).show();
+                    Log.d("onRefresh", "Refresh failed!");
+                }
             }
         });
     }

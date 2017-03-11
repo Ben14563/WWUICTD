@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import org.json.JSONArray;
@@ -78,8 +79,14 @@ public class Friends extends AppCompatActivity {
     /* unregister the receiver */
     @Override
     protected void onStop() {
-      unregisterReceiver(Updated);
-      super.onStop();
+      try {
+        unregisterReceiver(Updated);
+        super.onStop();
+      }
+
+      catch (IllegalArgumentException e) {
+        Log.d("onRefresh", "Receiver either already unregistered or was not registered!");
+      }
     }
 
 
