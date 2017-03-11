@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import org.json.JSONArray;
@@ -75,31 +76,54 @@ public class Friends extends AppCompatActivity {
 
     }
 
+    /* unregister the receiver */
+    @Override
+    protected void onStop() {
+      try {
+        unregisterReceiver(Updated);
+        super.onStop();
+      }
 
-
-    public void goToInvite (View view) {
-        Intent intent = new Intent (this, Invite.class);
-        startActivity(intent);
-        finish();
+      catch (IllegalArgumentException e) {
+        Log.d("onRefresh", "Receiver either already unregistered or was not registered!");
+      }
     }
 
+
     public void goToDashboard (View view) {
-        Intent intent = new Intent (this, Dashboard.class);
-        startActivity(intent);
-        finish();
+      Intent intent = new Intent(this, Dashboard.class);
+      intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+      finish();
+      overridePendingTransition(0,0);
+      startActivity(intent);
+      overridePendingTransition(0,0);
     }
 
     public void goToFriends (View view) {
-        if(getClass() != Friends.class){
-            Intent intent = new Intent(this, Friends.class);
-            startActivity(intent);
-            finish();
-        }
+      Intent intent = new Intent(this, Friends.class);
+      intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+      finish();
+      overridePendingTransition(0,0);
+      startActivity(intent);
+      overridePendingTransition(0,0);
     }
 
     public void goToStatistics (View view) {
-        Intent intent = new Intent (this, Stats.class);
-        startActivity(intent);
+      Intent intent = new Intent (this, Stats.class);
+      intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+      finish();
+      overridePendingTransition(0,0);
+      startActivity(intent);
+      overridePendingTransition(0,0);
+    }
+
+    public void goToInvite (View view) {
+      Intent intent = new Intent (this, Invite.class);
+      intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+      finish();
+      overridePendingTransition(0,0);
+      startActivity(intent);
+      overridePendingTransition(0,0);
     }
 
 //    public void getBuddies() {

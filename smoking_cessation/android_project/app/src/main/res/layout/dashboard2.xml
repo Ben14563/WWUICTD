@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_above="@+id/toolbar"
-    android:orientation="vertical">
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:layout_above="@+id/toolbar"
+android:orientation="vertical"
+xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -218,21 +218,26 @@
     <!--android:layout_weight="1"-->
     <!--android:background="#090909"-->
     <!--android:text="Your tetx"/>-->
+    <android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipeRefresh"
+    android:layout_width="fill_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:scrollbars="vertical"
+    android:paddingBottom="5dp"
+    android:maxWidth="42dp"
+    android:maxHeight="42dp"
+    android:scaleType="fitCenter"
+    >
 
-
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/scrollView"
-        android:layout_alignParentLeft="true"
         android:scrollbars="vertical"
-        android:layout_above="@+id/dashButton"
-        android:paddingBottom="5dp"
-        android:layout_below="@+id/craveButton"
         android:fillViewport="false">
 
-        <LinearLayout
+            <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:isScrollContainer="true"
@@ -240,10 +245,13 @@
             android:baselineAligned="false"
             android:id="@+id/feedlayout">
 
-        </LinearLayout>
-    </ScrollView>
+            </LinearLayout>
 
+        </ScrollView>
 
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <!-- Bottom buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
