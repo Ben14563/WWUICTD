@@ -9,12 +9,15 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout;
@@ -28,7 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 
-public class Dashboard extends AppCompatActivity {
+public class Dashboard extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private String username;
     private String time;
@@ -59,10 +62,15 @@ public class Dashboard extends AppCompatActivity {
     private HttpServices httpServices;
     private SharedPreferences preferences;
     private UserEntity userEntity;
+
+    SwipeRefreshLayout mSwipeRefreshLayout; // swipe refresh layout
+    ListView mListView;                     // list view layout
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
         userService = new UserService(this);
         httpServices = new HttpServices(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -90,6 +98,46 @@ public class Dashboard extends AppCompatActivity {
         if(userEntity.getServerId() != -1 ){
             getFeed(userEntity);
         }
+
+        // set up a SwipeRefreshLayout.OnRefreshListener that is invoked
+        // when the user swipes down to refresh
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(
+        new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                try {
+                    Runnable refresh = new Runnable() {
+                        public void run() {
+                            updateOperation();
+                            //mSwipeRefreshLayout.setRefreshing(false);
+                        }
+                    };
+
+                    Thread refreshThread = new Thread(refresh);
+                    refreshThread.start();
+                    mSwipeRefreshLayout.setRefreshing(false);
+
+                } catch (Exception e) {
+                    Toast.makeText(getBaseContext(), "Unable to refresh!", Toast.LENGTH_LONG).show();
+                    Log.d("onRefresh", "Refresh failed!");
+                }
+            }
+        });
+    }
+
+    /* refresh gesture */
+    @Override
+    public void onRefresh() {}
+
+    /* update the current page */
+    void updateOperation() {
+      Intent intent = new Intent(this, Dashboard.class);
+      intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+      finish();
+      overridePendingTransition(0, 0);
+      startActivity(intent);
+      overridePendingTransition(0, 0);
     }
 
     // Crave Button
@@ -183,21 +231,30 @@ public class Dashboard extends AppCompatActivity {
     public void goToDashboard (View view) {
         if(getClass() != Dashboard.class) {
             Intent intent = new Intent(this, Dashboard.class);
-            startActivity(intent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             finish();
+            overridePendingTransition(0,0);
+            startActivity(intent);
+            overridePendingTransition(0,0);
         }
     }
 
     public void goToFriends (View view) {
         Intent intent = new Intent(this, Friends.class);
-        startActivity(intent);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         finish();
+        overridePendingTransition(0,0);
+        startActivity(intent);
+        overridePendingTransition(0,0);
     }
 
     public void goToStatistics (View view) {
         Intent intent = new Intent (this, Stats.class);
-        startActivity(intent);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         finish();
+        overridePendingTransition(0,0);
+        startActivity(intent);
+        overridePendingTransition(0,0);
     }
 
 
