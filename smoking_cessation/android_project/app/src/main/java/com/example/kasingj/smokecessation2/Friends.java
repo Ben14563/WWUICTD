@@ -80,8 +80,8 @@ public class Friends extends AppCompatActivity {
     @Override
     protected void onStop() {
       try {
-        unregisterReceiver(Updated);
         super.onStop();
+        unregisterReceiver(Updated);
       }
 
       catch (IllegalArgumentException e) {
