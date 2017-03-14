@@ -157,10 +157,14 @@ public class Stats extends AppCompatActivity {
     public void createCigarettesSmokedChart (String startDate, String endDate) {
 
         SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
-
+        if (startDate.length() == 0 || endDate.length() == 0) {
+            startDate = "2017/03/15";
+            endDate = "2017/03/15";
+        }
         try {
             Date start = date.parse(startDate);
             Date end = date.parse(endDate);
+
 
             Calendar mStart = Calendar.getInstance();
             Calendar mEnd = Calendar.getInstance();
