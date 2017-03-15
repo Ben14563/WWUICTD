@@ -123,7 +123,7 @@ public class FriendDetail extends AppCompatActivity {
         compareChart.setBackgroundColor(Color.LTGRAY);
 
         // add data
-        setData(20, 30);
+        setData(5, 10);
 
         compareChart.animateX(2500);
 
