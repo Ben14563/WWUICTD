@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -18,6 +19,8 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+
+import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -61,6 +64,12 @@ public class Stats extends AppCompatActivity {
         XAxis smokedXAxis = cigarettesSmokedChart.getXAxis();
         smokedXAxis.setValueFormatter(new MyXValueFormatter(dates));
         cigarettesSmokedChart.animateXY(0, 2000);
+
+//        TextView resistStat = (TextView) findViewById(R.id.resiststat);
+//        resistStat.setText(user.getCravingsResisted());
+
+        TextView smokedStat = (TextView) findViewById(R.id.smokestat);
+        smokedStat.setText(user.getNumCigsSmoked());
 
 //        cravingsResistedChart = (BarChart) findViewById(R.id.cravingsResistedChart);
 //        createCravingsResistedChart("2016/11/01", "2016/11/18");
