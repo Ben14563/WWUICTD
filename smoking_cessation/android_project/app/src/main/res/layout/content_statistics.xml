@@ -204,7 +204,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="25"
-                    android:id="@+id/data4"
+                    android:id="@+id/resiststat"
                     android:textSize="30sp"
                     android:textStyle="bold"
                     android:layout_marginLeft="91dp"
@@ -229,12 +229,12 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="48"
-                    android:id="@+id/data5"
+                    android:id="@+id/smokestat"
                     android:textSize="30sp"
                     android:textStyle="bold"
                     android:layout_marginLeft="91dp"
                     android:layout_marginStart="91dp"
-                    android:layout_below="@+id/data4"
+                    android:layout_below="@+id/resiststat"
                     android:layout_alignParentLeft="true"
                     android:paddingLeft="250dp" />
 
@@ -259,7 +259,7 @@
                     android:textStyle="bold"
                     android:layout_marginLeft="91dp"
                     android:layout_marginStart="91dp"
-                    android:layout_below="@+id/data5"
+                    android:layout_below="@+id/smokestat"
                     android:layout_alignParentLeft="true"
                     android:paddingLeft="250dp" />
 

@@ -45,6 +45,10 @@ public class TableData {
         public static final String USER_SERVER_ID = "user_server_id";
         public static final String USER_AUTH_ID = "user_auth_id";
         public static final String FRIEND_OF_ID = "friend_of_id";
+        public static final String USER_HISTORY_TABLE_NAME = "user_history_data";
+        public static final String SMOKED = "smoked";
+        public static final String CRAVING = "craving";
+        public static final String RESISTED = "resisted";
 
         //User Feed
         public static final String USER_FEED_TABLE_NAME="user_feed";
@@ -53,6 +57,16 @@ public class TableData {
         public static final String LIKES = "likes";
         public static final String FEED_ID = "feed_id";
         public static final String DESCRIPTION = "description";
+
+        //day
+        public static final String DAY_STATS_TABLE_NAME="day_stats";
+        public static final String CIGS_SMOKED_ON_DATE="cigs_smoked_on_date";
+        public static final String CRAVINGS_ON_DATE="cravings_on_date";
+        public static final String CRAVINGS_RESISTED_ON_DATE="cravings_resisted_on_date";
+
+        //user_reaction
+        public static final String USER_REACTION_TABLE_NAME="reaction_table2";
+        public static final String USER_REACTION="reaction_type";
 
     }
 

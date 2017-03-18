@@ -2,9 +2,11 @@ package com.example.kasingj.smokecessation2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -12,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import android.net.ConnectivityManager;
@@ -30,12 +33,16 @@ public class MainActivity extends AppCompatActivity {
     EditText FIRST_NAME, LAST_NAME, AGE, GENDER, ETHNICITY, CIGS_PER_DAY, PRICE_PER_PACK, YEARS_SMOKED;
     Context ctx = this;
     private static final String ENDPOINT = "198.199.67.166";
+    public static final String CURRENT_USER_ID = "currentUserId";
 
     EditText USERNAME, PASSWORD, EMAIL, CON_PASS;
     String password, email, con_pass;
     HttpServices httpServices;
     UserService userService;
 
+    // testing swipe to refresh
+    ListView mListView;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,24 +50,43 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.content_main);
         httpServices = new HttpServices(this);
         userService = new UserService(this);
+
+        // create the refresh tools
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+        mListView = (ListView) findViewById(R.id.list);
+
     }
+
+    /* Refresh when the user swipes down
+    mSwipeRefreshLayout.setOnRefreshListener(
+      new SwipeRefreshLayout.onRefreshListener() {
+        @Override
+        public void onRefresh() {
+          Log.i(LOG_TAG, "onRefresh called from SwipeFreshLayout");
+
+        }
+
+      }
+    );
+    */
 
     public void goToDashboard(View view) {
         //before going to dashboard  sanitize data
-        if (checkInput() == true){
+        UserEntity userEntity;
+        if ( (userEntity = createUser()) != null){
 
-        ConnectivityManager connMgr = (ConnectivityManager)
-                ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo == null && networkInfo.isConnected()) {
-            userService.addUserLocally();
-            //Log.d("goToDashBoard", "*********No_Connectivity***********");
-            //Toast.makeText(getBaseContext(), "Please connect to the internet before proceeding", Toast.LENGTH_LONG).show();
-        } else {
+            //userService.saveUserEntity(userEntity);
+
+            //check network
+            ConnectivityManager connMgr = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+
             //add user to database
-            userService.addUserLocally();
-            httpServices.addUserToServer();
-        }
+            if( networkInfo != null && networkInfo.isConnected() ) {
+                httpServices.addUserToServer(userEntity);
+            }
+
             Log.d("finish button", "go to dashboard");
             Intent intent = new Intent(getApplicationContext(),Dashboard.class);
             startActivity(intent);
@@ -71,11 +97,13 @@ public class MainActivity extends AppCompatActivity {
     public void goToFriends(View view) {
         Intent intent = new Intent(this, Friends.class);
         startActivity(intent);
+        finish();
     }
 
     public void goToStatistics(View view) {
         Intent intent = new Intent(this, Statistics.class);
         startActivity(intent);
+        finish();
     }
 
 
@@ -95,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public boolean checkInput () {
+    public UserEntity createUser () {
 
       USERNAME = (EditText) findViewById(R.id.signUpUserInput);
       PASSWORD = (EditText) findViewById(R.id.signUpPassInput);
@@ -112,75 +140,85 @@ public class MainActivity extends AppCompatActivity {
       con_pass = CON_PASS.getText().toString();
       email = EMAIL.getText().toString();
       String regex = "\\d+(?:\\.\\d+)?";
-
-      //cigsPerDay = (EditText)R.serverId.cigsPerDayInput ;
-
+      String emailReg = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$";
+      String passwordReg = 	"^([a-zA-Z0-9@*#]{8,15})$";
+// BuildConfig.DEBUG Currently broken by google (always true): https://code.google.com/p/android/issues/detail?id=52962
+// Fix should be very soon though.
+//        if (BuildConfig.DEBUG) {
+//            emailReg = ".";
+//            passwordReg = ".";
+//        }
       DatabaseOperations dbAuth = new DatabaseOperations(ctx);
-      Cursor cr = dbAuth.getUserAuth(dbAuth);
-      boolean exist = false;
+      UserEntity userEntity = userService.getUserIfAuthorized(username, password);
 
       //check if username exists
-      if (cr != null && cr.moveToFirst()) {
-          do {
-              if (username.equals(cr.getString(0))) {
-                  exist = true;
-              }
-          } while (cr.moveToNext());
-      }
-
-      if (exist == true) {
+      if (userEntity != null) {
           Toast.makeText(getBaseContext(), "Username already exists", Toast.LENGTH_LONG).show();
-          return false;
+          return null;
       }
       else if (username.equals("")) {
           Toast.makeText(getBaseContext(), "Must enter valid username", Toast.LENGTH_LONG).show();
-          return false;
+          return null;
       }
-      else if (email.equals("")) {
-          Toast.makeText(getBaseContext(), "Email required", Toast.LENGTH_LONG).show();
-          return false;
+      else if (!email.matches(emailReg)) {
+          Toast.makeText(getBaseContext(), "Valid email required", Toast.LENGTH_LONG).show();
+          return null;
       }
-      else if (password.equals("")) {
-          Toast.makeText(getBaseContext(), "Password required", Toast.LENGTH_LONG).show();
-          return false;
+      else if (!password.matches(passwordReg)) {
+          Toast.makeText(getBaseContext(), "Password must consists of at least 8 characters and not more than 15 characters.", Toast.LENGTH_LONG).show();
+          return null;
       }
       else if (con_pass.equals("")) {
           PASSWORD.setText("");
           Toast.makeText(getBaseContext(), "Must confirm password", Toast.LENGTH_LONG).show();
-          return false;
+          return null;
       }
       else if (!password.equals(con_pass)) {
           PASSWORD.setText("");
           CON_PASS.setText("");
           Toast.makeText(getBaseContext(), "Password does not match", Toast.LENGTH_LONG).show();
-          return false;
+          return null;
       } //check everything else.
       else if (!cigsPerDay.matches(regex) ){
           Toast.makeText(getBaseContext(), "cigs per day must be a number.", Toast.LENGTH_LONG).show();
-          return false;
+          return null;
       }else if(!pricePerPack.matches(regex)){
           Toast.makeText(getBaseContext(), "cost per pack must be a number.", Toast.LENGTH_LONG).show();
-          return false;
+          return null;
       }else if(!numYearsSmoked.matches(regex)){
           Toast.makeText(getBaseContext(), "num years smoked must be a number.", Toast.LENGTH_LONG).show();
-          return false;
+          return null;
       }
+        userEntity = new UserEntity();
           //valid username & password
-          User.getInstance().setUsername(username);
-          User.getInstance().setPassword(password);
-          User.getInstance().setEmail(email);
-          User.getInstance().setPricePerPack(pricePerPack);
-          User.getInstance().setCigsPerDay(cigsPerDay);
-          User.getInstance().setNumYearsSmoked(numYearsSmoked);
+
+        userEntity.setUsername(username);
+        userEntity.setPassword(password);
+        userEntity.setEmail(email);
+        userEntity.setCigsPerDay(cigsPerDay);
+        userEntity.setPricePerPack(pricePerPack);
+        userEntity.setNumYearsSmoked(numYearsSmoked);
+        userEntity.setLongestStreak(0);
+        userEntity.setCurrentStreak(0);
+        userEntity.setTotalDaysFree(0);
+        userEntity.setNumCravings(0);
+        userEntity.setCravsRes(0);
+        userEntity.setNumCigsSmoked(0);
+        userEntity.setMoneySaved(0);
+        userEntity.setLifeRegained(0);
           Log.d("Next Button", "initialized username, password, email");
 
           //add user to db
-          DatabaseOperations db = new DatabaseOperations(ctx);
-          db.addUserAuth(db, username, password, email);
+         // DatabaseOperations db = new DatabaseOperations(ctx);
+         // db.addUserAuth(db, username, password, email);
+        userService.addUserCredentials(username,password, email);
+        int id = userService.saveUserEntity(userEntity);
 
-      cr.close();
-      dbAuth.close();
-      return true;
+        SharedPreferences preference = getSharedPreferences( getApplicationContext().getPackageName() , 1 );
+        SharedPreferences.Editor editor = preference.edit();
+        editor.putInt(MainActivity.CURRENT_USER_ID ,id);
+        editor.commit();
+        return userEntity;
     /*done checking authentification information*/
   }
 }

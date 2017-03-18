@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:layout_above="@+id/toolbar"
+android:orientation="vertical"
+xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#bdd094">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/moneySavedText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageView"
+                android:text="Money Saved"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"/>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/moneySavedAmount"
+                    android:layout_width="200dp"
+                    android:layout_height="90dp"
+                    android:layout_gravity="center"
+
+                    android:singleLine="true"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="35sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/moneysavedbox"
+                    android:textAlignment="center"
+                    android:gravity="center_vertical|center_horizontal"
+                    />
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/craveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:background="@drawable/shadow_4266"
+                android:gravity="center"
+                android:onClick="imCraving"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/craving" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  Craving"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageView"
+                android:text="Not Smoked"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"/>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/resCraveCount"
+                    android:layout_width="190dp"
+                    android:layout_height="90dp"
+                    android:layout_gravity="center"
+                    android:singleLine="true"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="40sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/notsmokedbox"
+                    android:textAlignment="center"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"/>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:background="@drawable/shadow_4254"
+                android:id="@+id/resistButton"
+                android:onClick="resistCraving">
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/no_smoking" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  Resisted"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageView"
+                android:text="Life Regained"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"/>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/lifeRegText"
+                    android:layout_width="200dp"
+                    android:layout_height="90dp"
+                    android:layout_gravity="center"
+                    android:singleLine="true"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="35sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/liferegainedbox"
+                    android:textAlignment="center"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+
+                    />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:background="@drawable/shadow_42145"
+                android:id="@+id/smokedButton"
+                android:onClick="smoked">
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/smoking" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  smoked"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/newsFeedText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="News Feed"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_marginTop="10dp"/>
+    </RelativeLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipeRefresh"
+    android:layout_width="fill_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:scrollbars="vertical"
+    android:paddingBottom="5dp"
+    android:maxWidth="42dp"
+    android:maxHeight="42dp"
+    android:scaleType="fitCenter"
+    >
+
+        <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:scrollbars="vertical"
+        android:fillViewport="false">
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:isScrollContainer="true"
+            android:orientation="vertical"
+            android:baselineAligned="false"
+            android:id="@+id/feedlayout">
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <!-- Bottom buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="60dp"
+            android:id="@+id/dashButton"
+            android:background="@drawable/shadow_42145"
+            android:src="@drawable/dashboard"
+            android:onClick="goToDashboard"
+            android:cropToPadding="false"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:paddingLeft="55dp"
+            android:paddingTop="10dp"
+            android:paddingRight="55dp"
+            android:paddingBottom="10dp"
+            android:allowUndo="false" />
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="60dp"
+            android:id="@+id/friendsButton"
+            android:background="@drawable/shadow_42927"
+            android:src="@drawable/buddies"
+            android:onClick="goToFriends"
+            android:cropToPadding="false"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:paddingLeft="50dp"
+            android:paddingTop="10dp"
+            android:paddingRight="50dp"
+            android:paddingBottom="10dp"
+            android:clickable="true" />
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="60dp"
+            android:id="@+id/statsButton"
+            android:background="@drawable/shadow_42927"
+            android:src="@drawable/stats"
+            android:onClick="goToStatistics"
+            android:cropToPadding="false"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:paddingLeft="55dp"
+            android:paddingTop="10dp"
+            android:paddingRight="55dp"
+            android:paddingBottom="10dp"
+            android:clickable="true" />
+
+    </LinearLayout>
+
+</LinearLayout>

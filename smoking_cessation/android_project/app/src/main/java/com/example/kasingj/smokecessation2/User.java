@@ -71,9 +71,9 @@ public class User {
         NUM_YEARS_SMOKED = numYearsSmoked;
     }
 
-    public static User getInstance() {
-        return ourInstance;
-    }
+//    public static User getInstance() {
+//        return ourInstance;
+//    }
 
     private User() {
     }
