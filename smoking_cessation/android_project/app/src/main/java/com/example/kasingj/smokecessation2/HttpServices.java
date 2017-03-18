@@ -2,7 +2,9 @@ package com.example.kasingj.smokecessation2;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -12,11 +14,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by kasingj on 10/13/16.
@@ -26,10 +30,14 @@ public class HttpServices {
     private static final String ENDPOINT = "198.199.67.166";
     private static Context context;
     private RequestQueue queue;
+    private FriendService friendService;
+    Random mRandomGenerator = new Random();
+
 
     public HttpServices(Context ctx) {
         context = ctx;
         queue = NetworkQueue.getInstance(context).getRequestQueue();
+        friendService = new FriendService(context);
     }
 
 
@@ -37,17 +45,19 @@ public class HttpServices {
 * add user to server
 * */
 
+    //int result = preference.getInt(MainActivity.CURRENT_USER_ID,-1);
 
-    public void addUserToServer() {
+    public void addUserToServer(final UserEntity entity){
+
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("http")
                 .authority(ENDPOINT)
                 .appendPath("user")
                 .appendPath("add")
-                .appendQueryParameter("name", User.getInstance().getUsername())
-                .appendQueryParameter("email", User.getInstance().getEmail())
-                .appendQueryParameter("cigs_per_day", User.getInstance().getCigsPerDay())
-                .appendQueryParameter("price_per_pack", User.getInstance().getPricePerPack());
+                .appendQueryParameter("name", entity.getUsername())
+                .appendQueryParameter("email", entity.getEmail())
+                .appendQueryParameter("cigs_per_day", entity.getCigsPerDay())
+                .appendQueryParameter("price_per_pack", entity.getPricePerPack());
 
         String url = builder.build().toString();
 
@@ -55,11 +65,9 @@ public class HttpServices {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String serverId) {
-                        // Result handling
-                        User.getInstance().setServerId(Integer.parseInt(serverId)); //result may be json so need to parse.
+                        //result may be json so need to parse.
                         DatabaseOperations db = new DatabaseOperations(context);
-                        db.updateServerIdForUser(db, serverId);
-                        //db.addUserStats(db, username, serverId, time, "0", "0", "0", "0", "0", "0", "0.00", "0" , cigsPerDay,pricePerPack, numYearsSmoked);
+                        db.updateServerIdForUser(db, serverId, entity.getID() );
                         Toast.makeText(context, "Server ID: " + serverId, Toast.LENGTH_LONG).show();
                         db.close();
                         //go to dashboard
@@ -81,7 +89,7 @@ public class HttpServices {
     * add buddy to user
     * */
 
-    public void addBuddyToUser(String friendId, String email) {
+    public void addBuddyToUser(String friendId, String email, final UserEntity entity) {
         String url = ENDPOINT + "/" + friendId + "/add/" + email;
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -106,11 +114,11 @@ public class HttpServices {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 // the POST parameters:
-                User user = User.getInstance();
-                params.put("name", user.getUsername());
-                params.put("email", user.getEmail());
-                params.put("cigs_per_day", user.getCigsPerDay());
-                params.put("price_per_pack", user.getPricePerPack());
+
+                params.put("name", entity.getUsername());
+                params.put("email", entity.getEmail());
+                params.put("cigs_per_day", entity.getCigsPerDay());
+                params.put("price_per_pack", entity.getPricePerPack());
                 return params;
             }
         };
@@ -122,7 +130,7 @@ public class HttpServices {
 * get user stats
 * */
 
-    public void getUserStats(String id) {
+    public void getUserStats(int id) {
         String url = ENDPOINT + "/user/" + id;
 
         JsonObjectRequest jsonRequest = new JsonObjectRequest
@@ -152,21 +160,21 @@ public class HttpServices {
 
         queue.add(jsonRequest);
     }
-}
+
 /*
 * increment field on server
 * */
-/*
-    public void incrementFieldOnServer(final String field) {
+
+    public void incrementFieldOnServer(final String field, final UserEntity entity) {
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("http")
                 .authority(ENDPOINT)
                 .appendPath("user")
                 .appendPath("add")
-                .appendQueryParameter("name", User.getInstance().getUsername())
-                .appendQueryParameter("email", User.getInstance().getEmail())
-                .appendQueryParameter("cigs_per_day", User.getInstance().getCigsPerDay())
-                .appendQueryParameter("price_per_pack", User.getInstance().getPricePerPack());
+                .appendQueryParameter("name", entity.getUsername())
+                .appendQueryParameter("email", entity.getEmail())
+                .appendQueryParameter("cigs_per_day", entity.getCigsPerDay())
+                .appendQueryParameter("price_per_pack", entity.getPricePerPack());
 
         String url = builder.build().toString();
 
@@ -177,7 +185,7 @@ public class HttpServices {
                         // Result handling
                         Log.d("htt:add:postExecute", "**********  updated field: " + result);
                     //userService.updateUser();
-                    if(User.getInstance().getServerId() != -1 ){
+                    if(entity.getServerId() != -1 ){
                         //getFeed();
                     }else {
                         //userService.updateUser();
@@ -193,9 +201,81 @@ public class HttpServices {
         });
         queue.add(stringRequest);
     }
-/*
 
+
+    /* get buddies for user*/
+
+    public void getBuddies(final UserEntity userEntity) {
+        try {
+            AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
+                @Override
+                protected String doInBackground(String... params) {
+                    //result is the json string of the request. might be null
+
+                    HttpRunner runner = new HttpRunner();
+                    String result = runner.getAllBuddies(userEntity.getServerId() + "");
+                    if (result == null) {
+                        return "NULL";
+                    }
+                    return result;
+                }
+
+                @Override
+                protected void onPostExecute(String result) {
+                    //expecting the user id
+                    Log.d("htt:add:postExecute", "**********  updated field: " + result);
+
+                    try {
+                        JSONArray arr = new JSONArray(result);
+                        FeedPost[] posts = new FeedPost[arr.length()];
+
+
+                        for (int i = 0; i < arr.length(); i++) {
+                            String name = arr.getJSONObject(i).getString("name");
+
+                            if(!name.equals(userEntity.getUsername()) ) {
+                                JSONObject json = arr.getJSONObject(i);
+                                String time = !json.isNull("time") ? json.getString("time"):"";
+                                String total_days_free = !json.isNull("days_free") ? json.getString("days_free"):"";
+                                String money_saved = !json.isNull("money_saved") ? json.getString("money_saved"):"";
+                                String life_regained = !json.isNull("life_regained") ? json.getString("life_regained"):"";
+                                String cigs_per_day = !json.isNull("cigs_per_day") ? json.getString("cigs_per_day"):"";
+                                String email = !json.isNull("email") ? json.getString("email"):"";
+
+                                //not on jsonobject
+                                String current_streak = ""+mRandomGenerator.nextInt(15);
+                                String longest_streak = (Integer.parseInt(current_streak) + mRandomGenerator.nextInt(40)) +"";
+                                String num_cravings = ""+mRandomGenerator.nextInt(100);
+                                String cravings_resisted = ""+mRandomGenerator.nextInt(100);
+                                String num_cigs_smoked = ""+mRandomGenerator.nextInt(30);
+                                life_regained = "" + mRandomGenerator.nextInt(200);
+
+                                FriendEntity friend = new FriendEntity();
+
+                                friend.setFriendObject(name, email, time, total_days_free, longest_streak, current_streak, num_cravings, cravings_resisted, num_cigs_smoked, money_saved, life_regained);
+
+                                friend.setParentId(userEntity.getID());
+
+                                friendService.addFriendStats(friend, userEntity.getID());
+                            }
+                        }
+
+                    } catch (JSONException e){
+
+                    }
+                }
+            };
+
+            task.execute("param");
+        } finally {
+            Log.d("Main:addTaskfail", "async failed, or main failed");
+        }
+
+    }
 }
+
+
+
 
 
 /* template get request

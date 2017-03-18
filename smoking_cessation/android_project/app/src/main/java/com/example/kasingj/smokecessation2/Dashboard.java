@@ -1,15 +1,23 @@
 package com.example.kasingj.smokecessation2;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout;
@@ -21,8 +29,9 @@ import org.w3c.dom.Text;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 
-public class Dashboard extends AppCompatActivity {
+public class Dashboard extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private String username;
     private String time;
@@ -48,145 +57,215 @@ public class Dashboard extends AppCompatActivity {
 
 
     Context ctx = this;
+    DatabaseOperations UserDAO = new DatabaseOperations(ctx);
     private UserService userService;
     private HttpServices httpServices;
+    private SharedPreferences preferences;
+    private UserEntity userEntity;
+
+    SwipeRefreshLayout mSwipeRefreshLayout; // swipe refresh layout
+    ListView mListView;                     // list view layout
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
         userService = new UserService(this);
         httpServices = new HttpServices(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        userService.updateUser();
+        preferences = getSharedPreferences(getApplicationContext().getPackageName(), 1);
+        int id = preferences.getInt(MainActivity.CURRENT_USER_ID, -1);
+
+        userEntity = userService.getUserEntityWithPrimaryId(id);
         // update cravings resisted count
         TextView resCraveText = (TextView) findViewById(R.id.resCraveCount);
-        resCraveText.setText(User.getInstance().getCravingsResisted());
+        resCraveText.setText( ""+userEntity.getCravingsResisted());
         // update money saved total still does not like parse line.
-        moneySaved = (cravsRes * Double.parseDouble( User.getInstance().getPricePerPack() )) / 20;
-        totalMoneySaved = "$" + new DecimalFormat("##.##").format(moneySaved);
+        //moneySaved = (cravsRes * Double.parseDouble( userEntity.getPricePerPack() )) / 20;
+        totalMoneySaved = "$" + new DecimalFormat("##.##").format( Double.parseDouble(userEntity.getMoneySaved()) );
         TextView moneySavedAmount = (TextView) findViewById(R.id.moneySavedAmount);
         moneySavedAmount.setText(totalMoneySaved);
 
         // update total life regained
         TextView lifeRegText = (TextView) findViewById(R.id.lifeRegText);
-        lifeRegText.setText(User.getInstance().getLifeRegained());
-        userService.updateUser();
-        if(User.getInstance().getServerId() != -1 ){
-            getFeed();
-        } {
-            userService.updateUser();
+        lifeRegText.setText(userEntity.getLifeRegained() + " min");
+
+
+        userEntity = userService.getUserEntityWithPrimaryId(id);
+        if(userEntity.getServerId() != -1 ){
+            getFeed(userEntity);
         }
 
+        // set up a SwipeRefreshLayout.OnRefreshListener that is invoked
+        // when the user swipes down to refresh
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(
+        new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                try {
+                    Runnable refresh = new Runnable() {
+                        public void run() {
+                            updateOperation();
+                            //mSwipeRefreshLayout.setRefreshing(false);
+                        }
+                    };
+
+                    Thread refreshThread = new Thread(refresh);
+                    refreshThread.start();
+                    mSwipeRefreshLayout.setRefreshing(false);
+
+                } catch (Exception e) {
+                    Toast.makeText(getBaseContext(), "Unable to refresh!", Toast.LENGTH_LONG).show();
+                    Log.d("onRefresh", "Refresh failed!");
+                }
+            }
+        });
+    }
+
+    /* refresh gesture */
+    @Override
+    public void onRefresh() {}
+
+    /* update the current page */
+    void updateOperation() {
+      Intent intent = new Intent(this, Dashboard.class);
+      intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+      finish();
+      overridePendingTransition(0, 0);
+      startActivity(intent);
+      overridePendingTransition(0, 0);
     }
 
     // Crave Button
     public void imCraving(View view) {
-
-        userService.updateUser();
+        //int id = preferences.getInt(MainActivity.CURRENT_USER_ID, -1);
+        //int id = (userEntity !=null) ? userEntity.getID() : preferences.getInt(MainActivity.CURRENT_USER_ID, -1);
+        userEntity = userService.getUserEntityWithPrimaryId(userEntity.getID());
         time = DatabaseOperations.getCurrTime();
-        cravs += 1;
+        userEntity.setNumCravings(1 + Integer.parseInt(userEntity.getNumCravings()) );
 
-        User.getInstance().setNumCravings(cravs);
-        incrementFieldOnServer("cravings");
-        DatabaseOperations db = new DatabaseOperations(ctx);
-        int serverId = User.getInstance().getServerId();
-        int userAuth = User.getInstance().getUserAuthId();
-        db.addUserStats(db, username,time, Integer.toString(totDaysFree),Integer.toString(longStreak), Integer.toString(currStreak),
-                Integer.toString(cravs), Integer.toString(cravsRes), Integer.toString(numSmokes), Double.toString(moneySaved),
-                Integer.toString(lifeReg), cigsPerDay, pricePerPack, numYearsSmoked,serverId,userAuth);
+        if( userEntity.getServerId() > 0)   {
+            incrementFieldOnServer("cravings",userEntity);
+        }else{
+            httpServices.addUserToServer(userEntity);
+        }
+
+        userService.updateUser(userEntity);
+        userService.addUserHist(userEntity, 0, 1, 0);
+
         Log.d("Crave Button", "Logged 1 craving");
-        Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
-        Log.d("********TEST: ", User.getInstance().getUsername() + "'s Crave count: " + User.getInstance().getNumCravings() + " ************");
-        db.close();
+//        Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
+        Log.d("********TEST: ", userEntity.getUsername() + "'s Crave count: " + userEntity.getNumCravings() + " ************");
     }
 
     // Resist Craving Button
     public void resistCraving(View view) {
 
-        userService.updateUser();
+        //UserEntity userEntity = userService.getUserEntityWithPrimaryId(1);
         time = DatabaseOperations.getCurrTime();
-        cravsRes += 1;
-        lifeReg += 11;
+        //cravsRes += 1;
+        //lifeReg += 11;
+        userEntity = userService.getUserEntityWithPrimaryId(userEntity.getID() );
+        userEntity.setCravsRes(userEntity.getCravingsResisted()+1 );
+        userEntity.setLifeRegained(Integer.parseInt(userEntity.getLifeRegained()) + 11);
+        userEntity.setMoneySaved((userEntity.getCravingsResisted() * Double.parseDouble(userEntity.getPricePerPack()) / 20));
 
-        moneySaved = (cravsRes * Double.parseDouble(User.getInstance().getPricePerPack())) / 20;
-        totalMoneySaved = "$" + new DecimalFormat("##.##").format(moneySaved);
+        //moneySaved = (cravsRes * Double.parseDouble(userEntity.getPricePerPack())) / 20;
+        totalMoneySaved = "$" + new DecimalFormat("##.##").format( Double.parseDouble(userEntity.getMoneySaved()));
 
-        User.getInstance().setCravsRes(cravsRes);
-        User.getInstance().setLifeRegained(lifeReg);
-        incrementFieldOnServer("cravings_resisted");
-        DatabaseOperations db = new DatabaseOperations(ctx);
-        int serverId = User.getInstance().getServerId();
-        int userAuth = User.getInstance().getUserAuthId();
-        db.addUserStats(db, username,time, Integer.toString(totDaysFree),Integer.toString(longStreak), Integer.toString(currStreak),
-                Integer.toString(cravs), Integer.toString(cravsRes), Integer.toString(numSmokes), Double.toString(moneySaved),
-                Integer.toString(lifeReg), cigsPerDay, pricePerPack, numYearsSmoked,serverId,userAuth);
+        if( userEntity.getServerId() > 0)   {
+            incrementFieldOnServer("cravings_resisted",userEntity);
+        }else{
+            httpServices.addUserToServer(userEntity);
+        }
+
+
+        userService.updateUser(userEntity);
+        userService.addUserHist(userEntity, 0, 0, 1);
+
         Log.d("Resist Craving Button", "Logged 1 craving resisted");
-        Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
-        Log.d("********TEST: ", User.getInstance().getUsername() + "'s Crave Resist count: " + User.getInstance().getCravingsResisted() + " ************");
+//        Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
+        Log.d("********TEST: ", userEntity.getUsername() + "'s Crave Resist count: " + userEntity.getCravingsResisted() + " ************");
 
         TextView moneySavedAmount = (TextView) findViewById(R.id.moneySavedAmount);
         moneySavedAmount.setText(totalMoneySaved);
 
         TextView resCraveText = (TextView) findViewById(R.id.resCraveCount);
-        resCraveText.setText(User.getInstance().getCravingsResisted());
+        resCraveText.setText("" + userEntity.getCravingsResisted());
 
         TextView lifeRegText = (TextView) findViewById(R.id.lifeRegText);
-        lifeRegText.setText(User.getInstance().getLifeRegained());
+        lifeRegText.setText(userEntity.getLifeRegained() + " min");
 
-        db.close();
     }
 
     // Smoked Button
     public void smoked(View view) {
 
-        userService.updateUser();
+        //UserEntity userEntity = userService.getUserEntityWithPrimaryId(1);
         time = DatabaseOperations.getCurrTime();
-        numSmokes += 1;
+        //numSmokes += 1;
+        userEntity = userService.getUserEntityWithPrimaryId(userEntity.getID() );
+        userEntity.setNumCigsSmoked( Integer.parseInt(userEntity.getNumCigsSmoked() ) + 1);
+        if( userEntity.getServerId() > 0)   {
+            incrementFieldOnServer("cigs_smoked",userEntity);
+        }else{
+            httpServices.addUserToServer(userEntity);
+        }
 
-        User.getInstance().setNumCigsSmoked(numSmokes);
-        incrementFieldOnServer("cigs_smoked");
+        //userService.saveUserEntity(userEntity);
+        userService.updateUser(userEntity);
+        userService.addUserHist(userEntity, 1, 0, 0);
 
-        DatabaseOperations db = new DatabaseOperations(ctx);
-        int serverId = User.getInstance().getServerId();
-        int userAuth = User.getInstance().getUserAuthId();
-        db.addUserStats(db, username,time, Integer.toString(totDaysFree),Integer.toString(longStreak), Integer.toString(currStreak),
-                Integer.toString(cravs), Integer.toString(cravsRes), Integer.toString(numSmokes), Double.toString(moneySaved),
-                Integer.toString(lifeReg), cigsPerDay, pricePerPack, numYearsSmoked,serverId,userAuth);
         Log.d("Smoked Button", "Logged 1 smoked cigarette");
-        Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
-        Log.d("********TEST: ", User.getInstance().getUsername() + "'s Smoke count: " + User.getInstance().getNumCigsSmoked() + " ************");
-        db.close();
+//        Toast.makeText(getBaseContext(), "Motivational Quote", Toast.LENGTH_LONG).show();
+        Log.d("********TEST: ", userEntity.getUsername() + "'s Smoke count: " + userEntity.getNumCigsSmoked() + " ************");
+
 
     }
 
     // Navigation Buttons
     public void goToDashboard (View view) {
-        Intent intent = new Intent (this, Dashboard.class);
-        startActivity(intent);
+        if(getClass() != Dashboard.class) {
+            Intent intent = new Intent(this, Dashboard.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            finish();
+            overridePendingTransition(0,0);
+            startActivity(intent);
+            overridePendingTransition(0,0);
+        }
     }
 
     public void goToFriends (View view) {
         Intent intent = new Intent(this, Friends.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        overridePendingTransition(0,0);
         startActivity(intent);
+        overridePendingTransition(0,0);
     }
 
     public void goToStatistics (View view) {
-        Intent intent = new Intent (this, Statistics.class);
+        Intent intent = new Intent (this, Stats.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        overridePendingTransition(0,0);
         startActivity(intent);
+        overridePendingTransition(0,0);
     }
 
 
-    public void incrementFieldOnServer(final String field) {
+    public void incrementFieldOnServer(final String field ,final UserEntity mEntity) {
         try {
             AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
                 @Override
                 protected String doInBackground(String... params) {
                     //result is the json string of the request. might be null
                     HttpRunner runner = new HttpRunner();
-                    String result = runner.incrementField(""+ User.getInstance().getServerId(), field);
+                    String result = runner.incrementField(""+ mEntity.getServerId(), field);
                     if (result == null) {
                         return "NULL";
                     }
@@ -197,11 +276,9 @@ public class Dashboard extends AppCompatActivity {
                 protected void onPostExecute(String result) {
                     //expecting the user id
                     Log.d("htt:add:postExecute", "**********  updated field: " + result);
-                    userService.updateUser();
-                    if(User.getInstance().getServerId() != -1 ){
-                        getFeed();
-                    }else {
-                        userService.updateUser();
+                    //UserEntity userEntity = userService.getUserEntityWithPrimaryId(1);
+                    if(userEntity.getServerId() != -1 ){
+                        getFeed(userEntity);
                     }
                 }
             };
@@ -213,16 +290,28 @@ public class Dashboard extends AppCompatActivity {
 
     }
 
-    public void incrementLikesOnPost(final int postid) {
+    public void incrementLikesOnPost(final int postid, final FeedPost thisPost) {
         try {
+
             AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
                 @Override
                 protected String doInBackground(String... params) {
                     //result is the json string of the request. might be null
                     HttpRunner runner = new HttpRunner();
-                    String result = runner.incrementLikes(postid);
+                    String result;
+                    String reaction = convertReactionTableToResult(UserDAO.getUserReaction(UserDAO, userEntity.getID(), postid), postid);
+                    if (reaction.equals("")) { // || .equals("dislike") -> when decrementLikes is written
+                        result = runner.incrementLikes(postid);
+                    } else {
+                        result = "true"; //BRETT: What is result?
+                    }
                     if (result == null) {
                         return "NULL";
+                    }
+                    if (reaction.equals("")) {
+                        UserDAO.addUserReaction(UserDAO, userEntity.getID(), postid, "like");
+                    } else if (reaction.equals("dislike")) {
+                        //when decrementLikes is written
                     }
                     return result;
                 }
@@ -231,13 +320,12 @@ public class Dashboard extends AppCompatActivity {
                 protected void onPostExecute(String result) {
                     //expecting the user id
                     Log.d("htt:add:postExecute", "**********  updated field: " + result);
-                    userService.updateUser();
-                    if(User.getInstance().getServerId() != -1 ){
-                        getFeed();
-                    }{
-                        userService.updateUser();
+                    //UserEntity userEntity = userService.getUserEntityWithPrimaryId(1);
+                    if(userEntity.getServerId() != -1 ){
+                        getFeed(userEntity);
                     }
                 }
+
             };
 
             task.execute("param");
@@ -248,16 +336,28 @@ public class Dashboard extends AppCompatActivity {
     }
 
 
-    public void incrementDislikesOnPost(final int postid) {
+    public void incrementDislikesOnPost(final int postid, final FeedPost thisPost) {
         try {
+
             AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
                 @Override
                 protected String doInBackground(String... params) {
                     //result is the json string of the request. might be null
                     HttpRunner runner = new HttpRunner();
-                    String result = runner.incrementDislikes(postid);
+                    String result;
+                    String reaction = convertReactionTableToResult(UserDAO.getUserReaction(UserDAO, userEntity.getID(), postid), postid);
+                    if (reaction.equals("")) { // || .equals("like") -> when decrementDislikes is written
+                        result = runner.incrementDislikes(postid);
+                    } else {
+                        result = "true"; //BRETT: What is result?
+                    }
                     if (result == null) {
                         return "NULL";
+                    }
+                    if (reaction.equals("")) {
+                        int returned = UserDAO.addUserReaction(UserDAO, userEntity.getID(), postid, "dislike");
+                    } else if (reaction.equals("like")) {
+                        //when decrementDislikes is written
                     }
                     return result;
                 }
@@ -266,11 +366,9 @@ public class Dashboard extends AppCompatActivity {
                 protected void onPostExecute(String result) {
                     //expecting the user id
                     Log.d("htt:add:postExecute", "**********  updated field: " + result);
-                    userService.updateUser();
-                    if(User.getInstance().getServerId() != -1 ){
-                        getFeed();
-                    }else{
-                        userService.updateUser();
+                   // UserEntity userEntity = userService.getUserEntityWithPrimaryId(1);
+                    if(userEntity.getServerId() != -1 ){
+                        getFeed(userEntity);
                     }
                 }
             };
@@ -279,10 +377,9 @@ public class Dashboard extends AppCompatActivity {
         } finally {
             Log.d("Main:addTaskfail", "async failed, or main failed");
         }
-
     }
 
-    public void getFeed() {
+    public void getFeed(final UserEntity entity) {
         try {
             AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
                 @Override
@@ -290,7 +387,7 @@ public class Dashboard extends AppCompatActivity {
                     //result is the json string of the request. might be null
                     HttpRunner runner = new HttpRunner();
 
-                    String result = runner.getFeedForUser( ""+User.getInstance().getServerId() );
+                    String result = runner.getFeedForUser( ""+entity.getServerId() );
                     if (result == null) {
                         return "NULL";
                     }
@@ -314,8 +411,9 @@ public class Dashboard extends AppCompatActivity {
                             int feedid = arr.getJSONObject(i).getInt("feedid");
                             String description = arr.getJSONObject(i).getString("description");
                             Log.d("htt:add:postExecute", "********** feed: " + description);
-                            posts[i] = new FeedPost(feedid, date, description, likes, dislikes);
+                            posts[i] = new FeedPost(feedid, date, description, likes, dislikes, false);
                             View child = getLayoutInflater().inflate(R.layout.post, null);
+
                             TextView tv = (TextView)child.findViewById(R.id.description);
                             tv.setText(description);
                             tv = (TextView)child.findViewById(R.id.time);
@@ -324,7 +422,7 @@ public class Dashboard extends AppCompatActivity {
 
                             if (description.indexOf("resisted") > -1) {
                                 img.setImageResource(R.drawable.no_smoking);
-                                Log.d("ASDf","resisited");
+                                Log.d("ASDf","resisted");
                             } else if(description.indexOf("craving") > -1) {
                                 img.setImageResource(R.drawable.craving);
 
@@ -334,6 +432,7 @@ public class Dashboard extends AppCompatActivity {
 
                                 Log.d("ASDf","smoked");
                             }
+
                             Button likebtn = (Button)child.findViewById(R.id.likes);
                             if (likes == 1) {
                                 likebtn.setText(likes + " Like");
@@ -341,26 +440,27 @@ public class Dashboard extends AppCompatActivity {
                                 likebtn.setText(likes + " Likes");
                             }
                             likebtn.setTag(feedid);
-                            likebtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    incrementLikesOnPost((int) ((Button) v).getTag());
-                                }
-                            });
+                            setOnClick(likebtn, posts[i]);
+
 
                             Button dislikebtn = (Button)child.findViewById(R.id.dislikes);
                             dislikebtn.setTag(feedid);
-                            dislikebtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    incrementDislikesOnPost((int) ((Button) v).getTag());
-                                }
-                            });
+                            setDisOnClick(dislikebtn, posts[i]);
                             if (dislikes == 1) {
                                 dislikebtn.setText(dislikes + " Dislike");
                             } else {
                                 dislikebtn.setText(dislikes + " Dislikes");
                             }
+                            /* TODO: Test Bold to make sure it doesn't cause issues with the button size (>99 likes) */
+                            String reaction = convertReactionTableToResult(UserDAO.getUserReaction(UserDAO, userEntity.getID(), feedid), feedid);
+                            if (reaction.equals("like")) {
+                                likebtn.setTextColor(Color.BLUE);
+                                likebtn.setTypeface(null, Typeface.BOLD);
+                            } else if (reaction.equals("dislike")) {
+                                dislikebtn.setTextColor(Color.RED);
+                                dislikebtn.setTypeface(null, Typeface.BOLD);
+                            }
+
                             holder.addView(child);
                         }
 
@@ -377,5 +477,35 @@ public class Dashboard extends AppCompatActivity {
         }
 
     }
-    
+    private String convertReactionTableToResult(Cursor cr, int postid){
+        if(cr.moveToFirst()){
+            do {
+                if (postid == cr.getInt(1)) {
+                    Log.d("convertReaction:success", "User has already " + cr.getString(2) + "d this post.");
+                    return cr.getString(2);
+                }
+            } while(cr.moveToNext());
+        }
+        cr.close();
+        Log.d("convertReaction:success", "User has not yet reacted to this post.");
+        return "";
+    }
+
+    /* Wrappers for passing additional parameters */
+    private void setOnClick(final Button btn, final FeedPost thisPost){
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incrementLikesOnPost((int) ((Button) v).getTag(), thisPost);
+            }
+        });
+    }
+    private void setDisOnClick(final Button btn, final FeedPost thisPost){
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incrementDislikesOnPost((int) ((Button) v).getTag(), thisPost);
+            }
+        });
+    }
 }

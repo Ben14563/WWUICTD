@@ -72,19 +72,32 @@ public class Statistics extends AppCompatActivity {
         series.appendData(new DataPoint(lastX++, RANDOM.nextDouble() * 10d), true, 10);
     }
 
-    public void goToDashboard (View view) {
-        Intent intent = new Intent (this, Dashboard.class);
-        startActivity(intent);
-    }
 
-    public void goToFriends (View view) {
-        Intent intent = new Intent(this, Friends.class);
-        startActivity(intent);
-    }
+  public void goToDashboard (View view) {
+    Intent intent = new Intent(this, Dashboard.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+    finish();
+    overridePendingTransition(0,0);
+    startActivity(intent);
+    overridePendingTransition(0,0);
+  }
 
-    public void goToStatistics (View view) {
-        Intent intent = new Intent (this, Statistics.class);
-        startActivity(intent);
-    }
+  public void goToFriends (View view) {
+    Intent intent = new Intent(this, Friends.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+    finish();
+    overridePendingTransition(0,0);
+    startActivity(intent);
+    overridePendingTransition(0,0);
+  }
+
+  public void goToStatistics (View view) {
+    Intent intent = new Intent (this, Stats.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+    finish();
+    overridePendingTransition(0,0);
+    startActivity(intent);
+    overridePendingTransition(0,0);
+  }
 
 }
