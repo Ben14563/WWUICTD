@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.kasingj.smokecessation2.Stats">
+    tools:context="com.example.kasingj.smokecessation2.Stats"
+    android:background="#bdd094">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -28,7 +29,8 @@
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/cigarettesSmokedChart"
                 android:layout_width="match_parent"
-                android:layout_height="400dp">
+                android:layout_height="400dp"
+                android:background="#ffffff">
             </com.github.mikephil.charting.charts.BarChart>
 
             <!--<com.github.mikephil.charting.charts.BarChart-->
@@ -91,18 +93,18 @@
                 android:layout_alignParentStart="true" />
 
             <TextView
+                android:id="@+id/data2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="1 Day"
-                android:id="@+id/data2"
-                android:textSize="30sp"
-                android:textStyle="bold"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/data1"
                 android:layout_marginLeft="91dp"
                 android:layout_marginStart="91dp"
-                android:layout_below="@+id/data1"
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="250dp" />
+                android:paddingLeft="250dp"
+                android:text="0 Days"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -141,18 +143,18 @@
                 android:layout_alignParentStart="true" />
 
             <TextView
+                android:id="@+id/resiststat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="25"
-                android:id="@+id/data4"
-                android:textSize="30sp"
-                android:textStyle="bold"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/data3"
                 android:layout_marginLeft="91dp"
                 android:layout_marginStart="91dp"
-                android:layout_below="@+id/data3"
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="250dp" />
+                android:paddingLeft="250dp"
+                android:text="0"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -166,18 +168,18 @@
                 android:layout_alignParentStart="true" />
 
             <TextView
+                android:id="@+id/smokestat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="48"
-                android:id="@+id/data5"
-                android:textSize="30sp"
-                android:textStyle="bold"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/resiststat"
                 android:layout_marginLeft="91dp"
                 android:layout_marginStart="91dp"
-                android:layout_below="@+id/data4"
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="250dp" />
+                android:paddingLeft="250dp"
+                android:text="0"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
 
 

@@ -91,7 +91,7 @@ public class Dashboard extends AppCompatActivity implements SwipeRefreshLayout.O
 
         // update total life regained
         TextView lifeRegText = (TextView) findViewById(R.id.lifeRegText);
-        lifeRegText.setText(userEntity.getLifeRegained());
+        lifeRegText.setText(userEntity.getLifeRegained() + " min");
 
 
         userEntity = userService.getUserEntityWithPrimaryId(id);
@@ -198,7 +198,7 @@ public class Dashboard extends AppCompatActivity implements SwipeRefreshLayout.O
         resCraveText.setText("" + userEntity.getCravingsResisted());
 
         TextView lifeRegText = (TextView) findViewById(R.id.lifeRegText);
-        lifeRegText.setText(userEntity.getLifeRegained());
+        lifeRegText.setText(userEntity.getLifeRegained() + " min");
 
     }
 
