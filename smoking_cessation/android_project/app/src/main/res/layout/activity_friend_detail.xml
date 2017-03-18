@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.kasingj.smokecessation2.FriendDetail">
+    tools:context="com.example.kasingj.smokecessation2.FriendDetail"
+    android:background="#bdd094">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="20dp">
@@ -61,12 +62,14 @@
                android:orientation="horizontal">
 
                <TextView
+                   android:id="@+id/textView2"
                    android:layout_width="0dp"
                    android:layout_height="match_parent"
                    android:layout_weight="3"
+                   android:gravity="center_vertical"
                    android:text="Field"
-                   android:textSize="18sp"
-                   android:gravity="center_vertical"/>
+                   android:textSize="18sp" />
+
                <TextView
                    android:layout_width="0dp"
                    android:layout_height="match_parent"

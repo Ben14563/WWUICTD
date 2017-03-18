@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#bdd094">
+
+
+    <TextView
+        android:id="@+id/moneySavedText"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/moneySavedBox"
+        android:layout_alignLeft="@+id/moneySavedBox"
+        android:layout_alignStart="@+id/moneySavedBox"
+        android:layout_alignRight="@+id/moneySavedBox"
+        android:layout_alignEnd="@+id/moneySavedBox"
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="28dp"
+        android:text="Money Saved" />
+
+    <TextView
+        android:id="@+id/moneySavedBox"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="59dp"
+        android:text="$0.00"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="@drawable/moneysavedbox"/>
+
+    <TextView
+        android:id="@+id/notSmokedText"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/notSmokedBox"
+        android:layout_alignLeft="@+id/notSmokedBox"
+        android:layout_alignStart="@+id/notSmokedBox"
+        android:layout_alignRight="@+id/notSmokedBox"
+        android:layout_alignEnd="@+id/notSmokedBox"
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="28dp"
+        android:text="Not Smoked" />
+
+    <TextView
+        android:id="@+id/notSmokedBox"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
+        android:layout_alignTop="@+id/moneySavedBox"
+        android:layout_toEndOf="@+id/moneySavedBox"
+        android:layout_toRightOf="@+id/moneySavedBox"
+        android:text="0"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="@drawable/notsmokedbox"/>
+
+    <TextView
+        android:id="@+id/lifeRegainedText"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/lifeRegainedBox"
+        android:layout_alignLeft="@+id/lifeRegainedBox"
+        android:layout_alignStart="@+id/lifeRegainedBox"
+        android:layout_alignRight="@+id/lifeRegainedBox"
+        android:layout_alignEnd="@+id/lifeRegainedBox"
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="28dp"
+        android:text="Life Regained" />
+
+    <TextView
+        android:id="@+id/lifeRegainedBox"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
+        android:layout_alignTop="@+id/notSmokedBox"
+        android:layout_toEndOf="@+id/notSmokedBox"
+        android:layout_toRightOf="@+id/notSmokedBox"
+        android:text="0 min"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="@drawable/liferegainedbox"/>
+
+</RelativeLayout>
